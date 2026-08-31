@@ -1,0 +1,78 @@
+# ==========================================
+# 每日自選監控標的清單 (Watchlist)
+# ==========================================
+
+# 大盤指數與宏觀指標
+indices:
+  us:
+    - symbol: "^GSPC"
+      name: "標普 500 指數 (S&P 500)"
+      category: "大盤指數"
+    - symbol: "^IXIC"
+      name: "那斯達克綜合指數 (Nasdaq)"
+      category: "科技大盤"
+    - symbol: "^SOX"
+      name: "費城半導體指數 (SOX)"
+      category: "半導體指標"
+    - symbol: "^VIX"
+      name: "CBOE 波動率指數 (VIX)"
+      category: "市場恐慌指標"
+  tw:
+    - symbol: "^TWII"
+      name: "台灣加權指數 (TAIEX)"
+      category: "台股大盤"
+    - symbol: "^TWOII"
+      name: "台灣櫃買指數 (TPEx)"
+      category: "中小型股指標"
+
+# 美股核心自選股
+us_stocks:
+  - symbol: "NVDA"
+    name: "NVIDIA (輝達)"
+    sector: "AI / 半導體"
+    note: "AI 算力龍頭，注意資料中心需求與毛利率趨勢"
+  - symbol: "TSM"
+    name: "台積電 ADR (TSMC)"
+    sector: "晶圓代工"
+    note: "全球先進製程龍頭，注意與 2330 溢價率及 CoWoS 產能擴充"
+  - symbol: "AAPL"
+    name: "Apple (蘋果)"
+    sector: "消費電子"
+    note: "Apple Intelligence 換機潮與服務營收佔比"
+  - symbol: "MSFT"
+    name: "Microsoft (微軟)"
+    sector: "雲端 / 軟體"
+    note: "Azure 雲端增速與 Copilot 商業化進展"
+  - symbol: "PLTR"
+    name: "Palantir"
+    sector: "AI 數據分析"
+    note: "AIP 平台商業客戶擴展與標普納入效應"
+
+# 台股核心自選股
+tw_stocks:
+  - symbol: "2330"
+    name: "台積電"
+    sector: "晶圓代工"
+    note: "權值龍頭，觀察外資期現貨態度、3nm/2nm 訂單與 ADR 溢價"
+  - symbol: "2454"
+    name: "聯發科"
+    sector: "IC 設計"
+    note: "旗艦天璣晶片、邊緣 AI 與 ASIC 成長潛力"
+  - symbol: "2317"
+    name: "鴻海"
+    sector: "電子組裝 / AI 伺服器"
+    note: "GB200 機櫃出貨進度與電動車佈局"
+  - symbol: "2382"
+    name: "廣達"
+    sector: "AI 伺服器"
+    note: "雲端服務商 (CSP) 伺服器拉貨動能與毛利表現"
+  - symbol: "2603"
+    name: "長榮"
+    sector: "航運"
+    note: "SCFI 運價走勢、地緣政治繞航與高殖利率防守性"
+
+# ADR 換股比率對照表 (用於計算折溢價)
+adr_mappings:
+  - adr_symbol: "TSM"
+    tw_symbol: "2330"
+    ratio: 5.0  # 1 單位 ADR 等於 5 股台股普通股

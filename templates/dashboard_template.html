@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page_title }} | 每日財經儀表板</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b',
+            },
+            darkbg: '#0B0F19',
+            darkcard: '#111827',
+            darkborder: '#1F2937',
+            darkhover: '#1F293D'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #0B0F19;
+      color: #F3F4F6;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #111827;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #374151;
+      border-radius: 4px;
+    }
+    .glass-card {
+      background: rgba(17, 24, 39, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glow-bull {
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+    }
+    .glow-bear {
+      box-shadow: 0 0 20px rgba(244, 63, 94, 0.15);
+    }
+  </style>
+</head>
+<body class="min-h-screen custom-scrollbar pb-16">
+
+  <!-- 頂部導航列 -->
+  <header class="sticky top-0 z-50 glass-card border-b border-darkborder">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
+          <i class="fa-solid fa-chart-line text-lg"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-lg font-bold text-white tracking-wide">每日財經分析儀表板</h1>
+            <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              {{ market_mode_text }}
+            </span>
+          </div>
+          <p class="text-xs text-gray-400">更新時間：{{ updated_at }} ({{ timezone }})</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <!-- 歷史存檔切換器 -->
+        <div class="relative">
+          <select id="historySelect" onchange="window.location.href=this.value" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-3 py-1.5 focus:ring-emerald-500 focus:border-emerald-500">
+            <option value="index.html" selected>📅 今日最新報告 ({{ date }})</option>
+            {% for h in history_list %}
+            <option value="{{ h.url }}">{{ h.title }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- 複製 Markdown 摘要按鈕 -->
+        <button onclick="copyMarkdownSummary()" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-gray-200 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg transition shadow-sm">
+          <i class="fa-regular fa-copy mr-1.5 text-emerald-400"></i>
+          <span id="copyBtnText">複製摘要</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
+
+    <!-- 1. 核心結論與市場定調 (Executive Verdict Banner) -->
+    <section class="glass-card rounded-2xl p-6 glow-bull border border-emerald-500/20">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
+        <div>
+          <div class="flex items-center space-x-2 mb-1">
+            <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              <i class="fa-solid fa-bullseye mr-1"></i> 核心定調
+            </span>
+            <span class="text-sm font-semibold text-gray-300">
+              市場氛圍：<span class="text-emerald-400 font-bold">{{ ai_analysis.market_mood }}</span>
+            </span>
+          </div>
+          <h2 class="text-xl font-bold text-white mt-2 leading-relaxed">
+            {{ ai_analysis.executive_summary }}
+          </h2>
+        </div>
+        
+        <div class="flex items-center space-x-4 bg-gray-900/80 px-4 py-3 rounded-xl border border-gray-800 shrink-0">
+          <div class="text-center">
+            <div class="text-xs text-gray-400">恐慌與貪婪指數</div>
+            <div class="text-2xl font-black text-emerald-400">{{ macro_sentiment.fear_and_greed.score }}</div>
+            <div class="text-xs font-medium text-emerald-300">{{ macro_sentiment.fear_and_greed.rating_zh }}</div>
+          </div>
+          <div class="w-px h-10 bg-gray-800"></div>
+          <div class="text-center">
+            <div class="text-xs text-gray-400">美債 10 年期</div>
+            <div class="text-2xl font-black text-cyan-400">{{ macro_sentiment.macro.us10y.value }}%</div>
+            <div class="text-xs font-medium {% if (macro_sentiment.macro.us10y.pct_change or 0) >= 0 %}text-rose-400{% else %}text-emerald-400{% endif %}">
+              {{ "{:+.2f}%".format(macro_sentiment.macro.us10y.pct_change or 0) }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 多空分流速覽 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+        <div class="bg-emerald-950/20 border border-emerald-900/40 rounded-xl p-4">
+          <div class="flex items-center text-emerald-400 font-semibold text-sm mb-2">
+            <i class="fa-solid fa-arrow-trend-up mr-2"></i> 多方核心支撐
+          </div>
+          <ul class="space-y-1.5 text-xs text-gray-300">
+            {% for item in ai_analysis.bullish_arguments %}
+            <li class="flex items-start">
+              <span class="text-emerald-400 mr-2 font-bold">•</span>
+              <span>{{ item }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="bg-rose-950/20 border border-rose-900/40 rounded-xl p-4">
+          <div class="flex items-center text-rose-400 font-semibold text-sm mb-2">
+            <i class="fa-solid fa-shield-halved mr-2"></i> 空方風險防守
+          </div>
+          <ul class="space-y-1.5 text-xs text-gray-300">
+            {% for item in ai_analysis.bearish_risks %}
+            <li class="flex items-start">
+              <span class="text-rose-400 mr-2 font-bold">•</span>
+              <span>{{ item }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 全球主要指數與 ADR 溢價 (Indices & ADR Matrix) -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-bold text-white flex items-center">
+          <i class="fa-solid fa-globe mr-2 text-indigo-400"></i> 主要大盤與跨市場 ADR 快照
+        </h3>
+        <span class="text-xs text-gray-400">即時/盤後收盤序列</span>
+      </div>
+
+      <!-- 指數卡片 -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        {% for idx in indices.tw %}
+        <div class="glass-card rounded-xl p-3.5 border border-gray-800">
+          <div class="text-xs text-gray-400 font-medium truncate">{{ idx.name }}</div>
+          <div class="text-lg font-bold text-white mt-1">{{ "{:,.2f}".format(idx.price) }}</div>
+          <div class="text-xs font-semibold mt-0.5 flex items-center {% if idx.change >= 0 %}text-rose-400{% else %}text-emerald-400{% endif %}">
+            <i class="fa-solid {% if idx.change >= 0 %}fa-caret-up{% else %}fa-caret-down{% endif %} mr-1"></i>
+            {{ "{:+.2f}".format(idx.change) }} ({{ "{:+.2f}%".format(idx.pct_change) }})
+          </div>
+        </div>
+        {% endfor %}
+
+        {% for idx in indices.us %}
+        <div class="glass-card rounded-xl p-3.5 border border-gray-800">
+          <div class="text-xs text-gray-400 font-medium truncate">{{ idx.name }}</div>
+          <div class="text-lg font-bold text-white mt-1">{{ "{:,.2f}".format(idx.price) }}</div>
+          <div class="text-xs font-semibold mt-0.5 flex items-center {% if idx.change >= 0 %}text-emerald-400{% else %}text-rose-400{% endif %}">
+            <i class="fa-solid {% if idx.change >= 0 %}fa-caret-up{% else %}fa-caret-down{% endif %} mr-1"></i>
+            {{ "{:+.2f}".format(idx.change) }} ({{ "{:+.2f}%".format(idx.pct_change) }})
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- ADR 溢價率對照卡 -->
+      {% if adr_premiums %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {% for adr in adr_premiums %}
+        <div class="glass-card rounded-xl p-4 border border-indigo-500/20 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-sm">
+              ADR
+            </div>
+            <div>
+              <div class="text-sm font-bold text-white">{{ adr.adr_symbol }} (ADR) ⟷ {{ adr.tw_symbol }} (現貨)</div>
+              <div class="text-xs text-gray-400">換股比 1:{{ adr.ratio }} | 匯率 {{ adr.usdtwd_rate }}</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs text-gray-400">折溢價率</div>
+            <div class="text-base font-extrabold {% if adr.premium_pct >= 0 %}text-emerald-400{% else %}text-rose-400{% endif %}">
+              {{ "{:+.2f}%".format(adr.premium_pct) }} ({{ adr.status }})
+            </div>
+            <div class="text-xs text-gray-400">換算每股 TWD ${{ adr.adr_parity_twd }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </section>
+
+    <!-- 3. 風險警報與籌碼主力流向 (Risk Alerts) -->
+    {% if alerts %}
+    <section class="space-y-3">
+      <h3 class="text-base font-bold text-white flex items-center">
+        <i class="fa-solid fa-triangle-exclamation mr-2 text-amber-400"></i> 風險警報與主力異常流向
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {% for alert in alerts %}
+        <div class="glass-card rounded-xl p-4 border {% if alert.level == 'danger' %}border-rose-500/40 bg-rose-950/10{% elif alert.level == 'warning' %}border-amber-500/40 bg-amber-950/10{% else %}border-blue-500/30 bg-blue-950/10{% endif %}">
+          <div class="flex items-center space-x-2 mb-1">
+            <span class="px-2 py-0.5 text-xs font-bold rounded {% if alert.level == 'danger' %}bg-rose-500/20 text-rose-300{% elif alert.level == 'warning' %}bg-amber-500/20 text-amber-300{% else %}bg-blue-500/20 text-blue-300{% endif %}">
+              {{ alert.badge }}
+            </span>
+            <span class="text-sm font-bold text-white">{{ alert.title }}</span>
+          </div>
+          <p class="text-xs text-gray-300 mt-1 leading-relaxed">{{ alert.desc }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- 4. 個股多空量化矩陣與關鍵點位 (Stock Scoring & Key Levels) -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-bold text-white flex items-center">
+          <i class="fa-solid fa-cubes-stacked mr-2 text-emerald-400"></i> 監控與焦點個股多空評分儀表
+        </h3>
+        <span class="text-xs text-gray-400">含買賣點位、S1/S2、R1/R2、停損停利 (TP/SL)</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {% for item in stocks %}
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">{{ item.stock_data.market }}</span>
+                <span class="text-sm font-extrabold text-white">{{ item.symbol }}</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">{{ item.name }}</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full {% if item.score_info.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif item.score_info.badge_color == 'green' %}bg-green-500/20 text-green-400 border border-green-500/30{% elif item.score_info.badge_color == 'yellow' %}bg-yellow-500/20 text-yellow-400 border border-yellow-500/30{% else %}bg-rose-500/20 text-rose-400 border border-rose-500/30{% endif %}">
+                    {{ item.score_info.rating }}
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">{{ item.stock_data.currency }} {{ item.stock_data.price }}</strong></span>
+                  <span class="font-semibold {% if item.stock_data.change >= 0 %}text-rose-400{% else %}text-emerald-400{% endif %}">
+                    {{ "{:+.2f}".format(item.stock_data.change) }} ({{ "{:+.2f}%".format(item.stock_data.pct_change) }})
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black {% if item.score_info.score >= 70 %}text-emerald-400{% elif item.score_info.score >= 50 %}text-yellow-400{% else %}text-rose-400{% endif %}">
+                {{ item.score_info.score }}<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:{{ item.score_info.tech_score }} 籌:{{ item.score_info.flow_score }} 基:{{ item.score_info.fund_score }}
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = {{ item.price_levels.risk_reward_ratio }}:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">${{ item.price_levels.stop_loss }}</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">${{ item.price_levels.s1 }}</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">${{ item.price_levels.entry_zone }}</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">${{ item.price_levels.target_price }}</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>{{ item.price_levels.strategy_tip }}</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            {% for sig in item.score_info.signals %}
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ {{ sig }}
+            </span>
+            {% endfor %}
+            {% if item.institutional and item.institutional.total_lots %}
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md {% if item.institutional.total_lots > 0 %}bg-emerald-950/40 text-emerald-300 border border-emerald-800{% else %}bg-rose-950/40 text-rose-300 border border-rose-800{% endif %}">
+              法人淨買賣: {{ item.institutional.total_lots }} 張
+            </span>
+            {% endif %}
+          </div>
+
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- 5. 催化事件與操作紀律檢查清單 (Catalysts & Checklist) -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- 催化事件日曆 -->
+      <div class="glass-card rounded-2xl p-5 border border-gray-800 space-y-3">
+        <h4 class="text-sm font-bold text-white flex items-center">
+          <i class="fa-regular fa-calendar-check mr-2 text-indigo-400"></i> 近期重大催化劑與事件日曆
+        </h4>
+        <ul class="space-y-2.5">
+          {% for cat in ai_analysis.catalysts %}
+          <li class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800">
+            <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-[10px] mr-2 shrink-0">
+              {{ loop.index }}
+            </span>
+            <span class="leading-relaxed">{{ cat }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- 操作檢查清單 -->
+      <div class="glass-card rounded-2xl p-5 border border-gray-800 space-y-3">
+        <h4 class="text-sm font-bold text-white flex items-center">
+          <i class="fa-solid fa-list-check mr-2 text-emerald-400"></i> 交易執行前操作檢查清單
+        </h4>
+        <div class="space-y-2">
+          {% for check in ai_analysis.action_checklist %}
+          <label class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:bg-gray-800/80 transition">
+            <input type="checkbox" class="mt-0.5 rounded text-emerald-500 focus:ring-emerald-400 bg-gray-700 border-gray-600 mr-2.5">
+            <span class="leading-relaxed">{{ check }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 頁尾 -->
+  <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-400">
+    <p>每日財經分析推播系統 | 完全免伺服器成本架構 (Powered by GitHub Actions & Google Gemini)</p>
+    <p class="mt-1 text-[11px] text-gray-400">免責聲明：本儀表板數據與 AI 分析僅供量化投研參考，不構成任何實質投資建議或買賣要約。投資人應獨立判斷並自負盈虧。</p>
+  </footer>
+
+  <!-- 隱藏 Markdown 摘要供一鍵複製 -->
+  <textarea id="markdownSummaryRaw" class="hidden">{{ markdown_summary }}</textarea>
+
+  <script>
+    function copyMarkdownSummary() {
+      const copyText = document.getElementById("markdownSummaryRaw").value;
+      navigator.clipboard.writeText(copyText).then(() => {
+        const btnText = document.getElementById("copyBtnText");
+        btnText.innerText = "已複製！";
+        setTimeout(() => {
+          btnText.innerText = "複製摘要";
+        }, 2000);
+      }).catch(err => {
+        console.error("複製失敗:", err);
+      });
+    }
+  </script>
+</body>
+</html>

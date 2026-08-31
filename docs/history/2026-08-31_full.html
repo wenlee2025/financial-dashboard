@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【每日美台財經全覽】2026-08-31 | 每日財經儀表板</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b',
+            },
+            darkbg: '#0B0F19',
+            darkcard: '#111827',
+            darkborder: '#1F2937',
+            darkhover: '#1F293D'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- ECharts -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #0B0F19;
+      color: #F3F4F6;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #111827;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #374151;
+      border-radius: 4px;
+    }
+    .glass-card {
+      background: rgba(17, 24, 39, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glow-bull {
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+    }
+    .glow-bear {
+      box-shadow: 0 0 20px rgba(244, 63, 94, 0.15);
+    }
+  </style>
+</head>
+<body class="min-h-screen custom-scrollbar pb-16">
+
+  <!-- 頂部導航列 -->
+  <header class="sticky top-0 z-50 glass-card border-b border-darkborder">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
+          <i class="fa-solid fa-chart-line text-lg"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-lg font-bold text-white tracking-wide">每日財經分析儀表板</h1>
+            <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              每日美台財經全覽
+            </span>
+          </div>
+          <p class="text-xs text-gray-400">更新時間：2026-08-31 23:04:44 (Asia/Taipei)</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <!-- 歷史存檔切換器 -->
+        <div class="relative">
+          <select id="historySelect" onchange="window.location.href=this.value" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-3 py-1.5 focus:ring-emerald-500 focus:border-emerald-500">
+            <option value="index.html" selected>📅 今日最新報告 (2026-08-31)</option>
+            
+            <option value="history/2026-08-31_full.html">2026-08-31 全覽</option>
+            
+          </select>
+        </div>
+
+        <!-- 複製 Markdown 摘要按鈕 -->
+        <button onclick="copyMarkdownSummary()" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-gray-200 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg transition shadow-sm">
+          <i class="fa-regular fa-copy mr-1.5 text-emerald-400"></i>
+          <span id="copyBtnText">複製摘要</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
+
+    <!-- 1. 核心結論與市場定調 (Executive Verdict Banner) -->
+    <section class="glass-card rounded-2xl p-6 glow-bull border border-emerald-500/20">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
+        <div>
+          <div class="flex items-center space-x-2 mb-1">
+            <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              <i class="fa-solid fa-bullseye mr-1"></i> 核心定調
+            </span>
+            <span class="text-sm font-semibold text-gray-300">
+              市場氛圍：<span class="text-emerald-400 font-bold">震盪偏多</span>
+            </span>
+          </div>
+          <h2 class="text-xl font-bold text-white mt-2 leading-relaxed">
+            大盤維持高檔多空拉鋸，科技主流股領跑，法人籌碼高度聚焦於 AI 供應鏈與權值龍頭。
+          </h2>
+        </div>
+        
+        <div class="flex items-center space-x-4 bg-gray-900/80 px-4 py-3 rounded-xl border border-gray-800 shrink-0">
+          <div class="text-center">
+            <div class="text-xs text-gray-400">恐慌與貪婪指數</div>
+            <div class="text-2xl font-black text-emerald-400">50.1</div>
+            <div class="text-xs font-medium text-emerald-300">中立</div>
+          </div>
+          <div class="w-px h-10 bg-gray-800"></div>
+          <div class="text-center">
+            <div class="text-xs text-gray-400">美債 10 年期</div>
+            <div class="text-2xl font-black text-cyan-400">4.762%</div>
+            <div class="text-xs font-medium text-rose-400">
+              +1.93%
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 多空分流速覽 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+        <div class="bg-emerald-950/20 border border-emerald-900/40 rounded-xl p-4">
+          <div class="flex items-center text-emerald-400 font-semibold text-sm mb-2">
+            <i class="fa-solid fa-arrow-trend-up mr-2"></i> 多方核心支撐
+          </div>
+          <ul class="space-y-1.5 text-xs text-gray-300">
+            
+            <li class="flex items-start">
+              <span class="text-emerald-400 mr-2 font-bold">•</span>
+              <span>核心權值股（台積電/輝達）維持均線多頭結構，長線獲利預估續創新高。</span>
+            </li>
+            
+            <li class="flex items-start">
+              <span class="text-emerald-400 mr-2 font-bold">•</span>
+              <span>外資與本土投信資金輪動健康，支撐指數下檔防守力道。</span>
+            </li>
+            
+            <li class="flex items-start">
+              <span class="text-emerald-400 mr-2 font-bold">•</span>
+              <span>AI 伺服器與邊緣運算新品進入量產出貨高峰期。</span>
+            </li>
+            
+          </ul>
+        </div>
+
+        <div class="bg-rose-950/20 border border-rose-900/40 rounded-xl p-4">
+          <div class="flex items-center text-rose-400 font-semibold text-sm mb-2">
+            <i class="fa-solid fa-shield-halved mr-2"></i> 空方風險防守
+          </div>
+          <ul class="space-y-1.5 text-xs text-gray-300">
+            
+            <li class="flex items-start">
+              <span class="text-rose-400 mr-2 font-bold">•</span>
+              <span>美債殖利率若快速走升可能引發高估值個股評價修正。</span>
+            </li>
+            
+            <li class="flex items-start">
+              <span class="text-rose-400 mr-2 font-bold">•</span>
+              <span>短線部分強勢股 RSI 處於高檔過熱區，需提防假突破拉回。</span>
+            </li>
+            
+            <li class="flex items-start">
+              <span class="text-rose-400 mr-2 font-bold">•</span>
+              <span>地緣政治與匯率波動增添短線避險情緒。</span>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 全球主要指數與 ADR 溢價 (Indices & ADR Matrix) -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-bold text-white flex items-center">
+          <i class="fa-solid fa-globe mr-2 text-indigo-400"></i> 主要大盤與跨市場 ADR 快照
+        </h3>
+        <span class="text-xs text-gray-400">即時/盤後收盤序列</span>
+      </div>
+
+      <!-- 指數卡片 -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        
+        <div class="glass-card rounded-xl p-3.5 border border-gray-800">
+          <div class="text-xs text-gray-400 font-medium truncate">台灣加權指數 (TAIEX)</div>
+          <div class="text-lg font-bold text-white mt-1">46,128.47</div>
+          <div class="text-xs font-semibold mt-0.5 flex items-center text-rose-400">
+            <i class="fa-solid fa-caret-up mr-1"></i>
+            +153.25 (+0.33%)
+          </div>
+        </div>
+        
+
+        
+        <div class="glass-card rounded-xl p-3.5 border border-gray-800">
+          <div class="text-xs text-gray-400 font-medium truncate">標普 500 指數 (S&amp;P 500)</div>
+          <div class="text-lg font-bold text-white mt-1">7,677.30</div>
+          <div class="text-xs font-semibold mt-0.5 flex items-center text-rose-400">
+            <i class="fa-solid fa-caret-down mr-1"></i>
+            -53.69 (-0.69%)
+          </div>
+        </div>
+        
+        <div class="glass-card rounded-xl p-3.5 border border-gray-800">
+          <div class="text-xs text-gray-400 font-medium truncate">那斯達克綜合指數 (Nasdaq)</div>
+          <div class="text-lg font-bold text-white mt-1">26,289.68</div>
+          <div class="text-xs font-semibold mt-0.5 flex items-center text-rose-400">
+            <i class="fa-solid fa-caret-down mr-1"></i>
+            -251.67 (-0.95%)
+          </div>
+        </div>
+        
+        <div class="glass-card rounded-xl p-3.5 border border-gray-800">
+          <div class="text-xs text-gray-400 font-medium truncate">費城半導體指數 (SOX)</div>
+          <div class="text-lg font-bold text-white mt-1">11,477.08</div>
+          <div class="text-xs font-semibold mt-0.5 flex items-center text-rose-400">
+            <i class="fa-solid fa-caret-down mr-1"></i>
+            -405.09 (-3.41%)
+          </div>
+        </div>
+        
+        <div class="glass-card rounded-xl p-3.5 border border-gray-800">
+          <div class="text-xs text-gray-400 font-medium truncate">CBOE 波動率指數 (VIX)</div>
+          <div class="text-lg font-bold text-white mt-1">15.26</div>
+          <div class="text-xs font-semibold mt-0.5 flex items-center text-emerald-400">
+            <i class="fa-solid fa-caret-up mr-1"></i>
+            +0.75 (+5.17%)
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- ADR 溢價率對照卡 -->
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+        <div class="glass-card rounded-xl p-4 border border-indigo-500/20 flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-sm">
+              ADR
+            </div>
+            <div>
+              <div class="text-sm font-bold text-white">TSM (ADR) ⟷ 2330 (現貨)</div>
+              <div class="text-xs text-gray-400">換股比 1:5.0 | 匯率 31.67</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs text-gray-400">折溢價率</div>
+            <div class="text-base font-extrabold text-emerald-400">
+              +10.27% (溢價)
+            </div>
+            <div class="text-xs text-gray-400">換算每股 TWD $2652.08</div>
+          </div>
+        </div>
+        
+      </div>
+      
+    </section>
+
+    <!-- 3. 風險警報與籌碼主力流向 (Risk Alerts) -->
+    
+    <section class="space-y-3">
+      <h3 class="text-base font-bold text-white flex items-center">
+        <i class="fa-solid fa-triangle-exclamation mr-2 text-amber-400"></i> 風險警報與主力異常流向
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+        <div class="glass-card rounded-xl p-4 border border-blue-500/30 bg-blue-950/10">
+          <div class="flex items-center space-x-2 mb-1">
+            <span class="px-2 py-0.5 text-xs font-bold rounded bg-blue-500/20 text-blue-300">
+              ADR 溢價
+            </span>
+            <span class="text-sm font-bold text-white">TSM 對台股溢價達 +10.27%</span>
+          </div>
+          <p class="text-xs text-gray-300 mt-1 leading-relaxed">美股 ADR 買盤強勁，換算台幣現價高達 $2652.08，次日開盤容易帶動 2330 現貨跳空補漲。</p>
+        </div>
+        
+        <div class="glass-card rounded-xl p-4 border border-amber-500/40 bg-amber-950/10">
+          <div class="flex items-center space-x-2 mb-1">
+            <span class="px-2 py-0.5 text-xs font-bold rounded bg-amber-500/20 text-amber-300">
+              爆量滯漲
+            </span>
+            <span class="text-sm font-bold text-white">台積電 (2330) 爆出 2.1 倍大量但股價停滯</span>
+          </div>
+          <p class="text-xs text-gray-300 mt-1 leading-relaxed">成交量暴增但股價僅變動 -0.62%，顯示高檔換手頻繁或主力暗中派發籌碼，宜提高警覺。</p>
+        </div>
+        
+      </div>
+    </section>
+    
+
+    <!-- 4. 個股多空量化矩陣與關鍵點位 (Stock Scoring & Key Levels) -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-bold text-white flex items-center">
+          <i class="fa-solid fa-cubes-stacked mr-2 text-emerald-400"></i> 監控與焦點個股多空評分儀表
+        </h3>
+        <span class="text-xs text-gray-400">含買賣點位、S1/S2、R1/R2、停損停利 (TP/SL)</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">TW</span>
+                <span class="text-sm font-extrabold text-white">2887</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">台新新光金</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                    強力做多
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">TWD 38.55</strong></span>
+                  <span class="font-semibold text-rose-400">
+                    +1.05 (+2.80%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-emerald-400">
+                83.0<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:100.0 籌:80.0 基:60.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 0.69:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$36.73</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$37.29</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$37.29 - 38.55</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$39.81</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>建議在進場區 $37.29 ~ $38.55 分批佈局，跌破 $36.73 嚴格止損。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 均線呈標準多頭排列 (股價 &gt; 5MA &gt; 20MA &gt; 60MA)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ RSI(68) 處於強勢多頭擴張區
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體維持正值 (紅柱增長/多頭控盤)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 量增價揚 (成交量擴增 5.3 倍)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 外資與投信同步買超 (外資 +35113張, 投信 +1227張)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 現金殖利率達 267.0% 具備下檔股息防守保護
+            </span>
+            
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-emerald-950/40 text-emerald-300 border border-emerald-800">
+              法人淨買賣: 35163 張
+            </span>
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">TW</span>
+                <span class="text-sm font-extrabold text-white">6770</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">力積電</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                    強力做多
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">TWD 73.0</strong></span>
+                  <span class="font-semibold text-rose-400">
+                    +3.00 (+4.29%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-emerald-400">
+                79.5<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:100.0 籌:70.0 基:60.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 0.83:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$67.68</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$69.26</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$69.26 - 73.0</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$77.41</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>建議在進場區 $69.26 ~ $73.0 分批佈局，跌破 $67.68 嚴格止損。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 均線呈標準多頭排列 (股價 &gt; 5MA &gt; 20MA &gt; 60MA)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ RSI(59) 處於強勢多頭擴張區
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體維持正值 (紅柱增長/多頭控盤)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 量增價揚 (成交量擴增 1.6 倍)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 外資大舉敲進 (+73709張)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 現金殖利率達 33.0% 具備下檔股息防守保護
+            </span>
+            
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-emerald-950/40 text-emerald-300 border border-emerald-800">
+              法人淨買賣: 76450 張
+            </span>
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">TW</span>
+                <span class="text-sm font-extrabold text-white">2382</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">廣達</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                    強力做多
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">TWD 338.5</strong></span>
+                  <span class="font-semibold text-rose-400">
+                    +6.00 (+1.80%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-emerald-400">
+                78.8<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:80.0 籌:80.0 基:75.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 0.47:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$321.26</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$326.15</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$326.15 - 338.5</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$346.67</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>建議在進場區 $326.15 ~ $338.5 分批佈局，跌破 $321.26 嚴格止損。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ RSI(70) 處於強勢多頭擴張區
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體維持正值 (紅柱增長/多頭控盤)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 量增價揚 (成交量擴增 1.6 倍)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 外資與投信同步買超 (外資 +2660張, 投信 +1450張)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 本益比 15.0x 處於合理偏低評價區間
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 現金殖利率達 469.0% 具備下檔股息防守保護
+            </span>
+            
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-emerald-950/40 text-emerald-300 border border-emerald-800">
+              法人淨買賣: 3793 張
+            </span>
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">US</span>
+                <span class="text-sm font-extrabold text-white">PLTR</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">Palantir</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
+                    偏多震盪
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">USD 186.04</strong></span>
+                  <span class="font-semibold text-rose-400">
+                    +0.11 (+0.06%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-emerald-400">
+                72.5<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:95.0 籌:70.0 基:40.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 0.94:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$175.2</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$177.87</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$177.87 - 186.04</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$196.25</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>多頭震盪格局，拉回測試支撐 $177.87 守穩可低接，目標前高 $196.25。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 均線呈標準多頭排列 (股價 &gt; 5MA &gt; 20MA &gt; 60MA)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ RSI(61) 處於強勢多頭擴張區
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體維持正值 (紅柱增長/多頭控盤)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 華爾街分析師綜合共識評級：買入 (buy)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 本益比 159.0x 估值偏高 (定價已反映未來樂觀預期)
+            </span>
+            
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">TW</span>
+                <span class="text-sm font-extrabold text-white">2409</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">友達</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
+                    偏多震盪
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">TWD 26.65</strong></span>
+                  <span class="font-semibold text-rose-400">
+                    +0.80 (+3.09%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-yellow-400">
+                69.0<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:80.0 籌:70.0 基:50.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 0.5:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$25.32</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$25.71</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$25.71 - 26.65</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$27.32</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>多頭震盪格局，拉回測試支撐 $25.71 守穩可低接，目標前高 $27.32。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ RSI(54) 處於強勢多頭擴張區
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體維持正值 (紅柱增長/多頭控盤)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 量增價揚 (成交量擴增 1.3 倍)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 外資大舉敲進 (+41264張)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 本益比 111.0x 估值偏高 (定價已反映未來樂觀預期)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 現金殖利率達 155.0% 具備下檔股息防守保護
+            </span>
+            
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-emerald-950/40 text-emerald-300 border border-emerald-800">
+              法人淨買賣: 41204 張
+            </span>
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">US</span>
+                <span class="text-sm font-extrabold text-white">CRWD</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">CrowdStrike</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
+                    偏多震盪
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">USD 227.15</strong></span>
+                  <span class="font-semibold text-emerald-400">
+                    -0.81 (-0.35%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-yellow-400">
+                68.5<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:85.0 籌:70.0 基:40.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 0.6:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$210.21</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$213.41</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$213.41 - 227.15</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$237.35</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>多頭震盪格局，拉回測試支撐 $213.41 守穩可低接，目標前高 $237.35。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 股價站穩月線 (20MA) 與季線 (60MA)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ RSI(51) 處於強勢多頭擴張區
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體維持正值 (紅柱增長/多頭控盤)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 華爾街分析師綜合共識評級：買入 (buy)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 本益比 5678.9x 估值偏高 (定價已反映未來樂觀預期)
+            </span>
+            
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">US</span>
+                <span class="text-sm font-extrabold text-white">MSFT</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">Microsoft (微軟)</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
+                    偏多震盪
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">USD 511.07</strong></span>
+                  <span class="font-semibold text-rose-400">
+                    +6.01 (+1.19%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-yellow-400">
+                67.0<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:75.0 籌:70.0 基:50.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 0.6:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$492.36</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$499.86</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$499.86 - 511.07</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$522.28</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>多頭震盪格局，拉回測試支撐 $499.86 守穩可低接，目標前高 $522.28。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 均線呈標準多頭排列 (股價 &gt; 5MA &gt; 20MA &gt; 60MA)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ RSI(54) 處於強勢多頭擴張區
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體為負值 (綠柱延續/空頭格局)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 華爾街分析師綜合共識評級：買入 (strong_buy)
+            </span>
+            
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">US</span>
+                <span class="text-sm font-extrabold text-white">AAPL</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">Apple (蘋果)</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
+                    偏多震盪
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">USD 315.25</strong></span>
+                  <span class="font-semibold text-rose-400">
+                    +0.67 (+0.21%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-yellow-400">
+                65.0<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:70.0 籌:70.0 基:50.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 0.24:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$304.93</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$309.57</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$309.57 - 315.25</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$317.72</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>多頭震盪格局，拉回測試支撐 $309.57 守穩可低接，目標前高 $317.72。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ RSI(60) 處於強勢多頭擴張區
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體維持正值 (紅柱增長/多頭控盤)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 華爾街分析師綜合共識評級：買入 (buy)
+            </span>
+            
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">US</span>
+                <span class="text-sm font-extrabold text-white">NVDA</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">NVIDIA (輝達)</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
+                    偏多震盪
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">USD 219.43</strong></span>
+                  <span class="font-semibold text-emerald-400">
+                    -8.55 (-3.75%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-yellow-400">
+                63.0<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:65.0 籌:70.0 基:50.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$211.23</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$218.14</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$217.24 - 220.32</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$229.68</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>多頭震盪格局，拉回測試支撐 $218.14 守穩可低接，目標前高 $229.68。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 股價站穩月線 (20MA) 與季線 (60MA)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ RSI(52) 處於強勢多頭擴張區
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體為負值 (綠柱延續/空頭格局)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 華爾街分析師綜合共識評級：買入 (strong_buy)
+            </span>
+            
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">TW</span>
+                <span class="text-sm font-extrabold text-white">2603</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">長榮</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
+                    偏多震盪
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">TWD 233.5</strong></span>
+                  <span class="font-semibold text-rose-400">
+                    +2.00 (+0.86%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-yellow-400">
+                62.8<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:75.0 籌:40.0 基:75.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$223.35</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$226.8</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$226.8 - 233.5</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$246.19</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>多頭震盪格局，拉回測試支撐 $226.8 守穩可低接，目標前高 $246.19。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 股價站穩月線 (20MA) 與季線 (60MA)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ RSI(62) 處於強勢多頭擴張區
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體為負值 (綠柱延續/空頭格局)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 量增價揚 (成交量擴增 1.3 倍)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 三大法人合計賣超 262 張
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 本益比 9.3x 處於合理偏低評價區間
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 現金殖利率達 691.0% 具備下檔股息防守保護
+            </span>
+            
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-rose-950/40 text-rose-300 border border-rose-800">
+              法人淨買賣: -262 張
+            </span>
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">US</span>
+                <span class="text-sm font-extrabold text-white">META</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">Meta (臉書)</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
+                    中立觀望
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">USD 572.19</strong></span>
+                  <span class="font-semibold text-rose-400">
+                    +1.09 (+0.19%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-yellow-400">
+                57.0<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:50.0 籌:70.0 基:50.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$550.51</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$572.19</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$566.47 - 577.91</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$599.3</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>區間整理格局，箱型操作於 $572.19 至 $599.3 區間，等待放量突破。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 股價失守 20MA 月線支撐
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體維持正值 (紅柱增長/多頭控盤)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 華爾街分析師綜合共識評級：買入 (strong_buy)
+            </span>
+            
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">TW</span>
+                <span class="text-sm font-extrabold text-white">2330</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">台積電</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
+                    中立觀望
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">TWD 2405.0</strong></span>
+                  <span class="font-semibold text-emerald-400">
+                    -15.00 (-0.62%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-yellow-400">
+                56.0<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:85.0 籌:20.0 基:60.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 0.8:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$2355.13</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$2391.0</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$2380.95 - 2414.91</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$2444.96</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>區間整理格局，箱型操作於 $2391.0 至 $2444.96 區間，等待放量突破。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 股價站穩月線 (20MA) 與季線 (60MA)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ RSI(52) 處於強勢多頭擴張區
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體維持正值 (紅柱增長/多頭控盤)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 外資與投信同步調節賣超 (外資 -4555張, 投信 -962張)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 現金殖利率達 116.0% 具備下檔股息防守保護
+            </span>
+            
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-rose-950/40 text-rose-300 border border-rose-800">
+              法人淨買賣: -5695 張
+            </span>
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">US</span>
+                <span class="text-sm font-extrabold text-white">TSM</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">台積電 ADR (TSMC)</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
+                    中立觀望
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">USD 418.8</strong></span>
+                  <span class="font-semibold text-emerald-400">
+                    -8.49 (-1.99%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-yellow-400">
+                54.0<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:60.0 籌:50.0 基:50.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 1.13:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$406.39</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$418.8</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$414.61 - 422.99</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$432.83</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>區間整理格局，箱型操作於 $418.8 至 $432.83 區間，等待放量突破。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 股價失守 20MA 月線支撐
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ RSI(50) 處於強勢多頭擴張區
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體維持正值 (紅柱增長/多頭控盤)
+            </span>
+            
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">US</span>
+                <span class="text-sm font-extrabold text-white">AMZN</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">Amazon (亞馬遜)</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
+                    中立觀望
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">USD 261.19</strong></span>
+                  <span class="font-semibold text-rose-400">
+                    +4.93 (+1.92%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-rose-400">
+                49.0<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:30.0 籌:70.0 基:50.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$254.49</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$261.19</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$258.58 - 263.8</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$269.56</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>區間整理格局，箱型操作於 $261.19 至 $269.56 區間，等待放量突破。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 股價失守 20MA 月線支撐
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體為負值 (綠柱延續/空頭格局)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 華爾街分析師綜合共識評級：買入 (strong_buy)
+            </span>
+            
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">TW</span>
+                <span class="text-sm font-extrabold text-white">2317</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">鴻海</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30">
+                    偏空防守
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">TWD 250.0</strong></span>
+                  <span class="font-semibold text-emerald-400">
+                    -3.00 (-1.19%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-rose-400">
+                41.2<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:30.0 籌:30.0 基:75.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$241.65</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$250.0</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$247.5 - 252.5</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$260.44</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>區間整理格局，箱型操作於 $250.0 至 $260.44 區間，等待放量突破。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 股價失守 20MA 月線支撐
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體為負值 (綠柱延續/空頭格局)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 外資大幅提款賣超 (-3856張)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 本益比 16.6x 處於合理偏低評價區間
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 現金殖利率達 283.0% 具備下檔股息防守保護
+            </span>
+            
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-rose-950/40 text-rose-300 border border-rose-800">
+              法人淨買賣: -4059 張
+            </span>
+            
+          </div>
+
+        </div>
+        
+        <div class="glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4">
+          
+          <!-- 頂部代碼與評分 -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center">
+                <span class="text-xs font-bold text-gray-400">TW</span>
+                <span class="text-sm font-extrabold text-white">2454</span>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <h4 class="text-base font-bold text-white">聯發科</h4>
+                  <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30">
+                    偏空防守
+                  </span>
+                </div>
+                <div class="text-xs text-gray-400 mt-0.5 flex items-center space-x-2">
+                  <span>現價: <strong class="text-white">TWD 3925.0</strong></span>
+                  <span class="font-semibold text-emerald-400">
+                    -60.00 (-1.51%)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 量化評分環/方塊 -->
+            <div class="text-right">
+              <div class="text-xs text-gray-400">多空評分</div>
+              <div class="text-2xl font-black text-rose-400">
+                40.5<span class="text-xs font-normal text-gray-400">/100</span>
+              </div>
+              <div class="text-[10px] text-gray-400">
+                技:35.0 籌:40.0 基:50.0
+              </div>
+            </div>
+          </div>
+
+          <!-- 買賣點位可視化 (Levels Bar) -->
+          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
+              <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
+            </div>
+
+            <!-- 點位網格 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
+                <div class="font-bold text-rose-400 mt-0.5">$3730.0</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
+                <div class="font-bold text-emerald-300 mt-0.5">$3925.0</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">進場建議區</div>
+                <div class="font-bold text-cyan-300 mt-0.5">$3885.75 - 3964.25</div>
+              </div>
+              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
+                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
+                <div class="font-bold text-amber-300 mt-0.5">$4168.75</div>
+              </div>
+            </div>
+
+            <!-- 策略指引 -->
+            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
+              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
+              <span>區間整理格局，箱型操作於 $3925.0 至 $4168.75 區間，等待放量突破。</span>
+            </div>
+          </div>
+
+          <!-- 籌碼與技術信號標籤 -->
+          <div class="flex flex-wrap gap-1.5">
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 股價失守 20MA 月線支撐
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ MACD 柱狀體維持正值 (紅柱增長/多頭控盤)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 出量下殺 (帶量下挫 -1.51%)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 三大法人合計賣超 955 張
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 本益比 64.8x 估值偏高 (定價已反映未來樂觀預期)
+            </span>
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
+              ✓ 現金殖利率達 134.0% 具備下檔股息防守保護
+            </span>
+            
+            
+            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-rose-950/40 text-rose-300 border border-rose-800">
+              法人淨買賣: -955 張
+            </span>
+            
+          </div>
+
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- 5. 催化事件與操作紀律檢查清單 (Catalysts & Checklist) -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- 催化事件日曆 -->
+      <div class="glass-card rounded-2xl p-5 border border-gray-800 space-y-3">
+        <h4 class="text-sm font-bold text-white flex items-center">
+          <i class="fa-regular fa-calendar-check mr-2 text-indigo-400"></i> 近期重大催化劑與事件日曆
+        </h4>
+        <ul class="space-y-2.5">
+          
+          <li class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800">
+            <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-[10px] mr-2 shrink-0">
+              1
+            </span>
+            <span class="leading-relaxed">各大龍頭企業即將公佈之最新月營收與季報表現</span>
+          </li>
+          
+          <li class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800">
+            <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-[10px] mr-2 shrink-0">
+              2
+            </span>
+            <span class="leading-relaxed">美聯儲 (Fed) FOMC 利率決策與利率點陣圖公布</span>
+          </li>
+          
+          <li class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800">
+            <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-[10px] mr-2 shrink-0">
+              3
+            </span>
+            <span class="leading-relaxed">全球科技展會與新品發表會釋出之產業前瞻</span>
+          </li>
+          
+        </ul>
+      </div>
+
+      <!-- 操作檢查清單 -->
+      <div class="glass-card rounded-2xl p-5 border border-gray-800 space-y-3">
+        <h4 class="text-sm font-bold text-white flex items-center">
+          <i class="fa-solid fa-list-check mr-2 text-emerald-400"></i> 交易執行前操作檢查清單
+        </h4>
+        <div class="space-y-2">
+          
+          <label class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:bg-gray-800/80 transition">
+            <input type="checkbox" class="mt-0.5 rounded text-emerald-500 focus:ring-emerald-400 bg-gray-700 border-gray-600 mr-2.5">
+            <span class="leading-relaxed">【部位控管】總持股比例建議維持 6 成以內，切勿過度融資槓桿</span>
+          </label>
+          
+          <label class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:bg-gray-800/80 transition">
+            <input type="checkbox" class="mt-0.5 rounded text-emerald-500 focus:ring-emerald-400 bg-gray-700 border-gray-600 mr-2.5">
+            <span class="leading-relaxed">【停損紀律】單筆虧損嚴格控制在總資金 1.5% 以內（破停損點 SL 立即執行）</span>
+          </label>
+          
+          <label class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:bg-gray-800/80 transition">
+            <input type="checkbox" class="mt-0.5 rounded text-emerald-500 focus:ring-emerald-400 bg-gray-700 border-gray-600 mr-2.5">
+            <span class="leading-relaxed">【進場原則】嚴禁急拉追高，優先選擇拉回回測 20MA 月線守穩且出量標的</span>
+          </label>
+          
+          <label class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:bg-gray-800/80 transition">
+            <input type="checkbox" class="mt-0.5 rounded text-emerald-500 focus:ring-emerald-400 bg-gray-700 border-gray-600 mr-2.5">
+            <span class="leading-relaxed">【籌碼驗證】進場前確認外資或投信無連續出貨現象</span>
+          </label>
+          
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 頁尾 -->
+  <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-400">
+    <p>每日財經分析推播系統 | 完全免伺服器成本架構 (Powered by GitHub Actions & Google Gemini)</p>
+    <p class="mt-1 text-[11px] text-gray-400">免責聲明：本儀表板數據與 AI 分析僅供量化投研參考，不構成任何實質投資建議或買賣要約。投資人應獨立判斷並自負盈虧。</p>
+  </footer>
+
+  <!-- 隱藏 Markdown 摘要供一鍵複製 -->
+  <textarea id="markdownSummaryRaw" class="hidden">📊 *【每日美台財經全覽】2026-08-31*
+━━━━━━━━━━━━━━━━━━
+🎯 *核心結論*：大盤維持高檔多空拉鋸，科技主流股領跑，法人籌碼高度聚焦於 AI 供應鏈與權值龍頭。
+📈 *市場氛圍*：`震盪偏多` | 恐慌指數：`50.1 (中立)` | 美債10Y：`4.762%`
+
+🟢 *多方主線*：
+  • 核心權值股（台積電/輝達）維持均線多頭結構，長線獲利預估續創新高。
+  • 外資與本土投信資金輪動健康，支撐指數下檔防守力道。
+
+🔴 *空方風險*：
+  • 美債殖利率若快速走升可能引發高估值個股評價修正。
+  • 短線部分強勢股 RSI 處於高檔過熱區，需提防假突破拉回。
+
+📌 *焦點標的多空評分與操作點位*：
+• *2887 台新新光金* (TWD $38.55 | `+2.80%`)
+  評分: `83.0分 (強力做多)` | 進場: `$37.29 - 38.55`
+  防守 SL: `$36.73` | 目標 TP: `$39.81` (風報比 0.69:1)
+• *6770 力積電* (TWD $73.0 | `+4.29%`)
+  評分: `79.5分 (強力做多)` | 進場: `$69.26 - 73.0`
+  防守 SL: `$67.68` | 目標 TP: `$77.41` (風報比 0.83:1)
+• *2382 廣達* (TWD $338.5 | `+1.80%`)
+  評分: `78.8分 (強力做多)` | 進場: `$326.15 - 338.5`
+  防守 SL: `$321.26` | 目標 TP: `$346.67` (風報比 0.47:1)
+• *PLTR Palantir* (USD $186.04 | `+0.06%`)
+  評分: `72.5分 (偏多震盪)` | 進場: `$177.87 - 186.04`
+  防守 SL: `$175.2` | 目標 TP: `$196.25` (風報比 0.94:1)
+• *2409 友達* (TWD $26.65 | `+3.09%`)
+  評分: `69.0分 (偏多震盪)` | 進場: `$25.71 - 26.65`
+  防守 SL: `$25.32` | 目標 TP: `$27.32` (風報比 0.5:1)
+
+⚠️ *主力籌碼與市場警報*：
+  • *[ADR 溢價]* TSM 對台股溢價達 +10.27%
+  • *[爆量滯漲]* 台積電 (2330) 爆出 2.1 倍大量但股價停滯
+
+📋 *操作紀律檢查清單*：
+  ☑ 【部位控管】總持股比例建議維持 6 成以內，切勿過度融資槓桿
+  ☑ 【停損紀律】單筆虧損嚴格控制在總資金 1.5% 以內（破停損點 SL 立即執行）
+  ☑ 【進場原則】嚴禁急拉追高，優先選擇拉回回測 20MA 月線守穩且出量標的
+</textarea>
+
+  <script>
+    function copyMarkdownSummary() {
+      const copyText = document.getElementById("markdownSummaryRaw").value;
+      navigator.clipboard.writeText(copyText).then(() => {
+        const btnText = document.getElementById("copyBtnText");
+        btnText.innerText = "已複製！";
+        setTimeout(() => {
+          btnText.innerText = "複製摘要";
+        }, 2000);
+      }).catch(err => {
+        console.error("複製失敗:", err);
+      });
+    }
+  </script>
+</body>
+</html>

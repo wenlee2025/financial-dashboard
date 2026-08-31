@@ -1,0 +1,60 @@
+# ==========================================
+# 系統運行參數設定 (Settings)
+# ==========================================
+
+system:
+  app_name: "Financial Dashboard (每日財經分析推播儀表板)"
+  version: "1.0.0"
+  timezone: "Asia/Taipei"
+  output_dir: "docs"
+  history_dir: "docs/history"
+  data_dir: "docs/data"
+
+# AI 分析模型設定
+ai_engine:
+  provider: "gemini" # 支援: gemini, openai, claude, mock
+  gemini:
+    model: "gemini-3.6-flash"
+    fallback_model: "gemini-2.5-flash"
+    temperature: 0.2
+    max_tokens: 4096
+  openai:
+    model: "gpt-4o-mini"
+    temperature: 0.2
+  claude:
+    model: "claude-3-5-haiku-20241022"
+    temperature: 0.2
+
+# 量化多空計分權重 (總和 1.0)
+scoring_weights:
+  technicals: 0.40   # 均線排列、RSI、MACD、KD、ATR 位階
+  flows: 0.35        # 三大法人買賣超、融資融券、借券、主力集中度
+  fundamentals: 0.25 # 月營收成長率 YoY、本益比位階、殖利率
+
+# 評級等級區間定義 (0 - 100 分)
+rating_tiers:
+  strong_bull: 78    # >= 78: 強力做多 🟢🟢
+  lean_bull: 60      # >= 60: 偏多震盪 🟢
+  neutral: 42        # >= 42: 中立觀望 🟡
+  lean_bear: 28      # >= 28: 偏空防守 🟠
+  strong_bear: 0     # < 28: 避險做空 🔴
+
+# 動態熱門焦點股掃描門檻
+scanner:
+  enabled: true
+  top_n_tw: 3
+  top_n_us: 3
+  tw_min_turnover_billion: 1.0  # 成交金額大於 10 億 TWD
+  tw_min_foreign_trust_buy_lots: 500 # 外資+投信合計買超 > 500 張
+  us_min_volume_million: 2.0    # 日成交量 > 200 萬股
+
+# 多通道推播配置
+notifications:
+  max_retry: 3
+  retry_delay_seconds: 2
+  telegram:
+    parse_mode: "Markdown"
+  discord:
+    username: "每日財經儀表板"
+  email:
+    subject_prefix: "【每日財經日報】"

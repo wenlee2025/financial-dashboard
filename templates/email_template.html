@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page_title }}</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #0b0f19; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #f3f4f6;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #0b0f19; padding: 24px 0;">
+    <tr>
+      <td align="center">
+        <table width="620" border="0" cellspacing="0" cellpadding="0" style="background-color: #111827; border-radius: 12px; border: 1px solid #1f2937; overflow: hidden; max-width: 620px;">
+          
+          <!-- 標題區域 -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #064e3b 0%, #111827 100%); padding: 24px; border-bottom: 1px solid #1f2937;">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td>
+                    <span style="display: inline-block; background-color: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 9999px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                      {{ market_mode_text }}
+                    </span>
+                    <h1 style="color: #ffffff; font-size: 20px; font-weight: bold; margin: 8px 0 4px 0;">
+                      每日財經日報與量化儀表板
+                    </h1>
+                    <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+                      日期：{{ date }} | 更新時間：{{ updated_at }} ({{ timezone }})
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- 核心結論 -->
+          <tr>
+            <td style="padding: 20px 24px; border-bottom: 1px solid #1f2937;">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #1f2937; border-radius: 8px; padding: 16px;">
+                <tr>
+                  <td>
+                    <div style="color: #34d399; font-size: 12px; font-weight: bold; text-transform: uppercase;">
+                      🎯 核心結論（市場氛圍：{{ ai_analysis.market_mood }}）
+                    </div>
+                    <div style="color: #ffffff; font-size: 15px; font-weight: 600; margin-top: 6px; line-height: 1.5;">
+                      {{ ai_analysis.executive_summary }}
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- 大盤與宏觀數據 -->
+          <tr>
+            <td style="padding: 0 24px 20px 24px; border-bottom: 1px solid #1f2937;">
+              <div style="color: #9ca3af; font-size: 13px; font-weight: bold; margin-bottom: 10px;">
+                📊 宏觀與指數概況
+              </div>
+              <table width="100%" border="0" cellspacing="4" cellpadding="8" style="font-size: 12px; text-align: center;">
+                <tr>
+                  <td style="background-color: #1f2937; border-radius: 6px; width: 33%;">
+                    <div style="color: #9ca3af; font-size: 10px;">恐慌與貪婪</div>
+                    <div style="color: #34d399; font-size: 16px; font-weight: bold;">{{ macro_sentiment.fear_and_greed.score }}</div>
+                    <div style="color: #9ca3af; font-size: 10px;">{{ macro_sentiment.fear_and_greed.rating_zh }}</div>
+                  </td>
+                  <td style="background-color: #1f2937; border-radius: 6px; width: 33%;">
+                    <div style="color: #9ca3af; font-size: 10px;">美債 10 年期</div>
+                    <div style="color: #38bdf8; font-size: 16px; font-weight: bold;">{{ macro_sentiment.macro.us10y.value }}%</div>
+                    <div style="color: #9ca3af; font-size: 10px;">{{ macro_sentiment.macro.us10y.pct_change }}%</div>
+                  </td>
+                  <td style="background-color: #1f2937; border-radius: 6px; width: 33%;">
+                    <div style="color: #9ca3af; font-size: 10px;">美元 / 台幣</div>
+                    <div style="color: #fbbf24; font-size: 16px; font-weight: bold;">{{ macro_sentiment.macro.usdtwd.value }}</div>
+                    <div style="color: #9ca3af; font-size: 10px;">{{ macro_sentiment.macro.usdtwd.pct_change }}%</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- 個股多空評分與點位重點 -->
+          <tr>
+            <td style="padding: 20px 24px; border-bottom: 1px solid #1f2937;">
+              <div style="color: #9ca3af; font-size: 13px; font-weight: bold; margin-bottom: 12px;">
+                📈 焦點標的多空評分與買賣點位
+              </div>
+              <table width="100%" border="0" cellspacing="0" cellpadding="8" style="font-size: 12px; border-collapse: collapse;">
+                <tr style="background-color: #1f2937; color: #9ca3af; text-align: left;">
+                  <th style="padding: 8px; border-radius: 4px 0 0 4px;">標的</th>
+                  <th style="padding: 8px;">現價</th>
+                  <th style="padding: 8px;">多空評分</th>
+                  <th style="padding: 8px;">進場區間</th>
+                  <th style="padding: 8px; border-radius: 0 4px 4px 0;">停損/停利</th>
+                </tr>
+                {% for item in stocks %}
+                <tr style="border-bottom: 1px solid #1f2937;">
+                  <td style="padding: 10px 8px; font-weight: bold; color: #ffffff;">
+                    {{ item.symbol }} <span style="font-size: 11px; color: #9ca3af; font-weight: normal;">{{ item.name }}</span>
+                  </td>
+                  <td style="padding: 10px 8px; color: #ffffff;">
+                    ${{ item.stock_data.price }}
+                    <span style="font-size: 10px; color: {% if item.stock_data.change >= 0 %}#f87171{% else %}#34d399{% endif %};">
+                      ({{ "{:+.1f}%".format(item.stock_data.pct_change) }})
+                    </span>
+                  </td>
+                  <td style="padding: 10px 8px;">
+                    <span style="display: inline-block; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; background-color: rgba(16, 185, 129, 0.2); color: #34d399;">
+                      {{ item.score_info.score }}分 ({{ item.score_info.rating }})
+                    </span>
+                  </td>
+                  <td style="padding: 10px 8px; color: #38bdf8;">
+                    ${{ item.price_levels.entry_zone }}
+                  </td>
+                  <td style="padding: 10px 8px; color: #9ca3af; font-size: 11px;">
+                    SL: <strong style="color: #f87171;">${{ item.price_levels.stop_loss }}</strong><br>
+                    TP: <strong style="color: #fbbf24;">${{ item.price_levels.target_price }}</strong>
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+            </td>
+          </tr>
+
+          <!-- 操作檢查清單 -->
+          <tr>
+            <td style="padding: 20px 24px; border-bottom: 1px solid #1f2937;">
+              <div style="color: #9ca3af; font-size: 13px; font-weight: bold; margin-bottom: 8px;">
+                📋 今日操作紀律檢查清單
+              </div>
+              <ul style="margin: 0; padding-left: 18px; color: #d1d5db; font-size: 12px; line-height: 1.8;">
+                {% for check in ai_analysis.action_checklist %}
+                <li>{{ check }}</li>
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
+
+          <!-- 按鈕跳轉完整儀表板 -->
+          {% if dashboard_url %}
+          <tr>
+            <td align="center" style="padding: 24px;">
+              <a href="{{ dashboard_url }}" target="_blank" style="display: inline-block; background-color: #10b981; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-weight: bold; font-size: 14px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+                🌐 點此開啟完整網頁版互動儀表板
+              </a>
+            </td>
+          </tr>
+          {% endif %}
+
+          <!-- 頁尾免責 -->
+          <tr>
+            <td style="padding: 16px 24px; background-color: #0b0f19; text-align: center; color: #6b7280; font-size: 11px; line-height: 1.5;">
+              每日財經分析推播系統 | 完全免伺服器成本架構 (GitHub Actions)<br>
+              免責聲明：本內容僅供量化投研參考，不構成任何實質投資建議。
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
