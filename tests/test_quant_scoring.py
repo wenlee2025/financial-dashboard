@@ -111,3 +111,50 @@ def test_flow_analyzer_alerts():
     assert "宏觀警報" in badges
     assert "ADR 溢價" in badges
     assert "土洋對作" in badges
+
+def test_turnover_5ma_strategy_states():
+    scorer = QuantScorer()
+
+    # 1. 強勢主升 (Strong Bull)
+    stock_bull = {
+        "price": 100.0,
+        "ma5": 95.0,
+        "price_ma5_slope": 1.5,
+        "turnover": 500000000.0,
+        "turnover_ma5": 400000000.0,
+        "turnover_ratio": 1.25,
+        "turnover_ma5_slope": 20000000.0,
+        "pct_change": 2.5
+    }
+    res_bull = scorer.evaluate_turnover_strategy(stock_bull)
+    assert res_bull["strategy_code"] == "strong_bull"
+    assert res_bull["score_modifier"] == 10
+
+    # 2. 爆量出貨 (Heavy Dump)
+    stock_dump = {
+        "price": 90.0,
+        "ma5": 95.0,
+        "turnover": 600000000.0,
+        "turnover_ma5": 400000000.0,
+        "turnover_ratio": 1.5,
+        "pct_change": -3.0
+    }
+    res_dump = scorer.evaluate_turnover_strategy(stock_dump)
+    assert res_dump["strategy_code"] == "heavy_dump"
+    assert res_dump["score_modifier"] == -15
+
+    # 3. 動能衰竭 (Momentum Decay)
+    stock_decay = {
+        "price": 100.0,
+        "ma5": 95.0,
+        "high_52w": 100.0,
+        "turnover": 250000000.0,
+        "turnover_ma5": 400000000.0,
+        "turnover_ratio": 0.62,
+        "turnover_ma5_slope": -10000000.0,
+        "pct_change": 0.5
+    }
+    res_decay = scorer.evaluate_turnover_strategy(stock_decay)
+    assert res_decay["strategy_code"] == "momentum_decay"
+    assert res_decay["score_modifier"] == -8
+

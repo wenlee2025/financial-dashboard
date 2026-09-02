@@ -1,3 +1,4 @@
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import datetime
 import logging
 from typing import Any, Dict, List, Optional
@@ -9,7 +10,7 @@ import yfinance as yf
 logger = logging.getLogger(__name__)
 
 class TWMarketFetcher:
-    """台股市場數據獲取器 (TWSE/TPEx + FinMind + yfinance)"""
+    """台股市場數據獲取器 (TWSE/TPEx + FinMind + yfinance + 並行加速)"""
 
     def __init__(self, finmind_token: Optional[str] = None):
         self.finmind_token = finmind_token
@@ -28,6 +29,30 @@ class TWMarketFetcher:
         # 預設上市為 .TW
         return f"{symbol}.TW"
 
+    def get_batch_stock_data(self, symbols_with_names: List[Dict[str, str]], period: str = "6mo", max_workers: int = 10) -> Dict[str, Dict[str, Any]]:
+        """並行多執行緒批次獲取多檔台股行情"""
+        results: Dict[str, Dict[str, Any]] = {}
+        if not symbols_with_names:
+            return results
+
+        logger.info(f"啟動多執行緒並行抓取台股行情共 {len(symbols_with_names)} 檔 (Workers: {max_workers})...")
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_symbol = {
+                executor.submit(self.get_stock_data, item["symbol"], item.get("name"), period): item["symbol"]
+                for item in symbols_with_names
+            }
+            for future in as_completed(future_to_symbol):
+                sym = future_to_symbol[future]
+                try:
+                    data = future.result()
+                    results[sym] = data
+                except Exception as e:
+                    logger.error(f"並行獲取台股 {sym} 發生例外: {e}")
+                    results[sym] = self._build_empty_stock_data(sym)
+
+        logger.info(f"多執行緒並行抓取完成，成功獲取 {len(results)} 檔台股數據")
+        return results
+
     def get_stock_data(self, symbol: str, name: Optional[str] = None, period: str = "6mo") -> Dict[str, Any]:
         """
         獲取單檔台股行情、均線、技術指標與量能
@@ -35,22 +60,35 @@ class TWMarketFetcher:
         raw_symbol = str(symbol).strip()
         yf_symbol = self._normalize_tw_symbol(raw_symbol)
 
+        df = pd.DataFrame()
+        ticker = None
+
+        # 依序嘗試 .TW (上市) 與 .TWO (上櫃)
+        candidates = [f"{raw_symbol}.TW", f"{raw_symbol}.TWO"] if not raw_symbol.startswith("^") and "." not in raw_symbol else [yf_symbol]
+        for candidate in candidates:
+            try:
+                t = yf.Ticker(candidate)
+                d = t.history(period=period)
+                if not d.empty:
+                    # 二階段清洗：過濾尚未開盤或無效的 NaN 占位行
+                    d = d.dropna(subset=["Close", "Open", "High", "Low"])
+                    d = d[d["Close"] > 0]
+                    if not d.empty:
+                        df = d
+                        ticker = t
+                        yf_symbol = candidate
+                        break
+            except Exception:
+                continue
+
+        if df.empty or ticker is None:
+            logger.warning(f"無法取得台股 {raw_symbol} 之有效歷史行情")
+            return self._build_empty_stock_data(raw_symbol, name)
+
         try:
-            ticker = yf.Ticker(yf_symbol)
-            df = ticker.history(period=period)
-            
-            # 若 .TW 無資料，嘗試 .TWO (上櫃)
-            if df.empty and not raw_symbol.startswith("^"):
-                yf_symbol = f"{raw_symbol}.TWO"
-                ticker = yf.Ticker(yf_symbol)
-                df = ticker.history(period=period)
-
-            if df.empty:
-                logger.warning(f"無法取得台股 {raw_symbol} 之歷史行情")
-                return self._build_empty_stock_data(raw_symbol, name)
-
-            # 計算各項技術指標
-            df = self._calculate_technicals(df)
+            # 使用統一技術指標引擎計算各項指標
+            from ..analytics.technicals import TechnicalsEngine
+            df = TechnicalsEngine.calculate_technicals(df, is_us=False)
             latest = df.iloc[-1]
             prev = df.iloc[-2] if len(df) > 1 else latest
 
@@ -58,6 +96,34 @@ class TWMarketFetcher:
             prev_close = float(prev["Close"])
             change = current_price - prev_close
             pct_change = (change / prev_close) * 100 if prev_close != 0 else 0.0
+
+            # 計算成交總值 (Turnover / Dollar Volume) 與 5MA
+            turnover = float(latest.get("Turnover", current_price * float(latest.get("Volume", 0))))
+            turnover_ma5 = float(latest.get("Turnover_MA5", turnover)) if not pd.isna(latest.get("Turnover_MA5")) else turnover
+            turnover_ratio = round(turnover / max(1.0, turnover_ma5), 2) if turnover_ma5 > 0 else 1.0
+
+            prev_turnover_ma5 = float(prev.get("Turnover_MA5", turnover_ma5)) if not pd.isna(prev.get("Turnover_MA5")) else turnover_ma5
+            turnover_ma5_slope = turnover_ma5 - prev_turnover_ma5
+
+            ma5_val = float(latest["MA5"]) if not pd.isna(latest.get("MA5")) else current_price
+            prev_ma5_val = float(prev["MA5"]) if not pd.isna(prev.get("MA5")) else ma5_val
+            price_ma5_slope = ma5_val - prev_ma5_val
+
+            # 週級別中長線趨勢判定 (週5MA 與 週20MA)
+            w_ma5 = float(latest.get("Weekly_MA5", ma5_val)) if not pd.isna(latest.get("Weekly_MA5")) else current_price
+            w_ma20 = float(latest.get("Weekly_MA20", latest.get("MA60", current_price))) if not pd.isna(latest.get("Weekly_MA20")) else current_price
+            weekly_trend = TechnicalsEngine.evaluate_weekly_trend(current_price, w_ma5, w_ma20)
+
+            if turnover > 0:
+                turnover_yi = round(turnover / 1e8, 2)
+                turnover_ma5_yi = round(turnover_ma5 / 1e8, 2) if turnover_ma5 > 0 else turnover_yi
+                turnover_display = f"{turnover_yi:,.1f}億 (5MA: {turnover_ma5_yi:,.1f}億 | {turnover_ratio:.2f}x)"
+                turnover_short = f"{turnover_yi:,.1f}億"
+                turnover_ma5_short = f"{turnover_ma5_yi:,.1f}億"
+            else:
+                turnover_display = "-"
+                turnover_short = "-"
+                turnover_ma5_short = "-"
 
             # 抓取基本面摘要
             info = {}
@@ -81,7 +147,7 @@ class TWMarketFetcher:
                     "close": round(float(row["Close"]), 2),
                     "high": round(float(row["High"]), 2),
                     "low": round(float(row["Low"]), 2),
-                    "volume": int(row["Volume"]),
+                    "volume": int(row.get("Volume", 0)),
                     "ma5": round(float(row.get("MA5", row["Close"])), 2) if not pd.isna(row.get("MA5")) else None,
                     "ma20": round(float(row.get("MA20", row["Close"])), 2) if not pd.isna(row.get("MA20")) else None,
                 })
@@ -98,9 +164,20 @@ class TWMarketFetcher:
                 "open": round(float(latest["Open"]), 2),
                 "high": round(float(latest["High"]), 2),
                 "low": round(float(latest["Low"]), 2),
-                "volume": int(latest["Volume"]),
-                "prev_volume": int(prev["Volume"]),
-                "volume_ratio": round(float(latest["Volume"]) / max(1, float(prev["Volume"])), 2),
+                "volume": int(latest.get("Volume", 0)),
+                "prev_volume": int(prev.get("Volume", 0)),
+                "volume_ratio": round(float(latest.get("Volume", 0)) / max(1, float(prev.get("Volume", 1))), 2),
+                "turnover": turnover,
+                "turnover_ma5": turnover_ma5,
+                "turnover_ratio": turnover_ratio,
+                "turnover_ma5_slope": turnover_ma5_slope,
+                "price_ma5_slope": price_ma5_slope,
+                "weekly_trend": weekly_trend,
+                "weekly_ma5": round(w_ma5, 2),
+                "weekly_ma20": round(w_ma20, 2),
+                "turnover_display": turnover_display,
+                "turnover_short": turnover_short,
+                "turnover_ma5_short": turnover_ma5_short,
                 "ma5": round(float(latest["MA5"]), 2) if not pd.isna(latest.get("MA5")) else None,
                 "ma10": round(float(latest["MA10"]), 2) if not pd.isna(latest.get("MA10")) else None,
                 "ma20": round(float(latest["MA20"]), 2) if not pd.isna(latest.get("MA20")) else None,
@@ -252,18 +329,27 @@ class TWMarketFetcher:
     def _calculate_technicals(self, df: pd.DataFrame) -> pd.DataFrame:
         """計算技術指標 (MA, RSI, MACD, ATR, Bollinger Bands)"""
         df = df.copy()
-        close = df["Close"]
+        close = df["Close"].ffill().bfill().fillna(0.0)
 
-        # 移動平均線 (Moving Averages)
-        df["MA5"] = close.rolling(window=5).mean()
-        df["MA10"] = close.rolling(window=10).mean()
-        df["MA20"] = close.rolling(window=20).mean()
-        df["MA60"] = close.rolling(window=60).mean()
+        # 移動平均線 (Moving Averages - min_periods=1 杜絕 NaN)
+        df["MA5"] = close.rolling(window=5, min_periods=1).mean()
+        df["MA10"] = close.rolling(window=10, min_periods=1).mean()
+        df["MA20"] = close.rolling(window=20, min_periods=1).mean()
+        df["MA60"] = close.rolling(window=60, min_periods=1).mean()
+
+        # 週級別均線 (週 5MA ≈ 25 日線, 週 20MA ≈ 100 日線)
+        df["Weekly_MA5"] = close.rolling(window=25, min_periods=1).mean()
+        df["Weekly_MA20"] = close.rolling(window=100, min_periods=1).mean()
+
+        # 成交總值 (Turnover / Dollar Volume) 與 5MA
+        volume = df["Volume"].fillna(0)
+        df["Turnover"] = close * volume
+        df["Turnover_MA5"] = df["Turnover"].rolling(window=5, min_periods=1).mean().fillna(df["Turnover"])
 
         # RSI (14)
         delta = close.diff()
-        gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
-        loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+        gain = (delta.where(delta > 0, 0)).rolling(window=14, min_periods=1).mean()
+        loss = (-delta.where(delta < 0, 0)).rolling(window=14, min_periods=1).mean()
         rs = gain / loss.replace(0, np.nan)
         df["RSI14"] = 100 - (100 / (1 + rs))
         df["RSI14"] = df["RSI14"].fillna(50.0)
@@ -278,23 +364,23 @@ class TWMarketFetcher:
         # ATR (14)
         high = df["High"]
         low = df["Low"]
-        prev_close = close.shift(1)
+        prev_close = close.shift(1).fillna(close)
         tr1 = high - low
         tr2 = (high - prev_close).abs()
         tr3 = (low - prev_close).abs()
         tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
-        df["ATR14"] = tr.rolling(window=14).mean().fillna(close * 0.02)
+        df["ATR14"] = tr.rolling(window=14, min_periods=1).mean().fillna(close * 0.02)
 
         # Bollinger Bands (20, 2)
         ma20 = df["MA20"]
-        std20 = close.rolling(window=20).std()
+        std20 = close.rolling(window=20, min_periods=1).std().fillna(0.0)
         df["BB_Upper"] = ma20 + (std20 * 2)
         df["BB_Lower"] = ma20 - (std20 * 2)
 
         return df
 
     def _build_empty_stock_data(self, symbol: str, name: Optional[str] = None) -> Dict[str, Any]:
-        """回傳安全空的股票結構"""
+        """回傳安全空的股票結構 (零 NaN 保證)"""
         return {
             "symbol": symbol,
             "yf_symbol": self._normalize_tw_symbol(symbol),
@@ -310,6 +396,17 @@ class TWMarketFetcher:
             "volume": 0,
             "prev_volume": 0,
             "volume_ratio": 1.0,
+            "turnover": 0.0,
+            "turnover_ma5": 0.0,
+            "turnover_ratio": 1.0,
+            "turnover_ma5_slope": 0.0,
+            "price_ma5_slope": 0.0,
+            "weekly_trend": "neutral",
+            "weekly_ma5": 0.0,
+            "weekly_ma20": 0.0,
+            "turnover_display": "-",
+            "turnover_short": "-",
+            "turnover_ma5_short": "-",
             "ma5": None,
             "ma10": None,
             "ma20": None,

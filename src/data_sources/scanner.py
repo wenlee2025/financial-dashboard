@@ -34,7 +34,7 @@ class MarketScanner:
 
             for code, data in inst_data.items():
                 # 過濾權證、ETF (代碼通常非 4 碼或以 00/01/02 開頭)
-                if len(code) != 4 or not code.isdigit():
+                if len(code) != 4 or not code.isdigit() or code.startswith(("00", "01", "02", "08")):
                     continue
                 if code in clean_existing:
                     continue

@@ -121,4 +121,27 @@ class FlowAnalyzer:
                     "symbol": sym
                 })
 
+            # 成交總值 5MA 策略警報 (爆量出貨 / 動能衰竭)
+            turnover_strat = score_info.get("turnover_strategy", {})
+            strat_code = turnover_strat.get("strategy_code")
+            t_ratio = stock_d.get("turnover_ratio", 1.0)
+            t_disp = stock_d.get("turnover_short", "")
+
+            if strat_code == "heavy_dump":
+                alerts.append({
+                    "level": "danger",
+                    "badge": "爆量出貨",
+                    "title": f"{name} ({sym}) 成交總值爆量下殺 (金額量比 {t_ratio:.2f}x)",
+                    "desc": f"當日成交金額達 {t_disp} 顯著高於 5MA，且股價下殺破線，為典型主力大單派發或恐慌殺盤訊號，應嚴格執行停損防守。",
+                    "symbol": sym
+                })
+            elif strat_code == "momentum_decay" and stock_d.get("price", 0) >= stock_d.get("high_52w", 0) * 0.96:
+                alerts.append({
+                    "level": "warning",
+                    "badge": "動能衰竭",
+                    "title": f"{name} ({sym}) 高檔成交總值萎縮 (量價背離)",
+                    "desc": f"股價處於歷史或波段高檔區，但成交總值僅 {t_disp} (低於 5MA 均線)，實質大資金追價力道減退，多單宜調緊停利點。",
+                    "symbol": sym
+                })
+
         return alerts

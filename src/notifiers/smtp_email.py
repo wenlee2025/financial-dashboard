@@ -3,10 +3,11 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from typing import Any, Dict, List, Optional
+from .base import BaseNotifier
 
 logger = logging.getLogger(__name__)
 
-class SMTPEmailNotifier:
+class SMTPEmailNotifier(BaseNotifier):
     """標準 SMTP 電子郵件日報發送器"""
 
     def __init__(self, smtp_config: Dict[str, Any]):
@@ -18,8 +19,15 @@ class SMTPEmailNotifier:
         self.sender = smtp_config.get("from") or self.user
 
     @property
+    def name(self) -> str:
+        return "email"
+
+    @property
     def is_configured(self) -> bool:
         return bool(self.server and self.user and self.password and self.recipients)
+
+    def send(self, title: str, markdown_content: str, html_content: Optional[str] = None) -> bool:
+        return self.send_email(subject=title, html_content=html_content or markdown_content, text_content=markdown_content)
 
     def send_email(self, subject: str, html_content: str, text_content: Optional[str] = None) -> bool:
         if not self.is_configured:

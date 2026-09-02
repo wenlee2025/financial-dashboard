@@ -1,27 +1,41 @@
 import logging
+import math
 from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
+def _safe_val(val: Any, default: float = 0.0) -> float:
+    """安全浮點數轉換，過濾 None、NaN 與 Inf"""
+    if val is None:
+        return default
+    try:
+        f = float(val)
+        return default if math.isnan(f) or math.isinf(f) else f
+    except (ValueError, TypeError):
+        return default
+
 class PriceLevelCalculator:
-    """關鍵買賣點位、支撐壓力、停損停利 (TP/SL) 與風報比計算器"""
+    """關鍵買賣點位、支撐壓力、停損停利 (TP/SL) 與風報比計算器 (零 NaN 保證)"""
 
     def calculate_levels(self, stock_data: Dict[str, Any], score_info: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         計算關鍵點位與交易規劃
         """
-        price = stock_data.get("price", 0.0)
+        price = _safe_val(stock_data.get("price"), 0.0)
         if price <= 0:
             return self._build_empty_levels()
 
-        atr = stock_data.get("atr14") or (price * 0.02)
-        ma5 = stock_data.get("ma5") or price
-        ma20 = stock_data.get("ma20") or price
-        ma60 = stock_data.get("ma60") or (price * 0.95)
-        bb_upper = stock_data.get("bb_upper") or (price + 2 * atr)
-        bb_lower = stock_data.get("bb_lower") or (price - 2 * atr)
-        high_52w = stock_data.get("high_52w") or (price * 1.15)
-        low_52w = stock_data.get("low_52w") or (price * 0.85)
+        atr = _safe_val(stock_data.get("atr14"), price * 0.02)
+        if atr <= 0:
+            atr = price * 0.02
+
+        ma5 = _safe_val(stock_data.get("ma5"), price)
+        ma20 = _safe_val(stock_data.get("ma20"), price)
+        ma60 = _safe_val(stock_data.get("ma60"), price * 0.95)
+        bb_upper = _safe_val(stock_data.get("bb_upper"), price + 2 * atr)
+        bb_lower = _safe_val(stock_data.get("bb_lower"), price - 2 * atr)
+        high_52w = _safe_val(stock_data.get("high_52w"), price * 1.15)
+        low_52w = _safe_val(stock_data.get("low_52w"), price * 0.85)
 
         # 支撐位 (S1: 第一防守線，S2: 核心強支撐)
         s1 = round(max(min(price, ma20), price - 1.2 * atr), 2)
@@ -38,7 +52,6 @@ class PriceLevelCalculator:
             r2 = round(r1 + 1.5 * atr, 2)
 
         # 停損位 (Stop Loss - SL)
-        # 設在 S1 稍微下方，或 1.2 ATR
         sl = round(min(s1 * 0.985, price - 1.2 * atr), 2)
         if sl >= price:
             sl = round(price - 1.2 * atr, 2)
@@ -58,7 +71,7 @@ class PriceLevelCalculator:
         rr_ratio = round(potential_profit / potential_risk, 2) if potential_risk > 0 else 1.0
 
         # 操作建議描述
-        score = score_info.get("score", 50.0) if score_info else 50.0
+        score = _safe_val(score_info.get("score"), 50.0) if score_info else 50.0
         if score >= 75:
             strategy_tip = f"建議在進場區 ${entry_low} ~ ${entry_high} 分批佈局，跌破 ${sl} 嚴格止損。"
         elif score >= 60:
@@ -85,13 +98,14 @@ class PriceLevelCalculator:
         }
 
     def _build_empty_levels(self) -> Dict[str, Any]:
+        """安全空點位結構 (100% 零 NaN)"""
         return {
             "current_price": 0.0,
             "s1": 0.0,
             "s2": 0.0,
             "r1": 0.0,
             "r2": 0.0,
-            "entry_zone": "N/A",
+            "entry_zone": "-",
             "entry_low": 0.0,
             "entry_high": 0.0,
             "target_price": 0.0,

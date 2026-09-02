@@ -24,9 +24,9 @@ class LLMClient:
         self.gemini_model = gemini_model
         self.session = requests.Session()
 
-    def generate_analysis(self, prompt: str, system_prompt: str = "") -> Dict[str, Any]:
+    def generate_analysis(self, prompt: str, system_prompt: str = "", context_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
-        發送 Prompt 並解析結構化 JSON
+        發送 Prompt 並解析結構化 JSON；若無 API 則使用動態量化推理
         """
         # 1. 根據配置選擇 Provider
         raw_text = ""
@@ -44,11 +44,11 @@ class LLMClient:
                 raw_text = self._call_openai(prompt, system_prompt)
             else:
                 logger.info("未偵測到任何 LLM API Key，啟用系統內建量化規則推理引擎")
-                return self._fallback_rule_based_analysis()
+                return self.synthesize_rule_based_analysis(context_data)
 
         if not raw_text:
             logger.warning("LLM 回傳空結果，採用量化規則推理引擎")
-            return self._fallback_rule_based_analysis()
+            return self.synthesize_rule_based_analysis(context_data)
 
         # 解析 JSON
         parsed = self._extract_json(raw_text)
@@ -59,8 +59,8 @@ class LLMClient:
             return self._wrap_raw_text(raw_text)
 
     def _call_gemini(self, prompt: str, system_prompt: str) -> str:
-        """透過 Gemini REST API (支援 gemini-3.6-flash / gemini-2.5-flash / gemini-2.0-flash)"""
-        models = [self.gemini_model, "gemini-3.6-flash", "gemini-2.5-flash", "gemini-2.0-flash"]
+        """透過 Gemini REST API (支援 gemini-3.6-flash / gemini-1.5-flash / gemini-1.5-pro)"""
+        models = list(dict.fromkeys([self.gemini_model, "gemini-3.6-flash", "gemini-1.5-flash", "gemini-1.5-pro"]))
         for model in models:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={self.gemini_key}"
             headers = {"Content-Type": "application/json"}
@@ -73,7 +73,7 @@ class LLMClient:
                 }
             }
             try:
-                resp = self.session.post(url, headers=headers, json=payload, timeout=30)
+                resp = self.session.post(url, headers=headers, json=payload, timeout=45)
                 if resp.status_code == 200:
                     data = resp.json()
                     candidates = data.get("candidates", [])
@@ -189,30 +189,105 @@ class LLMClient:
             "raw_output": text
         }
 
-    def _fallback_rule_based_analysis(self) -> Dict[str, Any]:
-        """離線/無金鑰時之高階規則推理輸出"""
-        return {
-            "executive_summary": "大盤維持高檔多空拉鋸，科技主流股領跑，法人籌碼高度聚焦於 AI 供應鏈與權值龍頭。",
-            "market_mood": "震盪偏多",
-            "bullish_arguments": [
-                "核心權值股（台積電/輝達）維持均線多頭結構，長線獲利預估續創新高。",
-                "外資與本土投信資金輪動健康，支撐指數下檔防守力道。",
-                "AI 伺服器與邊緣運算新品進入量產出貨高峰期。"
-            ],
-            "bearish_risks": [
-                "美債殖利率若快速走升可能引發高估值個股評價修正。",
-                "短線部分強勢股 RSI 處於高檔過熱區，需提防假突破拉回。",
-                "地緣政治與匯率波動增添短線避險情緒。"
-            ],
-            "catalysts": [
-                "各大龍頭企業即將公佈之最新月營收與季報表現",
-                "美聯儲 (Fed) FOMC 利率決策與利率點陣圖公布",
-                "全球科技展會與新品發表會釋出之產業前瞻"
-            ],
-            "action_checklist": [
-                "【部位控管】總持股比例建議維持 6 成以內，切勿過度融資槓桿",
-                "【停損紀律】單筆虧損嚴格控制在總資金 1.5% 以內（破停損點 SL 立即執行）",
-                "【進場原則】嚴禁急拉追高，優先選擇拉回回測 20MA 月線守穩且出量標的",
-                "【籌碼驗證】進場前確認外資或投信無連續出貨現象"
+    def synthesize_rule_based_analysis(self, context_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """根據真實行情數據動態合成深度多空投研結論 (100% 離線/免 API)"""
+        if not context_data:
+            return self._fallback_rule_based_analysis()
+
+        macro = context_data.get("macro_sentiment", {})
+        fg_score = macro.get("fear_and_greed", {}).get("score", 50.0)
+        fg_zh = macro.get("fear_and_greed", {}).get("rating_zh", "中立")
+        us10y = macro.get("macro", {}).get("us10y", {}).get("value", 0.0)
+        stocks = context_data.get("stocks", [])
+        adr_list = context_data.get("adr_premiums", [])
+        alerts = context_data.get("alerts", [])
+
+        # 統計多空廣度
+        if stocks:
+            avg_score = round(sum(s.get("score_info", {}).get("score", 50) for s in stocks) / len(stocks), 1)
+            bull_count = sum(1 for s in stocks if s.get("score_info", {}).get("score", 50) >= 60)
+            bear_count = sum(1 for s in stocks if s.get("score_info", {}).get("score", 50) < 42)
+            top_bulls = sorted(stocks, key=lambda x: x.get("score_info", {}).get("score", 0), reverse=True)[:3]
+            top_bears = sorted(stocks, key=lambda x: x.get("score_info", {}).get("score", 100))[:2]
+            
+            top_bull_names = "、".join([f"{s.get('name')}({s.get('score_info',{}).get('score')}分)" for s in top_bulls if s.get("score_info",{}).get("score",0) >= 60])
+        else:
+            avg_score = 50.0
+            bull_count = 0
+            bear_count = 0
+            top_bull_names = "權值主流股"
+            top_bulls = []
+            top_bears = []
+
+        # 判定市場氛圍
+        if avg_score >= 70:
+            market_mood = "強力多頭攻堅"
+            exec_summary = f"監控池多頭動能強勁（平均評分 {avg_score} 分），{bull_count} 檔標的站上強勢多頭格局；{top_bull_names} 領軍表態，籌碼高度集中，建議順勢偏多操作。"
+        elif avg_score >= 58:
+            market_mood = "偏多震盪輪動"
+            exec_summary = f"大盤與焦點股維持偏多架構（平均評分 {avg_score} 分），多頭標的佔 {bull_count}/{len(stocks)} 檔；資金輪動至 {top_bull_names}，拉回守穩支撐可分批佈局。"
+        elif avg_score >= 45:
+            market_mood = "區間分化整理"
+            exec_summary = f"市場處於高檔震盪整理期（平均評分 {avg_score} 分），多空標的分化加劇（多方 {bull_count} 檔 / 空方 {bear_count} 檔），建議縮減追高部位，嚴守區間點位操作。"
+        else:
+            market_mood = "偏空防守觀望"
+            exec_summary = f"市場走勢轉趨防守（平均評分 {avg_score} 分），破線避險標的增至 {bear_count} 檔，建議降低持股水位，嚴格執行停損防守。"
+
+        # 動態多方論據
+        bullish_args = []
+        if top_bulls:
+            b1 = top_bulls[0]
+            sig = b1.get("score_info", {}).get("signals", ["均線維持多頭架構"])[0]
+            bullish_args.append(f"主流領頭羊 {b1.get('name')} ({b1.get('symbol')}) 量化評分達 {b1.get('score_info',{}).get('score')} 分，{sig}。")
+        if adr_list:
+            adr = adr_list[0]
+            if adr.get("premium_pct", 0) > 0:
+                bullish_args.append(f"{adr.get('adr_symbol')} ADR 對現貨維持溢價 +{adr.get('premium_pct')}% (換算每股 TWD ${adr.get('adr_parity_twd')})，提供台股下檔堅實保護。")
+        bullish_args.append(f"市場恐慌貪婪指數位於 {fg_score} 分 ({fg_zh})，市場情緒維持在健康區間未現恐慌拋售。")
+        bullish_args.append("AI 伺服器、散熱、先進封裝等主流族群法人籌碼進駐意願強烈，產業趨勢明確。")
+
+        # 動態空方風險
+        bearish_risks = []
+        if us10y > 4.0:
+            bearish_risks.append(f"美債 10 年期殖利率徘徊於 {us10y}% 高檔，對高估值科技股本益比形成一定壓制。")
+        if top_bears and top_bears[0].get("score_info", {}).get("score", 100) < 45:
+            tb = top_bears[0]
+            bearish_risks.append(f"部分弱勢標的（如 {tb.get('name')} {tb.get('symbol')}）技術面破線，評分降至 {tb.get('score_info',{}).get('score')} 分，防範補跌效應。")
+        bearish_risks.append("盤面高檔換手加劇，爆量不漲個股需提防主力短線獲利了結與假突破風險。")
+        bearish_risks.append("國際地緣政治與全球貿易政策不確定性，恐增添短線匯率與外資資金波動。")
+
+        # 重大催化劑與一手驗證事件
+        verified_news = context_data.get("verified_news", [])
+        if verified_news:
+            catalysts = [
+                f"【{n.get('publisher')}】{n.get('title')} ({n.get('age_text', '最新')})"
+                for n in verified_news[:4]
             ]
+        else:
+            catalysts = [
+                "各大科技龍頭（台積電、輝達、聯發科）即將公布之最新月營收與季報表現",
+                "美聯儲 (Fed) FOMC 利率決策會議與全球央行利率政策走向",
+                "低軌衛星、GB200 AI 伺服器機櫃與液冷散熱模組量產出貨進度"
+            ]
+
+        # 操作檢查清單
+        checklist = [
+            f"【部位控管】總持股水位建議控制在 {'60%-75%' if avg_score >= 60 else '40%-55%'}，保留彈性現金",
+            "【停損紀律】單筆部位嚴格設定於關鍵停損防守點 (SL)，跌破立即停損出場",
+            "【進場原則】嚴禁急拉追高，優先選擇拉回回測第一支撐 (S1) 且量縮守穩之強勢股",
+            "【籌碼檢驗】進場前確認外資與投信未出現連續性大額調節或土洋對作失衡"
+        ]
+
+        return {
+            "executive_summary": exec_summary,
+            "market_mood": market_mood,
+            "bullish_arguments": bullish_args[:4],
+            "bearish_risks": bearish_risks[:4],
+            "catalysts": catalysts,
+            "action_checklist": checklist
         }
+
+    def _fallback_rule_based_analysis(self) -> Dict[str, Any]:
+        """預設規則輸出"""
+        return self.synthesize_rule_based_analysis(None)
+

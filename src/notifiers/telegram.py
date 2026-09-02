@@ -1,10 +1,11 @@
 import logging
 import requests
 from typing import Optional
+from .base import BaseNotifier
 
 logger = logging.getLogger(__name__)
 
-class TelegramNotifier:
+class TelegramNotifier(BaseNotifier):
     """Telegram Bot 推播發送器"""
 
     def __init__(self, bot_token: Optional[str], chat_id: Optional[str]):
@@ -13,8 +14,15 @@ class TelegramNotifier:
         self.session = requests.Session()
 
     @property
+    def name(self) -> str:
+        return "telegram"
+
+    @property
     def is_configured(self) -> bool:
         return bool(self.bot_token and self.chat_id)
+
+    def send(self, title: str, markdown_content: str, html_content: Optional[str] = None) -> bool:
+        return self.send_message(markdown_content)
 
     def send_message(self, message: str) -> bool:
         if not self.is_configured:

@@ -1,5 +1,6 @@
 import logging
 from typing import Any, Dict, List
+from .base import BaseNotifier
 from .telegram import TelegramNotifier
 from .discord import DiscordNotifier
 from .line import LineNotifier
@@ -9,7 +10,7 @@ from .smtp_email import SMTPEmailNotifier
 logger = logging.getLogger(__name__)
 
 class NotificationDispatcher:
-    """多通道推播統一調度器"""
+    """多通道推播統一調度器 (多型插件架構)"""
 
     def __init__(
         self,
@@ -27,6 +28,15 @@ class NotificationDispatcher:
         self.slack = SlackNotifier(slack_webhook)
         self.email = SMTPEmailNotifier(smtp_config or {})
 
+        # 註冊所有通道適配器
+        self.notifiers: List[BaseNotifier] = [
+            self.telegram,
+            self.discord,
+            self.line,
+            self.slack,
+            self.email
+        ]
+
     def dispatch_all(
         self,
         markdown_summary: str,
@@ -34,39 +44,19 @@ class NotificationDispatcher:
         subject: str
     ) -> Dict[str, bool]:
         """
-        將日報推播至所有已設定金鑰之通道
+        多型廣播日報至所有已啟用之通訊通道
         """
         results = {}
-
-        # 1. Telegram
-        if self.telegram.is_configured:
-            results["telegram"] = self.telegram.send_message(markdown_summary)
-        else:
-            logger.debug("Telegram 未設定，略過推播")
-
-        # 2. Discord
-        if self.discord.is_configured:
-            results["discord"] = self.discord.send_message(markdown_summary)
-        else:
-            logger.debug("Discord 未設定，略過推播")
-
-        # 3. LINE
-        if self.line.is_configured:
-            results["line"] = self.line.send_message(markdown_summary)
-        else:
-            logger.debug("LINE 未設定，略過推播")
-
-        # 4. Slack
-        if self.slack.is_configured:
-            results["slack"] = self.slack.send_message(markdown_summary)
-        else:
-            logger.debug("Slack 未設定，略過推播")
-
-        # 5. Email
-        if self.email.is_configured:
-            results["email"] = self.email.send_email(subject, email_html, markdown_summary)
-        else:
-            logger.debug("Email SMTP 未設定，略過郵件發送")
+        for notifier in self.notifiers:
+            if notifier.is_configured:
+                success = notifier.send(
+                    title=subject,
+                    markdown_content=markdown_summary,
+                    html_content=email_html
+                )
+                results[notifier.name] = success
+            else:
+                logger.debug(f"{notifier.name.capitalize()} 未設定，略過推播")
 
         active_count = len(results)
         success_count = sum(1 for v in results.values() if v)

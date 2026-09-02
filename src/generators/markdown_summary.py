@@ -52,11 +52,13 @@ class MarkdownSummaryGenerator:
                 pct = st.get("pct_change", 0.0)
                 score = score_info.get("score", 50)
                 rating = score_info.get("rating", "中立")
+                turnover_strat = score_info.get("turnover_strategy", {})
+                strat_name = turnover_strat.get("strategy_name", "常態整理")
 
                 lines.append(
                     f"• *{sym} {name}* ({st.get('currency', '')} ${st.get('price', 0)} | `{pct:+.2f}%`)\n"
-                    f"  評分: `{score}分 ({rating})` | 進場: `${pl.get('entry_zone', '')}`\n"
-                    f"  防守 SL: `${pl.get('stop_loss', '')}` | 目標 TP: `${pl.get('target_price', '')}` (風報比 {pl.get('risk_reward_ratio', 1)}:1)"
+                    f"  評分: `{score}分 ({rating})` | 資金動能: `{strat_name}` ({st.get('turnover_short', '-')})\n"
+                    f"  進場: `${pl.get('entry_zone', '')}` | 防守 SL: `${pl.get('stop_loss', '')}` | 目標 TP: `${pl.get('target_price', '')}` (風報比 {pl.get('risk_reward_ratio', 1)}:1)"
                 )
             lines.append("")
 
