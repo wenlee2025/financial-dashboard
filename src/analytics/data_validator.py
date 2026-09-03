@@ -66,9 +66,11 @@ class DataValidator:
             if diff_turnover_pct > 3.0:
                 warnings.append(f"{sym} 成交金額與價量乘積存在差異 (Turnover: {turnover:,.0f}, 乘積: {expected_turnover:,.0f}, 誤差 {diff_turnover_pct:.1f}%)")
 
-        # 2. 驗算點位邏輯恆等式
-        sl = float(pl.get("stop_loss", 0))
-        tp = float(pl.get("target_price", 0))
+        # 2. 驗算點位邏輯恆等式 (特許核心資產豁免 SL 驗證)
+        sl_raw = pl.get("stop_loss")
+        sl = float(sl_raw) if sl_raw is not None else 0.0
+        tp_raw = pl.get("target_price")
+        tp = float(tp_raw) if tp_raw is not None else 0.0
         if price > 0 and sl > 0 and tp > 0:
             if not (sl < price < tp):
                 warnings.append(f"{sym} 點位邏輯異常 (非 SL < 現價 < TP 架構: SL={sl}, Price={price}, TP={tp})")

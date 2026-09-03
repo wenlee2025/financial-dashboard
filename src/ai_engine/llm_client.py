@@ -59,8 +59,8 @@ class LLMClient:
             return self._wrap_raw_text(raw_text)
 
     def _call_gemini(self, prompt: str, system_prompt: str) -> str:
-        """透過 Gemini REST API (支援 gemini-3.6-flash / gemini-1.5-flash / gemini-1.5-pro)"""
-        models = list(dict.fromkeys([self.gemini_model, "gemini-3.6-flash", "gemini-1.5-flash", "gemini-1.5-pro"]))
+        """透過 Gemini REST API (支援 gemini-2.5-flash / gemini-2.0-flash / gemini-1.5-flash-latest)"""
+        models = list(dict.fromkeys([self.gemini_model, "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash-latest", "gemini-1.5-pro-latest"]))
         for model in models:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={self.gemini_key}"
             headers = {"Content-Type": "application/json"}

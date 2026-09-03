@@ -22,6 +22,8 @@ from src.watchlist_manager import WatchlistManager
 from src.pipeline import FinancialDashboardPipeline
 from src.config import config
 
+from src.bridge.berkshire_bridge import BerkshireBridge
+
 def print_menu():
     print("\n=======================================================")
     print("  📊 每日財經儀表板 - 自選股清單管理器")
@@ -31,10 +33,21 @@ def print_menu():
     print("  3. ➖ 移除股票 (單檔或批次移除)")
     print("  4. 🔍 搜尋股票代碼或名稱")
     print("  5. 🚀 儲存並直接執行財經分析流水線 (Run Pipeline)")
+    print("  6. 👑 一鍵同步 AI Berkshire 護城河特許核心 (Sync Berkshire)")
     print("  0. 🚪 退出")
     print("=======================================================")
 
 def main():
+    if len(sys.argv) > 1 and "--sync-berkshire" in sys.argv:
+        print("👑 正在自 AI Berkshire 專案同步特許核心資產與防腐層契約...")
+        bridge = BerkshireBridge()
+        res = bridge.sync_upstream_assets()
+        if res.success:
+            print(f"✅ 成功同步 {res.synced_count} 檔波克夏資產: {res.updated_symbols}")
+        else:
+            print(f"❌ 同步失敗: {res.errors}")
+        sys.exit(0 if res.success else 1)
+
     wm = WatchlistManager()
 
     while True:
@@ -107,6 +120,16 @@ def main():
             pipeline = FinancialDashboardPipeline(cfg=config)
             result = pipeline.run(mode="full", no_push=True)
             print(f"✅ 生成完成！儀表板已更新至: {result['dashboard_file']}")
+
+        elif choice == "6":
+            print("\n👑 正在自 AI Berkshire 專案同步特許核心資產與防腐層契約...")
+            bridge = BerkshireBridge()
+            res = bridge.sync_upstream_assets()
+            if res.success:
+                print(f"✅ 成功同步 {res.synced_count} 檔波克夏資產: {res.updated_symbols}")
+                wm = WatchlistManager()  # 重新載入最新設定
+            else:
+                print(f"❌ 同步失敗: {res.errors}")
 
         elif choice == "0":
             print("👋 感謝使用，已安全儲存自選股設定！")

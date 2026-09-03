@@ -75,3 +75,39 @@ _Avoid_: 手動修改YAML出錯, 格式損毀
 **ADR 折溢價率 (ADR Premium/Discount)**:
 台積電美股 ADR（TSM）與台股現貨（2330）按 1:5 換股比率及即時匯率折算之價差百分比。
 _Avoid_: 美股聯動
+
+**上櫃證券路由映射 (TPEx OTC Symbol Routing)**:
+台灣櫃買中心（OTC）上櫃標的自動路由對應機制（將 `6223`, `1785`, `5274` 等代碼精準映射為 Yahoo Finance `.TWO` 與 TPEx 官方端點），徹底消除 delisted 假性下市與歷史 K 線缺漏。
+_Avoid_: 統一使用.TW, 忽略上櫃上市差異
+
+**台指期大盤防護網 (TX Futures Macro Guard)**:
+監控外資在台灣期貨交易所（TAIFEX）之台指期淨未平倉合約口數（Net Open Interest）。當外資淨空單超過 35,000 口警戒值時，全局啟動期貨壓盤風險防護，對現貨權值股實施估值與突破打分扣減，嚴防結算殺盤。
+_Avoid_: 現貨期貨脫鉤, 盲目追多權值股
+
+**預估動態本益比與 PEG (Forward PE & PEG Ratio)**:
+採用未來四季機構共識預估每股盈餘（$\text{Price} / \text{Forward EPS}$）取代歷史落後 TTM EPS，並計算本益成長比（$\text{PEG} = \text{Forward PE} / \text{Expected Growth Rate}$）。當 PEG $< 1.0$ 時，判定具備實質低估之高成長性價比，動態豁免歷史 PE 扣分。
+_Avoid_: 後照鏡估值, 歷史PE一刀切
+
+**市場體制自適應調節 (Regime-Adaptive Quant Weighting)**:
+量化評分權重隨恐慌貪婪指數（Fear & Greed）與 VIX 波動率自適應切換演算法：在恐慌防守體制下提升籌碼權重至 50%（風控優先），在主升動能體制下提升技術動量至 50%（進攻優先）。
+_Avoid_: 固定權重死板化, 忽視市場牛熊環境
+
+**特許與動量雙軌執行 (Two-Tier Core vs Momentum Execution)**:
+將標的劃分為「👑 波克夏特許核心 (Tier 1 Core)」與「⚡ 戰術動量 (Tier 2 Momentum)」。核心資產享有左側金字塔分批加碼權（上限 20%）並豁免短線 ATR 停損；動量資產嚴守右側 ATR 停損與 5MA 出清線。
+_Avoid_: 所有股票無差別停損, 缺乏資產分級
+
+**深投資評價引擎 (Equity Evaluation Engine)**:
+將多因子方向性評分、體制加權、前瞻估值與雙軌交易點位收斂為單一深接縫之評價模組。單次調用直接產出完整投資決策實體（`EquityEvaluationResult`），杜絕評分與點位兩階段中介數據傳遞。
+_Avoid_: 分拆打分與點位, 兩步呼叫舞步
+
+**深市場數據閘道 (Market Gateway)**:
+統一管理全市場（台美股、OTC 上櫃路由、TWSE T86 籌碼、月營收與宏觀情資）之深數據中樞。對外提供 `fetch_universe_bundles` 一站式產出強型別 `StockMarketBundle`，並內建籌碼焦點股掃描，封閉所有網路並行線程與跨表關聯實作。
+_Avoid_: 調用端手動劃分台美股, 手動查表關聯籌碼與營收
+
+**深市場情報引擎 (Market Intelligence Engine)**:
+將 24 小時一手新聞採集、市場異常籌碼警報與 AI 深度邏輯推論融為一體的深模組。對外提供 `produce_intelligence` 單一介面產出 `MarketIntelligenceReport`，接縫內部自治消化 LLM 網路異常（503/404/逾時）並無縫降級為量化規則推理。
+_Avoid_: 流水線手動組裝 Prompt, 流水線手動捕捉 AI 逾時與降級邏輯
+
+**波克夏戰略防腐橋接器 (Berkshire Strategic Bridge)**:
+連接 AI Berkshire（上游戰略大腦）與 財經儀表板（下游戰術執行）的型別化防腐層（Anticorruption Layer）。以 `BerkshireAssetContract` 嚴格約束資產等級（限定 `TIER_1_CORE` 或 `TIER_2_MOMENTUM`）與金字塔加碼上限（不超過 20%），杜絕欄位變更導致的 YAML 結構破壞與靜默故障。
+_Avoid_: 直接手動覆寫 YAML, 缺乏型別契約校驗之跨專案拷貝

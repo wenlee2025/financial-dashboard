@@ -19,13 +19,20 @@ class TWMarketFetcher:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         })
 
+    OTC_SYMBOLS = {
+        "1785", "3081", "3105", "3293", "3529", "5274", "5347", "5483",
+        "6147", "6223", "6274", "6488", "7769", "8069", "8299"
+    }
+
     def _normalize_tw_symbol(self, symbol: str) -> str:
-        """標準化台股代碼為 yfinance 格式 (例: 2330 -> 2330.TW)"""
+        """標準化台股代碼為 yfinance 格式 (例: 2330 -> 2330.TW, 6223 -> 6223.TWO)"""
         symbol = str(symbol).strip().upper()
         if symbol.startswith("^"):
             return symbol
         if "." in symbol:
             return symbol
+        if symbol in self.OTC_SYMBOLS:
+            return f"{symbol}.TWO"
         # 預設上市為 .TW
         return f"{symbol}.TW"
 
@@ -63,8 +70,10 @@ class TWMarketFetcher:
         df = pd.DataFrame()
         ticker = None
 
-        # 依序嘗試 .TW (上市) 與 .TWO (上櫃)
-        candidates = [f"{raw_symbol}.TW", f"{raw_symbol}.TWO"] if not raw_symbol.startswith("^") and "." not in raw_symbol else [yf_symbol]
+        # 依序嘗試最佳格式 (.TW / .TWO)
+        primary = self._normalize_tw_symbol(raw_symbol)
+        secondary = f"{raw_symbol}.TW" if primary.endswith(".TWO") else f"{raw_symbol}.TWO"
+        candidates = [primary, secondary] if not raw_symbol.startswith("^") and "." not in raw_symbol else [primary]
         for candidate in candidates:
             try:
                 t = yf.Ticker(candidate)
@@ -133,7 +142,11 @@ class TWMarketFetcher:
                 pass
 
             display_name = name or info.get("shortName") or info.get("longName") or raw_symbol
-            pe_ratio = info.get("trailingPE") or info.get("forwardPE")
+            trailing_pe = info.get("trailingPE")
+            forward_pe = info.get("forwardPE")
+            pe_ratio = forward_pe or trailing_pe
+            forward_eps = info.get("forwardEps")
+            peg_ratio = info.get("pegRatio")
             dividend_yield = (info.get("dividendYield") or 0.0) * 100 if info.get("dividendYield") else None
             market_cap = info.get("marketCap")
 
@@ -192,6 +205,10 @@ class TWMarketFetcher:
                 "high_52w": round(float(df["High"].max()), 2),
                 "low_52w": round(float(df["Low"].min()), 2),
                 "pe_ratio": round(float(pe_ratio), 2) if pe_ratio else None,
+                "trailing_pe": round(float(trailing_pe), 2) if trailing_pe else None,
+                "forward_pe": round(float(forward_pe), 2) if forward_pe else None,
+                "forward_eps": round(float(forward_eps), 2) if forward_eps else None,
+                "peg_ratio": round(float(peg_ratio), 2) if peg_ratio else None,
                 "dividend_yield": round(float(dividend_yield), 2) if dividend_yield else None,
                 "market_cap": market_cap,
                 "history": history_30d,

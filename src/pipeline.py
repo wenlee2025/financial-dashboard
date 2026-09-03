@@ -4,9 +4,9 @@ from typing import Any, Dict, List, Optional
 from pathlib import Path
 
 from .config import Config, config as default_config
-from .data_sources import TWMarketFetcher, USMarketFetcher, MacroSentimentFetcher, MarketScanner
+from .data_sources import TWMarketFetcher, USMarketFetcher, MacroSentimentFetcher, MarketScanner, MarketGateway
 from .data_sources.news_feed import NewsFeedService
-from .analytics import QuantScorer, PriceLevelCalculator, FlowAnalyzer
+from .analytics import QuantScorer, PriceLevelCalculator, FlowAnalyzer, EquityEvaluator, MarketIntelligence
 from .analytics.data_validator import DataValidator
 from .analytics.supply_chain import SupplyChainMapper
 from .analytics.stock_universe_analyzer import StockUniverseAnalyzer
@@ -22,35 +22,44 @@ class FinancialDashboardPipeline:
     def __init__(self, cfg: Optional[Config] = None):
         self.cfg = cfg or default_config
 
-        # 1. 數據獲取層
-        self.tw_fetcher = TWMarketFetcher(finmind_token=self.cfg.finmind_token)
-        self.us_fetcher = USMarketFetcher(finnhub_key=self.cfg.finnhub_key)
-        self.macro_fetcher = MacroSentimentFetcher(fred_key=self.cfg.fred_key)
+        # 1. 深數據閘道層 (MarketGateway)
+        self.market_gateway = MarketGateway(
+            tw_fetcher=TWMarketFetcher(finmind_token=self.cfg.finmind_token),
+            us_fetcher=USMarketFetcher(finnhub_key=self.cfg.finnhub_key),
+            macro_fetcher=MacroSentimentFetcher(fred_key=self.cfg.fred_key)
+        )
+        self.tw_fetcher = self.market_gateway.tw_fetcher
+        self.us_fetcher = self.market_gateway.us_fetcher
+        self.macro_fetcher = self.market_gateway.macro_fetcher
         self.scanner = MarketScanner(self.tw_fetcher, self.us_fetcher, self.cfg.scanner_settings)
         self.news_service = NewsFeedService(max_age_hours=24.0)
 
-        # 2. 量化分析、標的分析與數據驗證層
+        # 2. 深度標的評價與分析協同層
+        self.evaluator = EquityEvaluator(weights=self.cfg.scoring_weights, tiers=self.cfg.rating_tiers)
         self.scorer = QuantScorer(weights=self.cfg.scoring_weights, tiers=self.cfg.rating_tiers)
         self.level_calc = PriceLevelCalculator()
         self.flow_analyzer = FlowAnalyzer()
         self.validator = DataValidator(max_allowed_price_diff_pct=1.0, max_news_age_hours=24.0)
         self.supply_chain_mapper = SupplyChainMapper()
         self.universe_analyzer = StockUniverseAnalyzer(
-            tw_fetcher=self.tw_fetcher,
-            us_fetcher=self.us_fetcher,
-            scorer=self.scorer,
-            level_calc=self.level_calc,
+            gateway=self.market_gateway,
+            evaluator=self.evaluator,
             supply_chain_mapper=self.supply_chain_mapper,
             validator=self.validator
         )
 
-        # 3. AI 推論層
+        # 3. 市場全維情報與推論層 (MarketIntelligence)
         self.ai_client = LLMClient(
             provider=self.cfg.ai_provider,
             gemini_key=self.cfg.gemini_api_key,
             openai_key=self.cfg.openai_api_key,
             anthropic_key=self.cfg.anthropic_api_key,
             gemini_model=self.cfg.gemini_model
+        )
+        self.market_intelligence = MarketIntelligence(
+            news_service=self.news_service,
+            flow_analyzer=self.flow_analyzer,
+            ai_client=self.ai_client
         )
 
         # 4. 生成器層
@@ -106,7 +115,8 @@ class FinancialDashboardPipeline:
         )
         macro_sentiment = {
             "fear_and_greed": self.macro_fetcher.get_fear_and_greed_index(),
-            "macro": self.macro_fetcher.get_macro_overview()
+            "macro": self.macro_fetcher.get_macro_overview(),
+            "tx_futures": self.macro_fetcher.get_tx_futures_net_oi()
         }
         usdtwd_rate = macro_sentiment["macro"].get("usdtwd", {}).get("value", 32.5)
         adr_premiums = self.macro_fetcher.calculate_adr_premium(self.cfg.adr_mappings, usdtwd_rate)
@@ -115,65 +125,27 @@ class FinancialDashboardPipeline:
         stocks_to_analyze = self._prepare_stock_list(mode, custom_symbols)
         logger.info(f"待分析標的共 {len(stocks_to_analyze)} 檔: {[s['symbol'] for s in stocks_to_analyze]}")
 
-        # Step 3: 全市場標的深度量化分析 (StockUniverseAnalyzer 深模組)
+        # Step 3: 全市場標的深度量化分析 (含自適應市場體制與期現貨大盤防護)
         analyzed_stocks, data_validation_report, validation_warnings = self.universe_analyzer.analyze_universe(
             stocks_to_analyze=stocks_to_analyze,
-            date_str=date_str
+            date_str=date_str,
+            macro_sentiment=macro_sentiment
         )
 
-        # Step 4: 抓取 24 小時內一手已驗證權威新聞
-        symbols_list = [s["symbol"] for s in analyzed_stocks]
-        verified_news = self.news_service.fetch_verified_news(symbols_list)
-        data_validation_report["verified_news_count"] = len(verified_news)
-
-        # Step 5: 主力籌碼與市場風險警報偵測
-        alerts = self.flow_analyzer.analyze_market_alerts(
-            stocks_analysis=analyzed_stocks,
-            macro_data=macro_sentiment,
-            adr_data=adr_premiums
-        )
-
-        # Step 6: AI 深度邏輯推理 (含反幻覺數據注入)
-        stocks_summary_for_ai = [
-            {
-                "symbol": s["symbol"],
-                "name": s["name"],
-                "price": s["stock_data"].get("price"),
-                "pct_change": s["stock_data"].get("pct_change"),
-                "turnover": s["stock_data"].get("turnover_display"),
-                "score": s["score_info"].get("score"),
-                "rating": s["score_info"].get("rating"),
-                "turnover_strat": s["score_info"].get("turnover_strategy", {}).get("strategy_name"),
-                "signals": s["score_info"].get("signals"),
-                "levels": s["price_levels"]
-            }
-            for s in analyzed_stocks
-        ]
-
-        system_prompt = PromptBuilder.get_system_prompt()
-        user_prompt = PromptBuilder.build_analysis_prompt(
-            market_mode=mode,
+        # Step 4: 透過深模組 MarketIntelligence 一站式產出市場情報 (新聞、異常警報與深度 AI/規則推理報告)
+        intel_report = self.market_intelligence.produce_intelligence(
+            analyzed_stocks=analyzed_stocks,
+            macro_sentiment=macro_sentiment,
             indices_data=indices_data,
-            macro_data=macro_sentiment,
-            adr_data=adr_premiums,
-            stocks_summary=stocks_summary_for_ai,
-            alerts=alerts,
-            verified_news=verified_news
+            adr_premiums=adr_premiums,
+            market_mode=mode,
+            market_mode_text=market_mode_text,
+            data_validation_report=data_validation_report
         )
-
-        # 供 AI/量化引擎參考之即時上下文
-        ai_context_data = {
-            "indices": indices_data,
-            "macro_sentiment": macro_sentiment,
-            "adr_premiums": adr_premiums,
-            "stocks": analyzed_stocks,
-            "alerts": alerts,
-            "verified_news": verified_news,
-            "validation_report": data_validation_report
-        }
-
-        logger.info("啟動 AI 深度多空推論引擎...")
-        ai_analysis = self.ai_client.generate_analysis(user_prompt, system_prompt, context_data=ai_context_data)
+        verified_news = intel_report.verified_news
+        data_validation_report["verified_news_count"] = intel_report.verified_news_count
+        alerts = intel_report.alerts
+        ai_analysis = intel_report.ai_analysis
 
         # Step 7: 組合渲染上下文
         context = {

@@ -234,6 +234,29 @@
         {% endfor %}
       </div>
       {% endif %}
+
+      <!-- 台指期外資未平倉巨量空單防護橫條 -->
+      {% if macro_sentiment and macro_sentiment.tx_futures %}
+      <div class="glass-card rounded-xl p-3.5 border {% if macro_sentiment.tx_futures.is_high_risk %}border-rose-500/40 bg-rose-950/20{% else %}border-emerald-500/30 bg-emerald-950/20{% endif %} flex flex-wrap items-center justify-between gap-2 mt-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-lg {% if macro_sentiment.tx_futures.is_high_risk %}bg-rose-500/20 text-rose-400{% else %}bg-emerald-500/20 text-emerald-400{% endif %} flex items-center justify-center font-bold text-sm">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <div class="text-sm font-bold text-white flex items-center space-x-2">
+              <span>台指期外資未平倉淨部位 (TX Futures Guard)</span>
+              <span class="px-2 py-0.5 text-xs font-extrabold rounded-full {% if macro_sentiment.tx_futures.is_high_risk %}bg-rose-500/30 text-rose-300 border border-rose-500/50{% else %}bg-emerald-500/30 text-emerald-300 border border-emerald-500/50{% endif %}">
+                {{ "{:+,d}".format(macro_sentiment.tx_futures.foreign_net_oi) }} 口
+              </span>
+            </div>
+            <div class="text-xs text-gray-400 mt-0.5">{{ macro_sentiment.tx_futures.status_label }} (警戒門檻: -35,000 口)</div>
+          </div>
+        </div>
+        <div class="text-xs font-semibold {% if macro_sentiment.tx_futures.is_high_risk %}text-rose-400{% else %}text-emerald-400{% endif %}">
+          {% if macro_sentiment.tx_futures.is_high_risk %}⚠️ 啟動權值股壓盤防護 (扣10分){% else %}✅ 期現貨平衡無異常壓盤{% endif %}
+        </div>
+      </div>
+      {% endif %}
     </section>
 
     <!-- 3. 風險警報與籌碼主力流向 (Risk Alerts) -->
@@ -379,6 +402,15 @@
                   <span class="px-2 py-0.5 text-xs font-bold rounded-full {% if item.score_info.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif item.score_info.badge_color == 'green' %}bg-green-500/20 text-green-400 border border-green-500/30{% elif item.score_info.badge_color == 'yellow' %}bg-yellow-500/20 text-yellow-400 border border-yellow-500/30{% else %}bg-rose-500/20 text-rose-400 border border-rose-500/30{% endif %}">
                     {{ item.score_info.rating }}
                   </span>
+                  {% if item.tier == 'TIER_1_CORE' %}
+                  <span class="px-2 py-0.5 text-xs font-extrabold rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm shadow-amber-500/10">
+                    👑 波克夏核心
+                  </span>
+                  {% elif item.tier == 'TIER_2_MOMENTUM' %}
+                  <span class="px-1.5 py-0.5 text-[10px] font-medium rounded-full bg-blue-500/15 text-blue-300 border border-blue-500/30">
+                    ⚡ 戰術動量
+                  </span>
+                  {% endif %}
                   {% if sc.sector_badge %}
                   <span class="px-2 py-0.5 text-[10px] font-medium rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-800/60">
                     {{ sc.sector_badge }}
@@ -457,7 +489,7 @@
             <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
               <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
                 <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
-                <div class="font-bold text-rose-400 mt-0.5">{% if item.price_levels.stop_loss > 0 %}${{ item.price_levels.stop_loss }}{% else %}-{% endif %}</div>
+                <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">{% if item.price_levels.stop_loss_display %}{{ item.price_levels.stop_loss_display }}{% elif item.price_levels.stop_loss > 0 %}${{ item.price_levels.stop_loss }}{% else %}-{% endif %}</div>
               </div>
               <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
                 <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
@@ -572,6 +604,11 @@
                     <span class="px-1.5 py-0.5 text-[10px] bg-gray-800 text-gray-400 rounded border border-gray-700">{{ item.stock_data.market }}</span>
                     <span>{{ item.symbol }}</span>
                     <span class="font-normal text-gray-300">{{ item.name }}</span>
+                    {% if item.tier == 'TIER_1_CORE' %}
+                    <span class="px-1.5 py-0.2 text-[9px] font-bold bg-amber-500/20 text-amber-300 rounded border border-amber-500/30">
+                      👑 核心
+                    </span>
+                    {% endif %}
                     {% if sc.sector_badge %}
                     <span class="px-1.5 py-0.2 text-[9px] font-normal bg-cyan-950/50 text-cyan-300 rounded border border-cyan-800/40">
                       {{ sc.sector_badge }}
@@ -616,7 +653,7 @@
                 </td>
                 <td class="p-3.5 text-cyan-300 font-medium">{% if item.price_levels.entry_zone and item.price_levels.entry_zone != '-' and item.price_levels.entry_zone != 'N/A' and 'nan' not in item.price_levels.entry_zone|string and '0.0 - 0.0' not in item.price_levels.entry_zone|string %}${{ item.price_levels.entry_zone }}{% else %}-{% endif %}</td>
                 <td class="p-3.5 text-emerald-300 font-medium">{% if item.price_levels.s1 > 0 %}${{ item.price_levels.s1 }}{% else %}-{% endif %}</td>
-                <td class="p-3.5 text-rose-400 font-bold">{% if item.price_levels.stop_loss > 0 %}${{ item.price_levels.stop_loss }}{% else %}-{% endif %}</td>
+                <td class="p-3.5 text-rose-400 font-bold text-xs truncate max-w-[100px]">{% if item.price_levels.stop_loss_display %}{{ item.price_levels.stop_loss_display }}{% elif item.price_levels.stop_loss > 0 %}${{ item.price_levels.stop_loss }}{% else %}-{% endif %}</td>
                 <td class="p-3.5 text-amber-300 font-bold">{% if item.price_levels.target_price > 0 %}${{ item.price_levels.target_price }}{% else %}-{% endif %}</td>
                 <td class="p-3.5 text-gray-300 font-semibold">{{ item.price_levels.risk_reward_ratio }}:1</td>
                 <td class="p-3.5">

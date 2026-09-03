@@ -5,66 +5,26 @@ from .us_market import USMarketFetcher
 
 logger = logging.getLogger(__name__)
 
+from .market_gateway import MarketGateway
+
 class MarketScanner:
-    """全市場動態焦點強勢股 / 法人買超股掃描器"""
+    """[相容轉發器] 全市場動態焦點強勢股 / 法人買超股掃描器 (底層代理至深模組 MarketGateway)"""
 
     def __init__(self, tw_fetcher: TWMarketFetcher, us_fetcher: USMarketFetcher, scanner_settings: Dict[str, Any]):
         self.tw_fetcher = tw_fetcher
         self.us_fetcher = us_fetcher
         self.settings = scanner_settings
+        self.gateway = MarketGateway(tw_fetcher=tw_fetcher, us_fetcher=us_fetcher)
 
     def scan_tw_focus_stocks(self, existing_symbols: List[str]) -> List[Dict[str, Any]]:
-        """
-        掃描台股焦點標的：
-        1. 外資 + 投信同步買超張數最多
-        2. 排除已在自選清單中的標的
-        3. 取前 top_n 檔
-        """
+        """掃描台股焦點標的 (代理至 MarketGateway)"""
         top_n = self.settings.get("top_n_tw", 3)
         min_buy_lots = self.settings.get("tw_min_foreign_trust_buy_lots", 500)
-        
-        try:
-            inst_data = self.tw_fetcher.get_twse_institutional_data()
-            if not inst_data:
-                logger.warning("未能取得法人籌碼數據，改用精選熱門池掃描")
-                return self._scan_tw_fallback(existing_symbols, top_n)
-
-            candidates = []
-            clean_existing = [str(s).replace(".TW", "").replace(".TWO", "").strip() for s in existing_symbols]
-
-            for code, data in inst_data.items():
-                # 過濾權證、ETF (代碼通常非 4 碼或以 00/01/02 開頭)
-                if len(code) != 4 or not code.isdigit() or code.startswith(("00", "01", "02", "08")):
-                    continue
-                if code in clean_existing:
-                    continue
-
-                foreign = data.get("foreign_lots", 0)
-                trust = data.get("trust_lots", 0)
-                combined = foreign + trust
-
-                # 外資與投信皆為正，或合計大幅買超
-                if combined >= min_buy_lots:
-                    candidates.append({
-                        "symbol": code,
-                        "name": data.get("name", code),
-                        "foreign_lots": foreign,
-                        "trust_lots": trust,
-                        "total_lots": data.get("total_lots", 0),
-                        "combined_lots": combined,
-                        "reason": f"外資買超 {foreign} 張，投信買超 {trust} 張 (合計買超 {combined} 張)"
-                    })
-
-            # 按法人買超張數降序排序
-            candidates.sort(key=lambda x: x["combined_lots"], reverse=True)
-            top_candidates = candidates[:top_n]
-            
-            logger.info(f"台股籌碼掃描出 {len(top_candidates)} 檔焦點股: {[c['symbol'] for c in top_candidates]}")
-            return top_candidates
-
-        except Exception as e:
-            logger.error(f"台股焦點掃描失敗: {e}")
+        res = self.gateway.scan_focus_stocks(existing_symbols, top_n=top_n, min_buy_lots=min_buy_lots)
+        if not res:
             return self._scan_tw_fallback(existing_symbols, top_n)
+        logger.info(f"台股籌碼掃描出 {len(res)} 檔焦點股: {[c['symbol'] for c in res]}")
+        return res
 
     def _scan_tw_fallback(self, existing_symbols: List[str], top_n: int) -> List[Dict[str, Any]]:
         """台股備用候選池 (熱門產業龍頭)"""
