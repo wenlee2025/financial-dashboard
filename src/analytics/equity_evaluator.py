@@ -31,6 +31,7 @@ class EquityEvaluationResult:
     price_levels: Dict[str, Any] = field(default_factory=dict)
     signals: List[str] = field(default_factory=list)
     turnover_strategy: Dict[str, Any] = field(default_factory=dict)
+    decision_matrix: Dict[str, Any] = field(default_factory=dict)
     tier: str = "TIER_2_MOMENTUM"
     tier_label: str = "⚡ 戰術動量"
     moat_badge: str = "⚡ 戰術動量"
@@ -56,6 +57,7 @@ class EquityEvaluationResult:
             "price_levels": self.price_levels,
             "signals": self.signals,
             "turnover_strategy": self.turnover_strategy,
+            "decision_matrix": self.decision_matrix,
             "tier": self.tier,
             "tier_label": self.tier_label,
             "moat_badge": self.moat_badge,
@@ -164,6 +166,12 @@ class EquityEvaluator:
 
         rating, rating_code, badge_color = self._determine_rating(total_score)
 
+        # 6. 二維決策矩陣推導 (評級 x 資金動能 5 大實戰決策原型)
+        decision_matrix = self._derive_decision_matrix(
+            rating_code=rating_code,
+            strategy_code=turnover_strategy.get("strategy_code", "normal")
+        )
+
         score_info = {
             "score": total_score,
             "regime_label": regime_label,
@@ -174,6 +182,7 @@ class EquityEvaluator:
             "flow_score": round(flow_score, 1),
             "fund_score": round(fund_score, 1),
             "turnover_strategy": turnover_strategy,
+            "decision_matrix": decision_matrix,
             "signals": signals
         }
 
@@ -193,6 +202,7 @@ class EquityEvaluator:
             price_levels=price_levels,
             signals=signals,
             turnover_strategy=turnover_strategy,
+            decision_matrix=decision_matrix,
             tier=price_levels.get("tier", "TIER_2_MOMENTUM"),
             tier_label=price_levels.get("tier_label", "⚡ 戰術動量"),
             moat_badge=price_levels.get("moat_badge", "⚡ 戰術動量"),
@@ -205,6 +215,92 @@ class EquityEvaluator:
         )
 
     # ---------------- 內部私有實作 (Private to Module) ----------------
+
+    def _derive_decision_matrix(self, rating_code: str, strategy_code: str) -> Dict[str, Any]:
+        """
+        依據中長線評級 (rating_code) 與當日資金動能 (strategy_code) 交叉映射 5 大實戰決策原型
+        """
+        # 1. 警戒撤退：任何評級遇到爆量出貨
+        if strategy_code == "heavy_volume_dump":
+            return {
+                "action_code": "alert_exit",
+                "action_badge": "🚨 警戒撤退",
+                "action_label": "主力出貨",
+                "guidance": "假突破真倒貨·反彈減碼",
+                "badge_color": "rose",
+                "sort_rank": 1
+            }
+
+        # 2. 多頭評級 (強力做多 strong_bull / 偏多震盪 lean_bull)
+        if rating_code in ("strong_bull", "lean_bull"):
+            if strategy_code == "strong_bull":
+                return {
+                    "action_code": "attack",
+                    "action_badge": "🚀 順勢進攻",
+                    "action_label": "絕佳買點",
+                    "guidance": "帶量突破5MA·抱牢主升",
+                    "badge_color": "emerald",
+                    "sort_rank": 5
+                }
+            elif strategy_code == "momentum_decay":
+                return {
+                    "action_code": "wait_pullback",
+                    "action_badge": "⏳ 耐心等待",
+                    "action_label": "勿急追高",
+                    "guidance": "量價背離·等回踩S1再接",
+                    "badge_color": "amber",
+                    "sort_rank": 3
+                }
+            else:  # consolidation_bottom 或 normal
+                return {
+                    "action_code": "lurk_accumulate",
+                    "action_badge": "☕ 逢低潛伏",
+                    "action_label": "左側分批",
+                    "guidance": "浮額沉澱·支撐上方低接",
+                    "badge_color": "cyan",
+                    "sort_rank": 4
+                }
+
+        # 3. 中立評級 (neutral)
+        elif rating_code == "neutral":
+            if strategy_code == "strong_bull":
+                return {
+                    "action_code": "attack",
+                    "action_badge": "⚡ 試單點火",
+                    "action_label": "動能突破",
+                    "guidance": "短線帶量·小單順勢試單",
+                    "badge_color": "emerald",
+                    "sort_rank": 4
+                }
+            elif strategy_code == "consolidation_bottom":
+                return {
+                    "action_code": "lurk_accumulate",
+                    "action_badge": "☕ 逢低潛伏",
+                    "action_label": "築底觀察",
+                    "guidance": "賣壓耗盡·回踩防守線觀察",
+                    "badge_color": "cyan",
+                    "sort_rank": 3
+                }
+            else:
+                return {
+                    "action_code": "defense",
+                    "action_badge": "🛡️ 觀望等待",
+                    "action_label": "方向未明",
+                    "guidance": "量能平淡·待趨勢表態",
+                    "badge_color": "gray",
+                    "sort_rank": 2
+                }
+
+        # 4. 空頭評級 (偏空防守 lean_bear / 避險做空 strong_bear)
+        else:
+            return {
+                "action_code": "defense",
+                "action_badge": "🛡️ 嚴禁進場",
+                "action_label": "空手避險",
+                "guidance": "無量陰跌·嚴防接刀套牢",
+                "badge_color": "rose",
+                "sort_rank": 1
+            }
 
     def _eval_technicals(self, data: Dict[str, Any]) -> Tuple[float, List[str]]:
         score = 50.0

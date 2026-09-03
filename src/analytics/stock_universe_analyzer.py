@@ -92,7 +92,8 @@ class StockUniverseAnalyzer:
                 "institutional": inst_data,
                 "revenue": revenue_data,
                 "score_info": score_info,
-                "price_levels": price_levels
+                "price_levels": price_levels,
+                "decision_matrix": evaluation.decision_matrix
             }
 
             # 跨市場產業鏈圖譜與母鏈角色注入

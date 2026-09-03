@@ -121,3 +121,36 @@ def test_equity_evaluator_empty_price_resilience():
     assert result.score == 50.0
     assert result.rating == "暫無報價"
     assert result.stop_loss == 0.0
+
+
+def test_equity_evaluator_decision_matrix_archetypes():
+    """驗證評級與資金動能 5 大實戰決策原型的交叉映射"""
+    evaluator = EquityEvaluator()
+
+    # 1. 做多 + 強勢主升 -> 順勢進攻
+    m1 = evaluator._derive_decision_matrix(rating_code="strong_bull", strategy_code="strong_bull")
+    assert m1["action_code"] == "attack"
+    assert "順勢進攻" in m1["action_badge"]
+    assert m1["sort_rank"] == 5
+
+    # 2. 做多 + 動能衰竭 -> 耐心等待 (勿急追高)
+    m2 = evaluator._derive_decision_matrix(rating_code="strong_bull", strategy_code="momentum_decay")
+    assert m2["action_code"] == "wait_pullback"
+    assert "耐心等待" in m2["action_badge"]
+    assert "等回踩S1" in m2["guidance"]
+
+    # 3. 做多 + 常態整理 / 量縮築底 -> 逢低潛伏
+    m3 = evaluator._derive_decision_matrix(rating_code="lean_bull", strategy_code="normal")
+    assert m3["action_code"] == "lurk_accumulate"
+    assert "逢低潛伏" in m3["action_badge"]
+
+    # 4. 任何評級 + 爆量出貨 -> 警戒撤退
+    m4 = evaluator._derive_decision_matrix(rating_code="strong_bull", strategy_code="heavy_volume_dump")
+    assert m4["action_code"] == "alert_exit"
+    assert "警戒撤退" in m4["action_badge"]
+    assert m4["sort_rank"] == 1
+
+    # 5. 空頭評級 + 常態整理 -> 嚴禁進場 (空手避險)
+    m5 = evaluator._derive_decision_matrix(rating_code="strong_bear", strategy_code="normal")
+    assert m5["action_code"] == "defense"
+    assert "嚴禁進場" in m5["action_badge"]
