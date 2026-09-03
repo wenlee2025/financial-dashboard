@@ -536,40 +536,40 @@
           <table class="w-full text-left text-xs border-collapse">
             <thead class="bg-gray-900/90 text-gray-400 font-semibold border-b border-gray-800 select-none">
               <tr>
-                <th class="p-3.5 cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('symbol')">
+                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('symbol')">
                   標的代碼 / 名稱 <i id="sort-icon-symbol" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
                 </th>
-                <th class="p-3.5 cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('pct')">
+                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('pct')">
                   現價 / 漲跌幅 <i id="sort-icon-pct" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
                 </th>
-                <th class="p-3.5 cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('score')">
+                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('score')">
                   多空評分 <i id="sort-icon-score" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
                 </th>
-                <th class="p-3.5 cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('turnover')">
+                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('turnover')">
                   成交總值 (5MA) <i id="sort-icon-turnover" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
                 </th>
-                <th class="p-3.5 cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('turnover_strat')">
+                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('turnover_strat')">
                   資金動能策略 <i id="sort-icon-turnover_strat" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
                 </th>
-                <th class="p-3.5 cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('rating')">
+                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('rating')">
                   評級 <i id="sort-icon-rating" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
                 </th>
-                <th class="p-3.5 cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('entry')">
+                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('entry')">
                   建議進場區 <i id="sort-icon-entry" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
                 </th>
-                <th class="p-3.5 cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('s1')">
+                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('s1')">
                   第一支撐 (S1) <i id="sort-icon-s1" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
                 </th>
-                <th class="p-3.5 cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('sl')">
+                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('sl')">
                   停損防守 (SL) <i id="sort-icon-sl" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
                 </th>
-                <th class="p-3.5 cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('tp')">
+                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('tp')">
                   停利目標 (TP) <i id="sort-icon-tp" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
                 </th>
-                <th class="p-3.5 cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('rr')">
+                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('rr')">
                   風報比 <i id="sort-icon-rr" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
                 </th>
-                <th class="p-3.5 cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('lots')">
+                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('lots')">
                   法人淨買超 <i id="sort-icon-lots" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
                 </th>
               </tr>
@@ -640,14 +640,14 @@
                   <div class="font-bold text-white">{{ item.stock_data.turnover_short or '-' }}</div>
                   <div class="text-[11px] text-gray-400">5MA: {{ item.stock_data.turnover_ma5_short or '-' }}</div>
                 </td>
-                <td class="p-3.5">
-                  <span class="px-2 py-0.5 text-[11px] font-bold rounded-md {% if ts.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif ts.badge_color == 'amber' %}bg-amber-500/20 text-amber-300 border border-amber-500/30{% elif ts.badge_color == 'yellow' %}bg-yellow-500/20 text-yellow-300 border border-yellow-500/30{% elif ts.badge_color == 'rose' %}bg-rose-500/20 text-rose-300 border border-rose-500/30{% else %}bg-gray-800 text-gray-300 border border-gray-700{% endif %}">
+                <td class="p-3.5 whitespace-nowrap">
+                  <span class="inline-block whitespace-nowrap px-2 py-0.5 text-[11px] font-bold rounded-md {% if ts.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif ts.badge_color == 'amber' %}bg-amber-500/20 text-amber-300 border border-amber-500/30{% elif ts.badge_color == 'yellow' %}bg-yellow-500/20 text-yellow-300 border border-yellow-500/30{% elif ts.badge_color == 'rose' %}bg-rose-500/20 text-rose-300 border border-rose-500/30{% else %}bg-gray-800 text-gray-300 border border-gray-700{% endif %}">
                     {{ ts.strategy_name or '常態整理 ⚪' }}
                   </span>
-                  <div class="text-[10px] text-gray-400 mt-0.5">量比 {{ item.stock_data.turnover_ratio or 1.0 }}x</div>
+                  <div class="text-[10px] text-gray-400 mt-0.5 whitespace-nowrap">量比 {{ item.stock_data.turnover_ratio or 1.0 }}x</div>
                 </td>
-                <td class="p-3.5">
-                  <span class="px-2 py-0.5 text-[11px] font-bold rounded-full {% if item.score_info.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif item.score_info.badge_color == 'green' %}bg-green-500/20 text-green-400 border border-green-500/30{% elif item.score_info.badge_color == 'yellow' %}bg-yellow-500/20 text-yellow-400 border border-yellow-500/30{% else %}bg-rose-500/20 text-rose-400 border border-rose-500/30{% endif %}">
+                <td class="p-3.5 whitespace-nowrap">
+                  <span class="inline-block whitespace-nowrap px-2 py-0.5 text-[11px] font-bold rounded-full {% if item.score_info.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif item.score_info.badge_color == 'green' %}bg-green-500/20 text-green-400 border border-green-500/30{% elif item.score_info.badge_color == 'yellow' %}bg-yellow-500/20 text-yellow-400 border border-yellow-500/30{% else %}bg-rose-500/20 text-rose-400 border border-rose-500/30{% endif %}">
                     {{ item.score_info.rating }}
                   </span>
                 </td>
