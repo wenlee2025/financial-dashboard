@@ -3,9 +3,9 @@
   "market_mode": "full",
   "market_mode_text": "每日美台財經全覽",
   "date": "2026-09-07",
-  "updated_at": "2026-09-07 19:46:37",
+  "updated_at": "2026-09-07 13:38:28",
   "timezone": "Asia/Taipei",
-  "dashboard_url": "",
+  "dashboard_url": "https://wenlee2025.github.io/financial-dashboard/",
   "indices": {
     "us": [
       {
@@ -32,9 +32,9 @@
       {
         "symbol": "^VIX",
         "name": "CBOE 波動率指數 (VIX)",
-        "price": 15.21,
-        "change": 0.68,
-        "pct_change": 4.68
+        "price": 15.1,
+        "change": 0.57,
+        "pct_change": 3.92
       }
     ],
     "tw": [
@@ -63,15 +63,15 @@
         "unit": "%"
       },
       "dxy": {
-        "value": 98.96,
-        "change": -0.2,
-        "pct_change": -0.2,
+        "value": 98.92,
+        "change": -0.24,
+        "pct_change": -0.24,
         "unit": ""
       },
       "usdtwd": {
-        "value": 31.53,
-        "change": -0.17,
-        "pct_change": -0.53,
+        "value": 31.5,
+        "change": -0.2,
+        "pct_change": -0.63,
         "unit": ""
       },
       "gold": {
@@ -101,9 +101,9 @@
       "ratio": 5.0,
       "adr_price_usd": 428.91,
       "tw_price_twd": 2460.0,
-      "usdtwd_rate": 31.53,
-      "adr_parity_twd": 2704.71,
-      "premium_pct": 9.95,
+      "usdtwd_rate": 31.5,
+      "adr_parity_twd": 2702.13,
+      "premium_pct": 9.84,
       "status": "溢價"
     }
   ],
@@ -7279,7 +7279,7 @@
         "forward_eps": 24.43,
         "peg_ratio": null,
         "dividend_yield": 74.0,
-        "market_cap": 555339939840,
+        "market_cap": 540789833728,
         "history": [
           {
             "date": "2026-07-28",
@@ -15617,7 +15617,7 @@
         "forward_eps": 178.56,
         "peg_ratio": null,
         "dividend_yield": 189.0,
-        "market_cap": 1388230737920,
+        "market_cap": 1380269031424,
         "history": [
           {
             "date": "2026-07-28",
@@ -19040,9 +19040,9 @@
         "bb_lower": 37.14,
         "high_52w": 47.75,
         "low_52w": 26.75,
-        "pe_ratio": 14.27,
+        "pe_ratio": 13.82,
         "trailing_pe": 20.75,
-        "forward_pe": 14.27,
+        "forward_pe": 13.82,
         "forward_eps": 2.9,
         "peg_ratio": 9.22,
         "dividend_yield": 264.0,
@@ -19409,8 +19409,8 @@
           "MACD 柱狀體綠柱發散",
           "三大法人重挫賣超 -53,618 張",
           "✓ 轉折反轉爆發主升：啟動高成長爆發加權，豁免高本益比抑制",
-          "本益比 14.3x 處於合理偏低評價區間",
-          "預估 Forward PE 僅 14.3x (實質未來評價處於合理偏低區間)",
+          "本益比 13.8x 處於合理偏低評價區間",
+          "預估 Forward PE 僅 13.8x (實質未來評價處於合理偏低區間)",
           "現金殖利率達 264.0% 具備下檔股息防守保護"
         ]
       },
@@ -19980,7 +19980,7 @@
         "forward_eps": 75.38,
         "peg_ratio": null,
         "dividend_yield": 55.0,
-        "market_cap": 395519000576,
+        "market_cap": 395621761024,
         "history": [
           {
             "date": "2026-07-28",
@@ -22741,7 +22741,7 @@
         "forward_eps": 16.39,
         "peg_ratio": null,
         "dividend_yield": 60.0,
-        "market_cap": 162542632960,
+        "market_cap": 162331557888,
         "history": [
           {
             "date": "2026-07-28",
@@ -23191,7 +23191,7 @@
     "market_mood": "偏多震盪輪動",
     "bullish_arguments": [
       "主流領頭羊 力積電 (6770) 量化評分達 100.0 分，成交總值維持常態 (金額量比 1.89x)。",
-      "TSM ADR 對現貨維持溢價 +9.95% (換算每股 TWD $2704.71)，提供台股下檔堅實保護。",
+      "TSM ADR 對現貨維持溢價 +9.84% (換算每股 TWD $2702.13)，提供台股下檔堅實保護。",
       "市場恐慌貪婪指數位於 41.9 分 (恐慌)，市場情緒維持在健康區間未現恐慌拋售。",
       "AI 伺服器、散熱、先進封裝等主流族群法人籌碼進駐意願強烈，產業趨勢明確。"
     ],
@@ -23202,10 +23202,10 @@
       "國際地緣政治與全球貿易政策不確定性，恐增添短線匯率與外資資金波動。"
     ],
     "catalysts": [
-      "【CMoney】NVDA 輝達- AI 狂潮點燃7兆美元機房大戰：美股資金從防禦股撤離、全面押注算力霸主- 股市爆料同學會 (剛剛)",
-      "【經濟日報】外資買超883億元 買盤最愛兩大類股及主動式 ETF (1 小時前)",
-      "【sinotrade.com.tw】【0907台股盤後】加權指數漲1.67%！ 聯電攻漲停、聯發科獲輝達認購可轉債 季報優於預期股鎖碼尖點、華邦電、楠梓電 (2 小時前)",
-      "【Yahoo股市】【Follow法人】外資買超883億元史上第四大！狂掃面板雙虎20萬張 大砍仁寶緯創4檔老AI股 (3 小時前)"
+      "【經濟日報】今日最夯股／台塑化有望受惠高油價利多 三大法人同步買超 | 市場焦點 | 證券 (1 小時前)",
+      "【CMoney】NVDA 輝達- AI 狂潮點燃7兆美元機房大戰：美股資金從防禦股撤離、全面押注算力霸主- 股市爆料同學會 (2 小時前)",
+      "【民報】三大法人狂買1138億！股王信驊漲停 被動元件回神禾伸堂等3檔亮燈 (3 小時前)",
+      "【LINE TODAY】美股震盪收周線 晶片股領漲、蘋果逆勢跌2.5% | 優分析 (3 小時前)"
     ],
     "action_checklist": [
       "【部位控管】總持股水位建議控制在 60%-75%，保留彈性現金",
@@ -23216,24 +23216,46 @@
   },
   "verified_news": [
     {
+      "title": "今日最夯股／台塑化有望受惠高油價利多 三大法人同步買超 | 市場焦點 | 證券",
+      "publisher": "經濟日報",
+      "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1tUmhmeXduVjRoVDZRSmszOUlwQno5dmpLckszbjNjSTZWcjg4OFZxdTR3SmFNSk5lUnhyNUxicVBxVloxclJrTzM0cHhIWmdGVHFWcWxtZm5wZw?oc=5",
+      "published_at": "2026-09-07 11:49",
+      "age_hours": 1.8,
+      "age_text": "1 小時前",
+      "related_symbol": "大盤/產業",
+      "is_verified": true,
+      "verification_tag": "🛡️ 24h 一手信源溯源"
+    },
+    {
       "title": "NVDA 輝達- AI 狂潮點燃7兆美元機房大戰：美股資金從防禦股撤離、全面押注算力霸主- 股市爆料同學會",
       "publisher": "CMoney",
       "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9HdVFzbmVwRndjZThiUk5wQU9iclZxZ2JDMjdGeVhubHB3UUZUTTFvaF9SQXN5cVIyeVgtSXItUURtTVV1NUtuSE9zVmJiNmZUY2lOUDJCTVY?oc=5",
       "published_at": "2026-09-07 11:00",
-      "age_hours": 0.8,
-      "age_text": "剛剛",
+      "age_hours": 2.6,
+      "age_text": "2 小時前",
       "related_symbol": "NVDA 輝達",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
     },
     {
-      "title": "外資買超883億元 買盤最愛兩大類股及主動式 ETF",
-      "publisher": "經濟日報",
-      "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBPd1EyclMxM1I2Ukw0bHVQUFNnZW9MTGJOT0t4Y05CSWhzR2syVldqa2tCdHdFRThlWjA4ZklKaS1ORUtJMWk0Y2ZJdjltRThBbUtZNnMzcDEyNkhxeEQ00gFfQVVfeXFMUE93UTJyUzEzUjZSTDRsdVBQU2dlb0xMYk5PS3hjTkJJaHNHazJWV2pra0J0d0VFOGVaMDhmSUppLU5FS0kxaTRjZkl2OW1FOEFtS1k2czNwMTI2SHF4RDQ?oc=5",
-      "published_at": "2026-09-07 09:56",
-      "age_hours": 1.8,
-      "age_text": "1 小時前",
-      "related_symbol": "大盤/產業",
+      "title": "三大法人狂買1138億！股王信驊漲停 被動元件回神禾伸堂等3檔亮燈",
+      "publisher": "民報",
+      "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE4zaF9zcFhYb2xwYW0yTXFkbTNTV2xLTklPNDI5dmdNZ3BLNUZzazZjNVVMczJxVWw3ei10MVFDelMtRmRUdV9Wc1NOX0pKRllxZm9BV3NuQmhPWDBDbmkxb3dJb1g?oc=5",
+      "published_at": "2026-09-07 10:24",
+      "age_hours": 3.2,
+      "age_text": "3 小時前",
+      "related_symbol": "5274 信驊",
+      "is_verified": true,
+      "verification_tag": "🛡️ 24h 一手信源溯源"
+    },
+    {
+      "title": "美股震盪收周線 晶片股領漲、蘋果逆勢跌2.5% | 優分析",
+      "publisher": "LINE TODAY",
+      "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBUNFNvd3B3ZFEzQTRkV1lWd2Y2RDEyNkVSaDBiQmhTRl8tS2FMbzhUaUlFSmRoazJLcVdGVDZZNDNocTJ4UzJZSEJrZVNWc3diUmRiSW5n?oc=5",
+      "published_at": "2026-09-07 10:01",
+      "age_hours": 3.6,
+      "age_text": "3 小時前",
+      "related_symbol": "AAPL 蘋果",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
     },
@@ -23242,8 +23264,8 @@
       "publisher": "sinotrade.com.tw",
       "url": "https://news.google.com/rss/articles/CBMikAVBVV95cUxNRXEtbnpuZ3k0eVRPOHd5R2xFUW9nbWhSYUFpczQ2TlRMWEZ6VkgzcERGS0dXUkN5UGNEeVZSaXVhTEI1SDg1MTNNVTFudklwcm1YRmhOQ2ZsYWNnUlJEU21ETklIVGhzTktCaWkwWWpRVVhHU3hULTV1b1ZzSFBYclZKM3U0N21lSE9fZGFxcXdCZ1FWMWE3YzdFenJzUUJiV3F3dVRMeWM4Z29KNFI4anU1NW5WZUJzLVY5YWR3RUs5Y0I5aThtcmRnbk9wWDF5ZEFiaGF3NTZ3QmFMSEJmQW1qVFpzQ25WcXR1TjVuVHEweE1tdmRHbFAwdEtBVUZtZVlrNWZ1MTgwaGl3WGVYMkFBMHZBOWJXTWVfRV9mMnZ6aGgwS0x3UkRzTVZwWmNiR0lHUmJCbWNnZzR6OWJkWlVtNk9LNEpuVDJvNzdaYTFpeHpYUzhiUkZ3RGI0cFJPaEpJSmpibTFWUlE5dG1sSEZHVUxQaGt0M1J4dlIyWjFvVnFaYW44WURwNjBhRW5uYmNkVnB3bThIekxsRXY2eHVJRGZOclN4dlhjMjZ5WE9pZzllby0wcjhzWEctV005VnJxanM2WXdlNi05N0kxczlHU1ZvZzBjN1Q1dk5nRTFVb3RCSkN6YlhfRGRGRzVIVUVFUkFocjBYQzhySHlycFNFZEc4VGZCQW5zX3kwdWVVWVd3SWJEZEZ0LXFEQnh2dWJCTWJ4aWZVaWlCYjlHQUZfTkpSUG5valpZc2ZJQjRPSDlWUlBWcVlZUnJJSlpZOTZWX05uZDNuVHpCM1RiaF9fVXRBdjIzMFBxVldhUkN3b05sQTZHcjhFaFgxVmlzX05VVFlrTWJpRjRGMTBrTg?oc=5",
       "published_at": "2026-09-07 09:33",
-      "age_hours": 2.2,
-      "age_text": "2 小時前",
+      "age_hours": 4.1,
+      "age_text": "4 小時前",
       "related_symbol": "2454 聯發科",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
@@ -23253,8 +23275,8 @@
       "publisher": "Yahoo股市",
       "url": "https://news.google.com/rss/articles/CBMi-wNBVV95cUxQbU1WZ0dRSHRhOXF3c2ZoMjJScDRnWW9jVXltX0dobVp2bUZQRmhBbTRJME5BWU1vcTFkanRjQXVVNVFOaXFOeEFQR3QtMUMtY0FRcHNKYWJVWGpmVXRJdmlpaXI4QktiTWxhM2QtNk1LbjNCTkRkdTIxMEJEa1MxcURScHp3RlZsR0NkRmpIaW1GbU1PMy1XR0gtRkpSVVI1dHREZnk0NEdFYW0tZzRMaXVyRnU3WlAzanRoUjZXQURnRmFOZVQxeHZ5MEZBWEV3Y1BJT0VPZzQyd2dJdnhFdkZGRkUwUnhpQzRQRHg1ZE1yMlV1ZTZsYWNPb2VldFFEOFRZQ005c2dQR2Z1Q2NEczlMM1NjY3UycWFkRzFianVJUWh0RnBjbTg4cTNmYmFpdlJGR1ZhUDRWNkx6Z3dyMWhfeFRwUUkyMHVyNVJsdVVqOXh2NzR4YTVLVHI1Z3B5QTRFMlpHWTA1OUptQ1FFZGs5NFl5MUY4djM1c1g2X3h2amRtSnR5YTQta2xyWXN1UVlqckdPa3dHQXZOdVBoaGRVLTVKWVozU3puWDhuUzFYSHB1aUhXVDBGNERxVERmdWE4SlFiSnlXdjZvd1U0Qk5Pc2dCVG5kQVdYSURIZ3plc1VaYWZMaEVUWFdSaFNQRmlZZ2dXbmxvcmM?oc=5",
       "published_at": "2026-09-07 08:39",
-      "age_hours": 3.1,
-      "age_text": "3 小時前",
+      "age_hours": 5.0,
+      "age_text": "4 小時前",
       "related_symbol": "2324 仁寶",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
@@ -23264,8 +23286,8 @@
       "publisher": "news.cnyes.com",
       "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE0xMzZLLWQwRUo5b3hJVVZGOFZIb1Q5SWctdFBpTmhldGpqUGVsUE84V1VyWmRXdjdPOGt5endURnA5bDROTFZ6UFNQZ0NNakU?oc=5",
       "published_at": "2026-09-07 08:00",
-      "age_hours": 3.8,
-      "age_text": "3 小時前",
+      "age_hours": 5.6,
+      "age_text": "5 小時前",
       "related_symbol": "2330 台積電",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
@@ -23275,30 +23297,8 @@
       "publisher": "pocket.tw",
       "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE1RQ1Yxc2JpTkJ6WXlSc0c0N3RQZmU1WndqLUJ5YmFLRm8zc3hXeHZJRnMyc0ozaENMcTZSSmQzSThnRTVOSmxFVmVaMDhpWGNfY3NnVHcwVQ?oc=5",
       "published_at": "2026-09-07 08:01",
-      "age_hours": 3.8,
-      "age_text": "3 小時前",
-      "related_symbol": "大盤/產業",
-      "is_verified": true,
-      "verification_tag": "🛡️ 24h 一手信源溯源"
-    },
-    {
-      "title": "台股狂飆775點背後的真相！這不是亞股全面復活：拆解重押台日AI供應鏈的暴賺密碼",
-      "publisher": "台灣好新聞",
-      "url": "https://news.google.com/rss/articles/CBMi-wNBVV95cUxPVnFkMTBWQndfZEYzLWJiX1BCWDE0SG5wSERQSEtGMGhmMk9UZUd0LVk3Sm1fMUk0aGxIT0U2T3ZCbnFiQWpreU12aEhZako2dnBjaFkwV0pQam9VeG9ZQm45NWxtc2NCa3ZFVXM4WWMtWElVZ1pjS1c1NGVnV25iZzB5a01lUkdlY3Y2aV9Ia3BxYlJBaGtHcHJNeVVJaERSV0R5MnRUbWJ3THFvaGVucFhoM2NTZkpPUDdJQ0Rsc0U4UVhuV0ozZzY3NEg2MjdzeGpnQXlPb0lQaFZJSVJaMWpXUjE5Y0ZrTHVqb25UbVFKUWJFMG8xZjZGTWhydWJZcEFLWTZib3RSam1vVkRtVHZXUktsRS1XX3Mxc2luQVdKRFd5OElZN2tFa3BBR09qakFSdEQ2WWt0ZkQ1eGdSZ3BvUmJIQVY1ZzBLUDJLNF82bGx0TTNNS2tjWEJJY2YwUXBlNnBTNnh4aG40S3p2Rnp1Sm5jYkFzeDhVWnhjRW1NUmc0cGRfQ0d2MEFFWjlQX0FYTE9BLTdYQ0xhZnFxLWR5ak4tNFhRMzlJYVVUaG1lWHFwZXJodzRBVjFmOEJvVXZsd2FkSnZDXzJiSGtpNjNDRHBOdEZIU2FDMF83MHJXenZhNGg2d0VJa1dmT0pQVXptNlZBQ2xxbkk?oc=5",
-      "published_at": "2026-09-07 08:01",
-      "age_hours": 3.8,
-      "age_text": "3 小時前",
-      "related_symbol": "大盤/產業",
-      "is_verified": true,
-      "verification_tag": "🛡️ 24h 一手信源溯源"
-    },
-    {
-      "title": "台股大漲775點！ 外資狂買883億 創史上第4大",
-      "publisher": "東森電視",
-      "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9nZ09iUHBhMWNFaGppV09Ma1VEeTRmT3k2aVc2bEd1bDc0c0N2b3RGRE1GQXVRdjVEbWlYVjhueXprNGo1SFAzS1ZTNVFuQXJoX24xVDZR?oc=5",
-      "published_at": "2026-09-07 07:54",
-      "age_hours": 3.9,
-      "age_text": "3 小時前",
+      "age_hours": 5.6,
+      "age_text": "5 小時前",
       "related_symbol": "大盤/產業",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
@@ -23313,7 +23313,7 @@
     "tag": "🛡️ 數據雙源交叉驗證通過 (誤差 ≤ 1.0%) | 24h 一手信源溯源",
     "verified_news_count": 8
   },
-  "markdown_summary": "📊 *【每日美台財經全覽】2026-09-07*\n━━━━━━━━━━━━━━━━━━\n🎯 *核心結論*：大盤與焦點股維持偏多架構（平均評分 65.3 分），多頭標的佔 28/50 檔；資金輪動至 力積電(100.0分)、聯電(97.5分)、台積電(94.8分)，拉回守穩支撐可分批佈局。\n📈 *市場氛圍*：`偏多震盪輪動` | 恐慌指數：`41.9 (恐慌)` | 美債10Y：`4.784%`\n\n🟢 *多方主線*：\n  • 主流領頭羊 力積電 (6770) 量化評分達 100.0 分，成交總值維持常態 (金額量比 1.89x)。\n  • TSM ADR 對現貨維持溢價 +9.95% (換算每股 TWD $2704.71)，提供台股下檔堅實保護。\n\n🔴 *空方風險*：\n  • 美債 10 年期殖利率徘徊於 4.784% 高檔，對高估值科技股本益比形成一定壓制。\n  • 部分弱勢標的（如 矽力*-KY 6415）技術面破線，評分降至 27.5 分，防範補跌效應。\n\n📌 *焦點標的多空評分與操作點位*：\n• *6770 力積電* (TWD $72.9 | `+6.42%`)\n  評分: `100.0分 (強力做多)` | 資金動能: `常態整理 ⚪` (176.5億)\n  進場: `$70.54 - 72.9` | 防守 SL: `$68.62` | 目標 TP: `$76.63` (風報比 0.87:1)\n• *2303 聯電* (TWD $143.0 | `+10.00%`)\n  評分: `97.5分 (強力做多)` | 資金動能: `強勢主升 🟢` (482.3億)\n  進場: `$134.35 - 143.0` | 防守 SL: `$132.33` | 目標 TP: `$151.65` (風報比 0.81:1)\n• *2330 台積電* (TWD $2460.0 | `+2.07%`)\n  評分: `94.8分 (強力做多)` | 資金動能: `強勢主升 🟢` (654.2億)\n  進場: `$2412.43 - 2460.0` | 防守 SL: `$1722.0` | 目標 TP: `$2507.57` (風報比 0.57:1)\n• *2409 友達* (TWD $28.7 | `+7.09%`)\n  評分: `94.2分 (強力做多)` | 資金動能: `強勢主升 🟢` (150.0億)\n  進場: `$27.28 - 28.7` | 防守 SL: `$26.87` | 目標 TP: `$30.12` (風報比 0.78:1)\n• *2454 聯發科* (TWD $4760.0 | `+7.81%`)\n  評分: `93.5分 (強力做多)` | 資金動能: `強勢主升 🟢` (814.0億)\n  進場: `$4518.72 - 4760.0` | 防守 SL: `$3332.0` | 目標 TP: `$5001.28` (風報比 0.78:1)\n\n⚠️ *主力籌碼與市場警報*：\n  • *[土洋對作]* 華邦電 (2344) 出現外資大買、投信大賣\n  • *[土洋對作]* 日月光投控 (3711) 出現外資大買、投信大賣\n  • *[動能衰竭]* NVIDIA (輝達) (NVDA) 高檔成交總值萎縮 (量價背離)\n\n📋 *操作紀律檢查清單*：\n  ☑ 【部位控管】總持股水位建議控制在 60%-75%，保留彈性現金\n  ☑ 【停損紀律】單筆部位嚴格設定於關鍵停損防守點 (SL)，跌破立即停損出場\n  ☑ 【進場原則】嚴禁急拉追高，優先選擇拉回回測第一支撐 (S1) 且量縮守穩之強勢股\n",
+  "markdown_summary": "📊 *【每日美台財經全覽】2026-09-07*\n━━━━━━━━━━━━━━━━━━\n🎯 *核心結論*：大盤與焦點股維持偏多架構（平均評分 65.3 分），多頭標的佔 28/50 檔；資金輪動至 力積電(100.0分)、聯電(97.5分)、台積電(94.8分)，拉回守穩支撐可分批佈局。\n📈 *市場氛圍*：`偏多震盪輪動` | 恐慌指數：`41.9 (恐慌)` | 美債10Y：`4.784%`\n\n🟢 *多方主線*：\n  • 主流領頭羊 力積電 (6770) 量化評分達 100.0 分，成交總值維持常態 (金額量比 1.89x)。\n  • TSM ADR 對現貨維持溢價 +9.84% (換算每股 TWD $2702.13)，提供台股下檔堅實保護。\n\n🔴 *空方風險*：\n  • 美債 10 年期殖利率徘徊於 4.784% 高檔，對高估值科技股本益比形成一定壓制。\n  • 部分弱勢標的（如 矽力*-KY 6415）技術面破線，評分降至 27.5 分，防範補跌效應。\n\n📌 *焦點標的多空評分與操作點位*：\n• *6770 力積電* (TWD $72.9 | `+6.42%`)\n  評分: `100.0分 (強力做多)` | 資金動能: `常態整理 ⚪` (176.5億)\n  進場: `$70.54 - 72.9` | 防守 SL: `$68.62` | 目標 TP: `$76.63` (風報比 0.87:1)\n• *2303 聯電* (TWD $143.0 | `+10.00%`)\n  評分: `97.5分 (強力做多)` | 資金動能: `強勢主升 🟢` (482.3億)\n  進場: `$134.35 - 143.0` | 防守 SL: `$132.33` | 目標 TP: `$151.65` (風報比 0.81:1)\n• *2330 台積電* (TWD $2460.0 | `+2.07%`)\n  評分: `94.8分 (強力做多)` | 資金動能: `強勢主升 🟢` (654.2億)\n  進場: `$2412.43 - 2460.0` | 防守 SL: `$1722.0` | 目標 TP: `$2507.57` (風報比 0.57:1)\n• *2409 友達* (TWD $28.7 | `+7.09%`)\n  評分: `94.2分 (強力做多)` | 資金動能: `強勢主升 🟢` (150.0億)\n  進場: `$27.28 - 28.7` | 防守 SL: `$26.87` | 目標 TP: `$30.12` (風報比 0.78:1)\n• *2454 聯發科* (TWD $4760.0 | `+7.81%`)\n  評分: `93.5分 (強力做多)` | 資金動能: `強勢主升 🟢` (814.0億)\n  進場: `$4518.72 - 4760.0` | 防守 SL: `$3332.0` | 目標 TP: `$5001.28` (風報比 0.78:1)\n\n⚠️ *主力籌碼與市場警報*：\n  • *[土洋對作]* 華邦電 (2344) 出現外資大買、投信大賣\n  • *[土洋對作]* 日月光投控 (3711) 出現外資大買、投信大賣\n  • *[動能衰竭]* NVIDIA (輝達) (NVDA) 高檔成交總值萎縮 (量價背離)\n\n📋 *操作紀律檢查清單*：\n  ☑ 【部位控管】總持股水位建議控制在 60%-75%，保留彈性現金\n  ☑ 【停損紀律】單筆部位嚴格設定於關鍵停損防守點 (SL)，跌破立即停損出場\n  ☑ 【進場原則】嚴禁急拉追高，優先選擇拉回回測第一支撐 (S1) 且量縮守穩之強勢股\n\n🌐 [開啟完整互動式財經儀表板](https://wenlee2025.github.io/financial-dashboard/)",
   "history_list": [
     {
       "date": "2026-09-07",
