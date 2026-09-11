@@ -3,9 +3,9 @@
   "market_mode": "full",
   "market_mode_text": "每日美台財經全覽",
   "date": "2026-09-11",
-  "updated_at": "2026-09-11 16:41:55",
+  "updated_at": "2026-09-11 12:19:06",
   "timezone": "Asia/Taipei",
-  "dashboard_url": "",
+  "dashboard_url": "https://wenlee2025.github.io/financial-dashboard/",
   "indices": {
     "us": [
       {
@@ -32,9 +32,9 @@
       {
         "symbol": "^VIX",
         "name": "CBOE 波動率指數 (VIX)",
-        "price": 17.51,
-        "change": -0.33,
-        "pct_change": -1.85
+        "price": 17.08,
+        "change": -0.76,
+        "pct_change": -4.26
       }
     ],
     "tw": [
@@ -63,27 +63,27 @@
         "unit": "%"
       },
       "dxy": {
-        "value": 99.11,
-        "change": 0.02,
-        "pct_change": 0.02,
+        "value": 99.17,
+        "change": 0.08,
+        "pct_change": 0.08,
         "unit": ""
       },
       "usdtwd": {
-        "value": 31.63,
+        "value": 31.64,
         "change": 0.17,
-        "pct_change": 0.54,
+        "pct_change": 0.55,
         "unit": ""
       },
       "gold": {
-        "value": 4395.3,
-        "change": 30.8,
-        "pct_change": 0.71,
+        "value": 4369.1,
+        "change": 4.6,
+        "pct_change": 0.11,
         "unit": ""
       },
       "oil": {
-        "value": 100.04,
-        "change": -2.44,
-        "pct_change": -2.38,
+        "value": 99.59,
+        "change": -2.89,
+        "pct_change": -2.82,
         "unit": ""
       }
     },
@@ -101,9 +101,9 @@
       "ratio": 5.0,
       "adr_price_usd": 428.03,
       "tw_price_twd": 2410.0,
-      "usdtwd_rate": 31.63,
-      "adr_parity_twd": 2707.72,
-      "premium_pct": 12.35,
+      "usdtwd_rate": 31.64,
+      "adr_parity_twd": 2708.57,
+      "premium_pct": 12.39,
       "status": "溢價"
     }
   ],
@@ -1565,7 +1565,7 @@
         "forward_eps": 25.3,
         "peg_ratio": null,
         "dividend_yield": 69.0,
-        "market_cap": 548689182720,
+        "market_cap": 534313304064,
         "history": [
           {
             "date": "2026-08-03",
@@ -3734,9 +3734,9 @@
         "symbol": "2382",
         "name": "廣達",
         "foreign_lots": 665,
-        "trust_lots": 953,
+        "trust_lots": 957,
         "dealer_lots": 97,
-        "total_lots": 1717
+        "total_lots": 1720
       },
       "revenue": {
         "revenue": 423970932000,
@@ -3779,7 +3779,7 @@
           "股價站上月線 (中線偏多)",
           "RSI(57.3) 位於健康上升擴張區",
           "MACD 柱狀體紅柱擴張",
-          "三大法人大買 +1,717 張",
+          "三大法人大買 +1,720 張",
           "外資投信土洋同步大買合力作多",
           "本益比 10.5x 處於合理偏低評價區間",
           "預估 Forward PE 僅 10.5x (實質未來評價處於合理偏低區間)",
@@ -3883,7 +3883,7 @@
         "bb_lower": 404.77,
         "high_52w": 479.0,
         "low_52w": 313.07,
-        "pe_ratio": 32.16,
+        "pe_ratio": 31.54,
         "forward_pe": 19.52,
         "peg_ratio": 0.82,
         "target_mean_price": 551.26,
@@ -4806,7 +4806,7 @@
         "pe_ratio": 57.86,
         "trailing_pe": 125.61,
         "forward_pe": 57.86,
-        "forward_eps": 9.36,
+        "forward_eps": 8.9,
         "peg_ratio": 0.83,
         "dividend_yield": 49.0,
         "market_cap": 95226552320,
@@ -5213,6 +5213,520 @@
         "chain": "PA 與光通訊磊晶鏈",
         "related_us": [
           "AVGO"
+        ],
+        "is_focus": true
+      }
+    },
+    {
+      "symbol": "3008",
+      "name": "大立光",
+      "market": "TW",
+      "note": "高階潛望式鏡頭與手機鏡頭升級趨勢",
+      "tier": "TIER_1_CORE",
+      "tier_label": "👑 波克夏特許核心",
+      "moat_badge": "👑 波克夏核心",
+      "berkshire_score": 4.8,
+      "knife_pause": false,
+      "veto_triggered": false,
+      "pyramid_buys": [
+        {
+          "price_discount": 0.9,
+          "ratio": 0.05,
+          "label": "-10% 試探接刀 (5%)"
+        },
+        {
+          "price_discount": 0.8,
+          "ratio": 0.07,
+          "label": "-20% 核心加碼 (7%)"
+        },
+        {
+          "price_discount": 0.7,
+          "ratio": 0.08,
+          "label": "-30% 極限安全邊際 (8%)"
+        }
+      ],
+      "stock_data": {
+        "symbol": "3008",
+        "yf_symbol": "3008.TW",
+        "name": "大立光",
+        "market": "TW",
+        "currency": "TWD",
+        "price": 6660.0,
+        "change": -60.0,
+        "pct_change": -0.89,
+        "open": 6520.0,
+        "high": 6900.0,
+        "low": 6420.0,
+        "volume": 1980286,
+        "prev_volume": 1640891,
+        "volume_ratio": 1.21,
+        "turnover": 13188704760.0,
+        "turnover_ma5": 11382767514.0,
+        "turnover_ratio": 1.16,
+        "turnover_ma5_slope": 526885032.0,
+        "price_ma5_slope": -148.0,
+        "weekly_trend": "bullish",
+        "weekly_ma5": 6075.97,
+        "weekly_ma20": 4342.26,
+        "turnover_display": "131.9億 (5MA: 113.8億 | 1.16x)",
+        "turnover_short": "131.9億",
+        "turnover_ma5_short": "113.8億",
+        "ma5": 6682.0,
+        "ma10": 7100.0,
+        "ma20": 6470.5,
+        "ma60": 4987.56,
+        "rsi14": 62.87,
+        "macd": 554.4,
+        "macd_signal": 650.26,
+        "macd_hist": -95.86,
+        "atr14": 510.0,
+        "bb_upper": 8200.58,
+        "bb_lower": 4740.42,
+        "high_52w": 7995.0,
+        "low_52w": 2115.68,
+        "pe_ratio": 32.27,
+        "trailing_pe": 35.4,
+        "forward_pe": 32.27,
+        "forward_eps": 206.35,
+        "peg_ratio": 5.13,
+        "dividend_yield": 139.0,
+        "market_cap": 871115980800,
+        "history": [
+          {
+            "date": "2026-08-03",
+            "open": 3934.07,
+            "close": 3924.16,
+            "high": 3993.52,
+            "low": 3874.61,
+            "volume": 1704946,
+            "ma5": 3856.77,
+            "ma20": 3970.24
+          },
+          {
+            "date": "2026-08-04",
+            "open": 3993.52,
+            "close": 4315.58,
+            "high": 4315.58,
+            "low": 3973.7,
+            "volume": 1624095,
+            "ma5": 3946.95,
+            "ma20": 3993.28
+          },
+          {
+            "date": "2026-08-05",
+            "open": 4370.08,
+            "close": 4533.59,
+            "high": 4687.19,
+            "low": 4300.72,
+            "volume": 4410800,
+            "ma5": 4090.64,
+            "ma20": 4024.24
+          },
+          {
+            "date": "2026-08-06",
+            "open": 4484.04,
+            "close": 4583.14,
+            "high": 4726.83,
+            "low": 4474.13,
+            "volume": 2153154,
+            "ma5": 4270.99,
+            "ma20": 4057.69
+          },
+          {
+            "date": "2026-08-07",
+            "open": 4563.32,
+            "close": 4345.31,
+            "high": 4583.14,
+            "low": 4340.36,
+            "volume": 1496705,
+            "ma5": 4340.36,
+            "ma20": 4079.24
+          },
+          {
+            "date": "2026-08-10",
+            "open": 4439.45,
+            "close": 4360.17,
+            "high": 4523.68,
+            "low": 4305.67,
+            "volume": 1810695,
+            "ma5": 4427.56,
+            "ma20": 4081.97
+          },
+          {
+            "date": "2026-08-11",
+            "open": 4315.58,
+            "close": 4315.58,
+            "high": 4379.99,
+            "low": 4191.71,
+            "volume": 1435880,
+            "ma5": 4427.56,
+            "ma20": 4086.42
+          },
+          {
+            "date": "2026-08-12",
+            "open": 4350.26,
+            "close": 4543.5,
+            "high": 4642.59,
+            "low": 4315.58,
+            "volume": 1945488,
+            "ma5": 4429.54,
+            "ma20": 4113.43
+          },
+          {
+            "date": "2026-08-13",
+            "open": 4655.0,
+            "close": 4660.0,
+            "high": 4825.0,
+            "low": 4545.0,
+            "volume": 1966608,
+            "ma5": 4444.91,
+            "ma20": 4135.36
+          },
+          {
+            "date": "2026-08-14",
+            "open": 4700.0,
+            "close": 4610.0,
+            "high": 4920.0,
+            "low": 4590.0,
+            "volume": 1672537,
+            "ma5": 4497.85,
+            "ma20": 4167.17
+          },
+          {
+            "date": "2026-08-17",
+            "open": 4670.0,
+            "close": 5070.0,
+            "high": 5070.0,
+            "low": 4670.0,
+            "volume": 2872326,
+            "ma5": 4639.82,
+            "ma20": 4228.67
+          },
+          {
+            "date": "2026-08-18",
+            "open": 5115.0,
+            "close": 5290.0,
+            "high": 5330.0,
+            "low": 5055.0,
+            "volume": 3400779,
+            "ma5": 4834.7,
+            "ma20": 4295.73
+          },
+          {
+            "date": "2026-08-19",
+            "open": 5135.0,
+            "close": 5550.0,
+            "high": 5720.0,
+            "low": 5110.0,
+            "volume": 3542716,
+            "ma5": 5036.0,
+            "ma20": 4375.04
+          },
+          {
+            "date": "2026-08-20",
+            "open": 5570.0,
+            "close": 5515.0,
+            "high": 5680.0,
+            "low": 5405.0,
+            "volume": 2786604,
+            "ma5": 5207.0,
+            "ma20": 4445.66
+          },
+          {
+            "date": "2026-08-21",
+            "open": 5520.0,
+            "close": 5610.0,
+            "high": 5750.0,
+            "low": 5260.0,
+            "volume": 3242064,
+            "ma5": 5407.0,
+            "ma20": 4531.94
+          },
+          {
+            "date": "2026-08-24",
+            "open": 5620.0,
+            "close": 5385.0,
+            "high": 5700.0,
+            "low": 5375.0,
+            "volume": 2207681,
+            "ma5": 5470.0,
+            "ma20": 4598.54
+          },
+          {
+            "date": "2026-08-25",
+            "open": 5350.0,
+            "close": 5720.0,
+            "high": 5740.0,
+            "low": 5295.0,
+            "volume": 2049649,
+            "ma5": 5556.0,
+            "ma20": 4691.3
+          },
+          {
+            "date": "2026-08-26",
+            "open": 5920.0,
+            "close": 6290.0,
+            "high": 6290.0,
+            "low": 5875.0,
+            "volume": 1767478,
+            "ma5": 5704.0,
+            "ma20": 4815.04
+          },
+          {
+            "date": "2026-08-27",
+            "open": 6615.0,
+            "close": 6915.0,
+            "high": 6915.0,
+            "low": 6605.0,
+            "volume": 2587464,
+            "ma5": 5984.0,
+            "ma20": 4976.73
+          },
+          {
+            "date": "2026-08-28",
+            "open": 7005.0,
+            "close": 7065.0,
+            "high": 7270.0,
+            "low": 6865.0,
+            "volume": 4539010,
+            "ma5": 6275.0,
+            "ma20": 5130.05
+          },
+          {
+            "date": "2026-08-31",
+            "open": 7065.0,
+            "close": 7650.0,
+            "high": 7735.0,
+            "low": 7025.0,
+            "volume": 3398702,
+            "ma5": 6728.0,
+            "ma20": 5316.34
+          },
+          {
+            "date": "2026-09-01",
+            "open": 7655.0,
+            "close": 7580.0,
+            "high": 7995.0,
+            "low": 7565.0,
+            "volume": 3173750,
+            "ma5": 7100.0,
+            "ma20": 5479.56
+          },
+          {
+            "date": "2026-09-02",
+            "open": 7470.0,
+            "close": 7810.0,
+            "high": 7955.0,
+            "low": 7460.0,
+            "volume": 2130208,
+            "ma5": 7404.0,
+            "ma20": 5643.39
+          },
+          {
+            "date": "2026-09-03",
+            "open": 7770.0,
+            "close": 7150.0,
+            "high": 7825.0,
+            "low": 7090.0,
+            "volume": 1443132,
+            "ma5": 7451.0,
+            "ma20": 5771.73
+          },
+          {
+            "date": "2026-09-04",
+            "open": 7205.0,
+            "close": 7400.0,
+            "high": 7450.0,
+            "low": 6880.0,
+            "volume": 1426254,
+            "ma5": 7518.0,
+            "ma20": 5924.46
+          },
+          {
+            "date": "2026-09-07",
+            "open": 7185.0,
+            "close": 6660.0,
+            "high": 7185.0,
+            "low": 6660.0,
+            "volume": 1991193,
+            "ma5": 7320.0,
+            "ma20": 6039.45
+          },
+          {
+            "date": "2026-09-08",
+            "open": 6430.0,
+            "close": 6500.0,
+            "high": 6660.0,
+            "low": 6350.0,
+            "volume": 1719735,
+            "ma5": 7104.0,
+            "ma20": 6148.68
+          },
+          {
+            "date": "2026-09-09",
+            "open": 6660.0,
+            "close": 6870.0,
+            "high": 6930.0,
+            "low": 6550.0,
+            "volume": 1202143,
+            "ma5": 6916.0,
+            "ma20": 6265.0
+          },
+          {
+            "date": "2026-09-10",
+            "open": 6770.0,
+            "close": 6720.0,
+            "high": 6875.0,
+            "low": 6680.0,
+            "volume": 1640891,
+            "ma5": 6830.0,
+            "ma20": 6368.0
+          },
+          {
+            "date": "2026-09-11",
+            "open": 6520.0,
+            "close": 6660.0,
+            "high": 6900.0,
+            "low": 6420.0,
+            "volume": 1980286,
+            "ma5": 6682.0,
+            "ma20": 6470.5
+          }
+        ],
+        "date": "2026-09-11",
+        "tier": "TIER_1_CORE",
+        "tier_label": "👑 波克夏特許核心",
+        "moat_badge": "👑 波克夏核心",
+        "berkshire_score": 4.8,
+        "knife_pause": false,
+        "veto_triggered": false,
+        "pyramid_buys": [
+          {
+            "price_discount": 0.9,
+            "ratio": 0.05,
+            "label": "-10% 試探接刀 (5%)"
+          },
+          {
+            "price_discount": 0.8,
+            "ratio": 0.07,
+            "label": "-20% 核心加碼 (7%)"
+          },
+          {
+            "price_discount": 0.7,
+            "ratio": 0.08,
+            "label": "-30% 極限安全邊際 (8%)"
+          }
+        ]
+      },
+      "institutional": {
+        "symbol": "3008",
+        "name": "大立光",
+        "foreign_lots": -12,
+        "trust_lots": 177,
+        "dealer_lots": -44,
+        "total_lots": 121
+      },
+      "revenue": {
+        "revenue": 5011942000,
+        "revenue_year": 2026,
+        "revenue_month": 8,
+        "growth_rate_yoy": null,
+        "revenue_date": "2026/08"
+      },
+      "score_info": {
+        "score": 71.8,
+        "regime_label": "常態平衡體制",
+        "rating": "偏多震盪",
+        "rating_code": "lean_bull",
+        "badge_color": "green",
+        "tech_score": 80.0,
+        "flow_score": 60.0,
+        "fund_score": 75.0,
+        "turnover_strategy": {
+          "strategy_code": "normal",
+          "strategy_name": "常態整理 ⚪",
+          "badge_color": "gray",
+          "score_modifier": 0,
+          "signal": "成交總值維持常態 (金額量比 1.16x)",
+          "action_tip": "維持既定區間操作原則",
+          "turnover_display": "131.9億 (5MA: 113.8億 | 1.16x)",
+          "turnover_short": "131.9億",
+          "turnover_ma5_short": "113.8億",
+          "turnover_ratio": 1.16
+        },
+        "decision_matrix": {
+          "action_code": "lurk_accumulate",
+          "action_badge": "☕ 逢低潛伏",
+          "action_label": "左側分批",
+          "guidance": "浮額沉澱·支撐上方低接",
+          "badge_color": "cyan",
+          "sort_rank": 4
+        },
+        "signals": [
+          "成交總值維持常態 (金額量比 1.16x)",
+          "股價站上月線 (中線偏多)",
+          "✓ 週日多週期共振：週線大多頭 + 日線拉回測試月線 (高勝率買點)",
+          "RSI(62.9) 位於健康上升擴張區",
+          "MACD 柱狀體綠柱發散",
+          "三大法人小買 +121 張",
+          "✓ 轉折反轉爆發主升：啟動高成長爆發加權，豁免高本益比抑制",
+          "現金殖利率達 139.0% 具備下檔股息防守保護"
+        ]
+      },
+      "price_levels": {
+        "current_price": 6660.0,
+        "s1": 6470.5,
+        "s2": 5385.0,
+        "r1": 7425.0,
+        "r2": 8037.0,
+        "entry_zone": "6470.5 - 6660.0",
+        "entry_low": 6470.5,
+        "entry_high": 6660.0,
+        "target_price": 7425.0,
+        "stop_loss": 4662.0,
+        "stop_loss_display": "🛡️ 豁免硬停損 (論文控管)",
+        "risk_reward_ratio": 1.25,
+        "strategy_tip": "👑 波克夏核心資產 (豁免 ATR 停損) | 採左側金字塔分批佈局 (上限20%): -10% ($5994.0, 5%), -20% ($5328.0, 7%), -30% ($4662.0, 8%)。",
+        "atr": 510.0,
+        "tier": "TIER_1_CORE",
+        "tier_label": "👑 波克夏特許核心",
+        "moat_badge": "👑 波克夏核心",
+        "knife_pause": false,
+        "pyramid_buys": [
+          {
+            "price_discount": 0.9,
+            "ratio": 0.05,
+            "label": "-10% 試探接刀 (5%)"
+          },
+          {
+            "price_discount": 0.8,
+            "ratio": 0.07,
+            "label": "-20% 核心加碼 (7%)"
+          },
+          {
+            "price_discount": 0.7,
+            "ratio": 0.08,
+            "label": "-30% 極限安全邊際 (8%)"
+          }
+        ]
+      },
+      "decision_matrix": {
+        "action_code": "lurk_accumulate",
+        "action_badge": "☕ 逢低潛伏",
+        "action_label": "左側分批",
+        "guidance": "浮額沉澱·支撐上方低接",
+        "badge_color": "cyan",
+        "sort_rank": 4
+      },
+      "supply_chain": {
+        "sector_key": "pcb_substrate",
+        "sector_name": "PCB與載板",
+        "sector_badge": "📦 PCB與載板",
+        "sector_tags": "pcb_substrate focus",
+        "role": "高階光學鏡頭與潛望式鏡頭霸主",
+        "chain": "手機與車用光學鏡頭鏈",
+        "related_us": [
+          "AAPL"
         ],
         "is_focus": true
       }
@@ -7063,520 +7577,6 @@
       }
     },
     {
-      "symbol": "3008",
-      "name": "大立光",
-      "market": "TW",
-      "note": "高階潛望式鏡頭與手機鏡頭升級趨勢",
-      "tier": "TIER_1_CORE",
-      "tier_label": "👑 波克夏特許核心",
-      "moat_badge": "👑 波克夏核心",
-      "berkshire_score": 4.8,
-      "knife_pause": false,
-      "veto_triggered": false,
-      "pyramid_buys": [
-        {
-          "price_discount": 0.9,
-          "ratio": 0.05,
-          "label": "-10% 試探接刀 (5%)"
-        },
-        {
-          "price_discount": 0.8,
-          "ratio": 0.07,
-          "label": "-20% 核心加碼 (7%)"
-        },
-        {
-          "price_discount": 0.7,
-          "ratio": 0.08,
-          "label": "-30% 極限安全邊際 (8%)"
-        }
-      ],
-      "stock_data": {
-        "symbol": "3008",
-        "yf_symbol": "3008.TW",
-        "name": "大立光",
-        "market": "TW",
-        "currency": "TWD",
-        "price": 6660.0,
-        "change": -60.0,
-        "pct_change": -0.89,
-        "open": 6520.0,
-        "high": 6900.0,
-        "low": 6420.0,
-        "volume": 1980286,
-        "prev_volume": 1640891,
-        "volume_ratio": 1.21,
-        "turnover": 13188704760.0,
-        "turnover_ma5": 11382767514.0,
-        "turnover_ratio": 1.16,
-        "turnover_ma5_slope": 526885032.0,
-        "price_ma5_slope": -148.0,
-        "weekly_trend": "bullish",
-        "weekly_ma5": 6075.97,
-        "weekly_ma20": 4342.26,
-        "turnover_display": "131.9億 (5MA: 113.8億 | 1.16x)",
-        "turnover_short": "131.9億",
-        "turnover_ma5_short": "113.8億",
-        "ma5": 6682.0,
-        "ma10": 7100.0,
-        "ma20": 6470.5,
-        "ma60": 4987.56,
-        "rsi14": 62.87,
-        "macd": 554.4,
-        "macd_signal": 650.26,
-        "macd_hist": -95.86,
-        "atr14": 510.0,
-        "bb_upper": 8200.58,
-        "bb_lower": 4740.42,
-        "high_52w": 7995.0,
-        "low_52w": 2115.68,
-        "pe_ratio": 32.27,
-        "trailing_pe": 35.4,
-        "forward_pe": 32.27,
-        "forward_eps": 206.35,
-        "peg_ratio": 5.13,
-        "dividend_yield": 139.0,
-        "market_cap": 871115980800,
-        "history": [
-          {
-            "date": "2026-08-03",
-            "open": 3934.07,
-            "close": 3924.16,
-            "high": 3993.52,
-            "low": 3874.61,
-            "volume": 1704946,
-            "ma5": 3856.77,
-            "ma20": 3970.24
-          },
-          {
-            "date": "2026-08-04",
-            "open": 3993.52,
-            "close": 4315.58,
-            "high": 4315.58,
-            "low": 3973.7,
-            "volume": 1624095,
-            "ma5": 3946.95,
-            "ma20": 3993.28
-          },
-          {
-            "date": "2026-08-05",
-            "open": 4370.08,
-            "close": 4533.59,
-            "high": 4687.19,
-            "low": 4300.72,
-            "volume": 4410800,
-            "ma5": 4090.64,
-            "ma20": 4024.24
-          },
-          {
-            "date": "2026-08-06",
-            "open": 4484.04,
-            "close": 4583.14,
-            "high": 4726.83,
-            "low": 4474.13,
-            "volume": 2153154,
-            "ma5": 4270.99,
-            "ma20": 4057.69
-          },
-          {
-            "date": "2026-08-07",
-            "open": 4563.32,
-            "close": 4345.31,
-            "high": 4583.14,
-            "low": 4340.36,
-            "volume": 1496705,
-            "ma5": 4340.36,
-            "ma20": 4079.24
-          },
-          {
-            "date": "2026-08-10",
-            "open": 4439.45,
-            "close": 4360.17,
-            "high": 4523.68,
-            "low": 4305.67,
-            "volume": 1810695,
-            "ma5": 4427.56,
-            "ma20": 4081.97
-          },
-          {
-            "date": "2026-08-11",
-            "open": 4315.58,
-            "close": 4315.58,
-            "high": 4379.99,
-            "low": 4191.71,
-            "volume": 1435880,
-            "ma5": 4427.56,
-            "ma20": 4086.42
-          },
-          {
-            "date": "2026-08-12",
-            "open": 4350.26,
-            "close": 4543.5,
-            "high": 4642.59,
-            "low": 4315.58,
-            "volume": 1945488,
-            "ma5": 4429.54,
-            "ma20": 4113.43
-          },
-          {
-            "date": "2026-08-13",
-            "open": 4655.0,
-            "close": 4660.0,
-            "high": 4825.0,
-            "low": 4545.0,
-            "volume": 1966608,
-            "ma5": 4444.91,
-            "ma20": 4135.36
-          },
-          {
-            "date": "2026-08-14",
-            "open": 4700.0,
-            "close": 4610.0,
-            "high": 4920.0,
-            "low": 4590.0,
-            "volume": 1672537,
-            "ma5": 4497.85,
-            "ma20": 4167.17
-          },
-          {
-            "date": "2026-08-17",
-            "open": 4670.0,
-            "close": 5070.0,
-            "high": 5070.0,
-            "low": 4670.0,
-            "volume": 2872326,
-            "ma5": 4639.82,
-            "ma20": 4228.67
-          },
-          {
-            "date": "2026-08-18",
-            "open": 5115.0,
-            "close": 5290.0,
-            "high": 5330.0,
-            "low": 5055.0,
-            "volume": 3400779,
-            "ma5": 4834.7,
-            "ma20": 4295.73
-          },
-          {
-            "date": "2026-08-19",
-            "open": 5135.0,
-            "close": 5550.0,
-            "high": 5720.0,
-            "low": 5110.0,
-            "volume": 3542716,
-            "ma5": 5036.0,
-            "ma20": 4375.04
-          },
-          {
-            "date": "2026-08-20",
-            "open": 5570.0,
-            "close": 5515.0,
-            "high": 5680.0,
-            "low": 5405.0,
-            "volume": 2786604,
-            "ma5": 5207.0,
-            "ma20": 4445.66
-          },
-          {
-            "date": "2026-08-21",
-            "open": 5520.0,
-            "close": 5610.0,
-            "high": 5750.0,
-            "low": 5260.0,
-            "volume": 3242064,
-            "ma5": 5407.0,
-            "ma20": 4531.94
-          },
-          {
-            "date": "2026-08-24",
-            "open": 5620.0,
-            "close": 5385.0,
-            "high": 5700.0,
-            "low": 5375.0,
-            "volume": 2207681,
-            "ma5": 5470.0,
-            "ma20": 4598.54
-          },
-          {
-            "date": "2026-08-25",
-            "open": 5350.0,
-            "close": 5720.0,
-            "high": 5740.0,
-            "low": 5295.0,
-            "volume": 2049649,
-            "ma5": 5556.0,
-            "ma20": 4691.3
-          },
-          {
-            "date": "2026-08-26",
-            "open": 5920.0,
-            "close": 6290.0,
-            "high": 6290.0,
-            "low": 5875.0,
-            "volume": 1767478,
-            "ma5": 5704.0,
-            "ma20": 4815.04
-          },
-          {
-            "date": "2026-08-27",
-            "open": 6615.0,
-            "close": 6915.0,
-            "high": 6915.0,
-            "low": 6605.0,
-            "volume": 2587464,
-            "ma5": 5984.0,
-            "ma20": 4976.73
-          },
-          {
-            "date": "2026-08-28",
-            "open": 7005.0,
-            "close": 7065.0,
-            "high": 7270.0,
-            "low": 6865.0,
-            "volume": 4539010,
-            "ma5": 6275.0,
-            "ma20": 5130.05
-          },
-          {
-            "date": "2026-08-31",
-            "open": 7065.0,
-            "close": 7650.0,
-            "high": 7735.0,
-            "low": 7025.0,
-            "volume": 3398702,
-            "ma5": 6728.0,
-            "ma20": 5316.34
-          },
-          {
-            "date": "2026-09-01",
-            "open": 7655.0,
-            "close": 7580.0,
-            "high": 7995.0,
-            "low": 7565.0,
-            "volume": 3173750,
-            "ma5": 7100.0,
-            "ma20": 5479.56
-          },
-          {
-            "date": "2026-09-02",
-            "open": 7470.0,
-            "close": 7810.0,
-            "high": 7955.0,
-            "low": 7460.0,
-            "volume": 2130208,
-            "ma5": 7404.0,
-            "ma20": 5643.39
-          },
-          {
-            "date": "2026-09-03",
-            "open": 7770.0,
-            "close": 7150.0,
-            "high": 7825.0,
-            "low": 7090.0,
-            "volume": 1443132,
-            "ma5": 7451.0,
-            "ma20": 5771.73
-          },
-          {
-            "date": "2026-09-04",
-            "open": 7205.0,
-            "close": 7400.0,
-            "high": 7450.0,
-            "low": 6880.0,
-            "volume": 1426254,
-            "ma5": 7518.0,
-            "ma20": 5924.46
-          },
-          {
-            "date": "2026-09-07",
-            "open": 7185.0,
-            "close": 6660.0,
-            "high": 7185.0,
-            "low": 6660.0,
-            "volume": 1991193,
-            "ma5": 7320.0,
-            "ma20": 6039.45
-          },
-          {
-            "date": "2026-09-08",
-            "open": 6430.0,
-            "close": 6500.0,
-            "high": 6660.0,
-            "low": 6350.0,
-            "volume": 1719735,
-            "ma5": 7104.0,
-            "ma20": 6148.68
-          },
-          {
-            "date": "2026-09-09",
-            "open": 6660.0,
-            "close": 6870.0,
-            "high": 6930.0,
-            "low": 6550.0,
-            "volume": 1202143,
-            "ma5": 6916.0,
-            "ma20": 6265.0
-          },
-          {
-            "date": "2026-09-10",
-            "open": 6770.0,
-            "close": 6720.0,
-            "high": 6875.0,
-            "low": 6680.0,
-            "volume": 1640891,
-            "ma5": 6830.0,
-            "ma20": 6368.0
-          },
-          {
-            "date": "2026-09-11",
-            "open": 6520.0,
-            "close": 6660.0,
-            "high": 6900.0,
-            "low": 6420.0,
-            "volume": 1980286,
-            "ma5": 6682.0,
-            "ma20": 6470.5
-          }
-        ],
-        "date": "2026-09-11",
-        "tier": "TIER_1_CORE",
-        "tier_label": "👑 波克夏特許核心",
-        "moat_badge": "👑 波克夏核心",
-        "berkshire_score": 4.8,
-        "knife_pause": false,
-        "veto_triggered": false,
-        "pyramid_buys": [
-          {
-            "price_discount": 0.9,
-            "ratio": 0.05,
-            "label": "-10% 試探接刀 (5%)"
-          },
-          {
-            "price_discount": 0.8,
-            "ratio": 0.07,
-            "label": "-20% 核心加碼 (7%)"
-          },
-          {
-            "price_discount": 0.7,
-            "ratio": 0.08,
-            "label": "-30% 極限安全邊際 (8%)"
-          }
-        ]
-      },
-      "institutional": {
-        "symbol": "3008",
-        "name": "大立光",
-        "foreign_lots": -12,
-        "trust_lots": 9,
-        "dealer_lots": -44,
-        "total_lots": -47
-      },
-      "revenue": {
-        "revenue": 5011942000,
-        "revenue_year": 2026,
-        "revenue_month": 8,
-        "growth_rate_yoy": null,
-        "revenue_date": "2026/08"
-      },
-      "score_info": {
-        "score": 64.8,
-        "regime_label": "常態平衡體制",
-        "rating": "偏多震盪",
-        "rating_code": "lean_bull",
-        "badge_color": "green",
-        "tech_score": 80.0,
-        "flow_score": 40.0,
-        "fund_score": 75.0,
-        "turnover_strategy": {
-          "strategy_code": "normal",
-          "strategy_name": "常態整理 ⚪",
-          "badge_color": "gray",
-          "score_modifier": 0,
-          "signal": "成交總值維持常態 (金額量比 1.16x)",
-          "action_tip": "維持既定區間操作原則",
-          "turnover_display": "131.9億 (5MA: 113.8億 | 1.16x)",
-          "turnover_short": "131.9億",
-          "turnover_ma5_short": "113.8億",
-          "turnover_ratio": 1.16
-        },
-        "decision_matrix": {
-          "action_code": "lurk_accumulate",
-          "action_badge": "☕ 逢低潛伏",
-          "action_label": "左側分批",
-          "guidance": "浮額沉澱·支撐上方低接",
-          "badge_color": "cyan",
-          "sort_rank": 4
-        },
-        "signals": [
-          "成交總值維持常態 (金額量比 1.16x)",
-          "股價站上月線 (中線偏多)",
-          "✓ 週日多週期共振：週線大多頭 + 日線拉回測試月線 (高勝率買點)",
-          "RSI(62.9) 位於健康上升擴張區",
-          "MACD 柱狀體綠柱發散",
-          "三大法人調節賣超 -47 張",
-          "✓ 轉折反轉爆發主升：啟動高成長爆發加權，豁免高本益比抑制",
-          "現金殖利率達 139.0% 具備下檔股息防守保護"
-        ]
-      },
-      "price_levels": {
-        "current_price": 6660.0,
-        "s1": 6470.5,
-        "s2": 5385.0,
-        "r1": 7425.0,
-        "r2": 8037.0,
-        "entry_zone": "6470.5 - 6660.0",
-        "entry_low": 6470.5,
-        "entry_high": 6660.0,
-        "target_price": 7425.0,
-        "stop_loss": 4662.0,
-        "stop_loss_display": "🛡️ 豁免硬停損 (論文控管)",
-        "risk_reward_ratio": 1.25,
-        "strategy_tip": "👑 波克夏核心資產 (豁免 ATR 停損) | 採左側金字塔分批佈局 (上限20%): -10% ($5994.0, 5%), -20% ($5328.0, 7%), -30% ($4662.0, 8%)。",
-        "atr": 510.0,
-        "tier": "TIER_1_CORE",
-        "tier_label": "👑 波克夏特許核心",
-        "moat_badge": "👑 波克夏核心",
-        "knife_pause": false,
-        "pyramid_buys": [
-          {
-            "price_discount": 0.9,
-            "ratio": 0.05,
-            "label": "-10% 試探接刀 (5%)"
-          },
-          {
-            "price_discount": 0.8,
-            "ratio": 0.07,
-            "label": "-20% 核心加碼 (7%)"
-          },
-          {
-            "price_discount": 0.7,
-            "ratio": 0.08,
-            "label": "-30% 極限安全邊際 (8%)"
-          }
-        ]
-      },
-      "decision_matrix": {
-        "action_code": "lurk_accumulate",
-        "action_badge": "☕ 逢低潛伏",
-        "action_label": "左側分批",
-        "guidance": "浮額沉澱·支撐上方低接",
-        "badge_color": "cyan",
-        "sort_rank": 4
-      },
-      "supply_chain": {
-        "sector_key": "pcb_substrate",
-        "sector_name": "PCB與載板",
-        "sector_badge": "📦 PCB與載板",
-        "sector_tags": "pcb_substrate",
-        "role": "高階光學鏡頭與潛望式鏡頭霸主",
-        "chain": "手機與車用光學鏡頭鏈",
-        "related_us": [
-          "AAPL"
-        ],
-        "is_focus": false
-      }
-    },
-    {
       "symbol": "3653",
       "name": "健策",
       "market": "TW",
@@ -8416,9 +8416,9 @@
         "symbol": "6515",
         "name": "穎崴",
         "foreign_lots": -29,
-        "trust_lots": 5,
+        "trust_lots": 10,
         "dealer_lots": 4,
-        "total_lots": -20
+        "total_lots": -15
       },
       "revenue": {
         "revenue": 1705663000,
@@ -8461,7 +8461,7 @@
           "股價站上月線 (中線偏多)",
           "RSI(62.1) 位於健康上升擴張區",
           "MACD 柱狀體紅柱擴張",
-          "三大法人調節賣超 -20 張",
+          "三大法人調節賣超 -15 張",
           "現金殖利率達 69.0% 具備下檔股息防守保護"
         ]
       },
@@ -9803,9 +9803,9 @@
         "symbol": "3711",
         "name": "日月光投控",
         "foreign_lots": -8053,
-        "trust_lots": 654,
+        "trust_lots": 679,
         "dealer_lots": -445,
-        "total_lots": -7844
+        "total_lots": -7819
       },
       "revenue": {
         "revenue": 82247374000,
@@ -9849,7 +9849,7 @@
           "✓ 週日多週期共振：週線大多頭 + 日線拉回測試月線 (高勝率買點)",
           "RSI(56.0) 位於健康上升擴張區",
           "MACD 柱狀體紅柱擴張",
-          "三大法人重挫賣超 -7,844 張",
+          "三大法人重挫賣超 -7,819 張",
           "本益成長比 PEG 0.99 < 1.0 (具備高性價比之實質成長低估)",
           "現金殖利率達 101.0% 具備下檔股息防守保護",
           "⚠️ 外資台指期巨額淨空單壓盤 (大盤結算提款風險高，權值股扣減 10 分)"
@@ -9950,7 +9950,7 @@
         "bb_lower": 521.32,
         "high_52w": 690.88,
         "low_52w": 519.78,
-        "pe_ratio": 24.63,
+        "pe_ratio": 24.27,
         "forward_pe": 18.43,
         "peg_ratio": 0.86,
         "target_mean_price": 757.31,
@@ -10402,7 +10402,7 @@
         "bb_lower": 225.1,
         "high_52w": 452.7,
         "low_52w": 114.46,
-        "pe_ratio": 270.4,
+        "pe_ratio": 256.75,
         "forward_pe": 82.96,
         "peg_ratio": 2.17,
         "target_mean_price": 289.2,
@@ -10757,7 +10757,7 @@
           "⚠️ 週級別大趨勢偏空 (中長線結構受壓)",
           "RSI(51.8) 位於健康上升擴張區",
           "MACD 柱狀體紅柱擴張",
-          "本益比 270.4x 估值偏高 (定價已反映未來樂觀預期)"
+          "本益比 256.8x 估值偏高 (定價已反映未來樂觀預期)"
         ]
       },
       "price_levels": {
@@ -11654,9 +11654,9 @@
         "symbol": "2454",
         "name": "聯發科",
         "foreign_lots": -743,
-        "trust_lots": 101,
+        "trust_lots": 108,
         "dealer_lots": -22,
-        "total_lots": -662
+        "total_lots": -656
       },
       "revenue": {
         "revenue": 64183361000,
@@ -11698,7 +11698,7 @@
           "成交總值維持常態 (金額量比 0.95x)",
           "股價站上月線 (中線偏多)",
           "MACD 柱狀體紅柱擴張",
-          "三大法人重挫賣超 -662 張",
+          "三大法人重挫賣超 -656 張",
           "✓ 轉折反轉爆發主升：啟動高成長爆發加權，豁免高本益比抑制",
           "本益成長比 PEG 0.82 < 1.0 (具備高性價比之實質成長低估)",
           "現金殖利率達 113.0% 具備下檔股息防守保護",
@@ -12287,7 +12287,7 @@
         "forward_eps": 178.56,
         "peg_ratio": null,
         "dividend_yield": 206.0,
-        "market_cap": 1287876640768,
+        "market_cap": 1280490602496,
         "history": [
           {
             "date": "2026-08-03",
@@ -12751,8 +12751,8 @@
         "low_52w": 163.9,
         "pe_ratio": 28.25,
         "forward_pe": 14.03,
-        "peg_ratio": 0.59,
-        "target_mean_price": 327.65,
+        "peg_ratio": 0.55,
+        "target_mean_price": 327.18,
         "recommendation": "strong_buy",
         "market_cap": 5272738725888,
         "beta": 2.22,
@@ -13104,7 +13104,7 @@
           "RSI(51.1) 位於健康上升擴張區",
           "MACD 柱狀體綠柱發散",
           "預估 Forward PE 僅 14.0x (實質未來評價處於合理偏低區間)",
-          "本益成長比 PEG 0.59 < 1.0 (具備高性價比之實質成長低估)"
+          "本益成長比 PEG 0.55 < 1.0 (具備高性價比之實質成長低估)"
         ]
       },
       "price_levels": {
@@ -13651,9 +13651,9 @@
         "symbol": "2327",
         "name": "國巨*",
         "foreign_lots": -5587,
-        "trust_lots": -10,
+        "trust_lots": 565,
         "dealer_lots": -539,
-        "total_lots": -6135
+        "total_lots": -5560
       },
       "revenue": {
         "revenue": 16332196000,
@@ -13696,7 +13696,7 @@
           "股價跌破月線 (中線偏空)",
           "⚠️ 週級別大趨勢偏空 (中長線結構受壓)",
           "MACD 柱狀體紅柱擴張",
-          "三大法人重挫賣超 -6,135 張",
+          "三大法人重挫賣超 -5,560 張",
           "本益比 17.2x 處於合理偏低評價區間",
           "預估 Forward PE 僅 17.2x (實質未來評價處於合理偏低區間)",
           "本益成長比 PEG 0.87 < 1.0 (具備高性價比之實質成長低估)",
@@ -15104,9 +15104,9 @@
         "symbol": "7769",
         "name": "鴻勁",
         "foreign_lots": -17,
-        "trust_lots": -37,
+        "trust_lots": -48,
         "dealer_lots": -1,
-        "total_lots": -54
+        "total_lots": -65
       },
       "revenue": {
         "revenue": 5218962000,
@@ -15150,7 +15150,7 @@
           "⚠️ 週級別大趨勢偏空 (中長線結構受壓)",
           "RSI(50.9) 位於健康上升擴張區",
           "MACD 柱狀體紅柱擴張",
-          "三大法人調節賣超 -54 張",
+          "三大法人調節賣超 -65 張",
           "現金殖利率達 100.0% 具備下檔股息防守保護"
         ]
       },
@@ -16500,9 +16500,9 @@
         "symbol": "2383",
         "name": "台光電",
         "foreign_lots": -23,
-        "trust_lots": 113,
+        "trust_lots": 110,
         "dealer_lots": -19,
-        "total_lots": 72
+        "total_lots": 69
       },
       "revenue": {
         "revenue": 20145589000,
@@ -16544,7 +16544,7 @@
           "✓ 成交總值量縮 (金額量比 0.81x，籌碼沉澱整理)",
           "均線呈空頭排列 (跌破全期均線)",
           "MACD 柱狀體綠柱發散",
-          "三大法人小買 +72 張",
+          "三大法人小買 +69 張",
           "本益成長比 PEG 0.23 < 1.0 (具備高性價比之實質成長低估)",
           "現金殖利率達 47.0% 具備下檔股息防守保護"
         ]
@@ -17571,7 +17571,7 @@
         "forward_eps": 75.34,
         "peg_ratio": null,
         "dividend_yield": 54.0,
-        "market_cap": 394075504640,
+        "market_cap": 394177871872,
         "history": [
           {
             "date": "2026-08-03",
@@ -21626,9 +21626,9 @@
         "symbol": "3665",
         "name": "貿聯-KY",
         "foreign_lots": -414,
-        "trust_lots": 297,
+        "trust_lots": 181,
         "dealer_lots": -2,
-        "total_lots": -118
+        "total_lots": -234
       },
       "revenue": {
         "revenue": 8891805000,
@@ -21672,7 +21672,7 @@
           "⚠️ 週級別大趨勢偏空 (中長線結構受壓)",
           "MACD 柱狀體綠柱發散",
           "帶量下殺 (量比 2.3x 籌碼出走)",
-          "三大法人調節賣超 -118 張",
+          "三大法人調節賣超 -234 張",
           "本益比 16.3x 處於合理偏低評價區間",
           "預估 Forward PE 僅 16.3x (實質未來評價處於合理偏低區間)",
           "現金殖利率達 80.0% 具備下檔股息防守保護"
@@ -22246,7 +22246,7 @@
         "forward_eps": 16.39,
         "peg_ratio": null,
         "dividend_yield": 63.0,
-        "market_cap": 155932049408,
+        "market_cap": 155729543168,
         "history": [
           {
             "date": "2026-08-03",
@@ -23027,9 +23027,9 @@
         "symbol": "2308",
         "name": "台達電",
         "foreign_lots": -3573,
-        "trust_lots": -526,
+        "trust_lots": -536,
         "dealer_lots": 303,
-        "total_lots": -3795
+        "total_lots": -3805
       },
       "revenue": {
         "revenue": 64586049000,
@@ -23072,7 +23072,7 @@
           "股價跌破月線 (中線偏空)",
           "⚠️ 週級別大趨勢偏空 (中長線結構受壓)",
           "MACD 柱狀體綠柱發散",
-          "三大法人重挫賣超 -3,795 張",
+          "三大法人重挫賣超 -3,805 張",
           "外資投信雙邊同時大幅提款",
           "本益成長比 PEG 0.97 < 1.0 (具備高性價比之實質成長低估)",
           "現金殖利率達 69.0% 具備下檔股息防守保護",
@@ -23127,8 +23127,8 @@
     {
       "level": "success",
       "badge": "ADR 溢價",
-      "title": "TSM 對台股溢價達 +12.35%",
-      "desc": "美股 ADR 買盤強勁，換算台幣現價高達 $2707.72，次日開盤容易帶動 2330 現貨跳空補漲。",
+      "title": "TSM 對台股溢價達 +12.39%",
+      "desc": "美股 ADR 買盤強勁，換算台幣現價高達 $2708.57，次日開盤容易帶動 2330 現貨跳空補漲。",
       "symbol": "2330"
     },
     {
@@ -23142,8 +23142,15 @@
       "level": "info",
       "badge": "投信護盤",
       "title": "日月光投控 (3711) 外資調節，投信強勢承接",
-      "desc": "外資賣超 8053 張，但本土投信積極加碼 654 張，展現法人認養企圖心。",
+      "desc": "外資賣超 8053 張，但本土投信積極加碼 679 張，展現法人認養企圖心。",
       "symbol": "3711"
+    },
+    {
+      "level": "info",
+      "badge": "投信護盤",
+      "title": "國巨* (2327) 外資調節，投信強勢承接",
+      "desc": "外資賣超 5587 張，但本土投信積極加碼 565 張，展現法人認養企圖心。",
+      "symbol": "2327"
     },
     {
       "level": "danger",
@@ -23161,11 +23168,11 @@
     }
   ],
   "ai_analysis": {
-    "executive_summary": "市場處於高檔震盪整理期（平均評分 55.8 分），多空標的分化加劇（多方 19 檔 / 空方 11 檔），建議縮減追高部位，嚴守區間點位操作。",
+    "executive_summary": "市場處於高檔震盪整理期（平均評分 56.0 分），多空標的分化加劇（多方 19 檔 / 空方 11 檔），建議縮減追高部位，嚴守區間點位操作。",
     "market_mood": "區間分化整理",
     "bullish_arguments": [
       "主流領頭羊 台中銀 (2812) 量化評分達 100.0 分，✓ 成交總值突破5MA (金額量比 1.49x，價量齊揚)。",
-      "TSM ADR 對現貨維持溢價 +12.35% (換算每股 TWD $2707.72)，提供台股下檔堅實保護。",
+      "TSM ADR 對現貨維持溢價 +12.39% (換算每股 TWD $2708.57)，提供台股下檔堅實保護。",
       "市場恐慌貪婪指數位於 31.2 分 (恐慌)，市場情緒維持在健康區間未現恐慌拋售。",
       "AI 伺服器、散熱、先進封裝等主流族群法人籌碼進駐意願強烈，產業趨勢明確。"
     ],
@@ -23176,10 +23183,10 @@
       "國際地緣政治與全球貿易政策不確定性，恐增添短線匯率與外資資金波動。"
     ],
     "catalysts": [
-      "【東森電視】三大法人賣超1123億！ 網憶7月走勢驚：外資狂跑散戶瘋進 (剛剛)",
-      "【經濟日報】三大法人賣超台股1123.72億元 (1 小時前)",
-      "【信傳媒】台股大跌755點、仍守住4萬6千點 外資大賣892億 (1 小時前)",
-      "【ctee.com.tw】三大法人狂賣1,123億、台股重挫755點分析師揭「縮量下殺」該怎麼做- 證券 (1 小時前)"
+      "【鉅亨網】外資和自營商聯手賣超近1200億元 外資防禦操作轉買金控及電信股 (2 小時前)",
+      "【hao.cnyes.com】🎯台股拉回＝危險？恐慌的人→殺出好股票！看懂趨勢的人→接走財富！ (3 小時前)",
+      "【風傳媒】三大法人》外資狂倒貨近900億！台積電、友達遭狠砍，法人資金轉進「這2族群」 | 下班經濟學 | 財經 (3 小時前)",
+      "【CMoney投資網誌】9/11 ETF 三大法人買賣超日榜｜合計買超最多00940(元大台灣價值高息)、賣超最多00406A(主動中信台灣收益)-ETF股長 (3 小時前)"
     ],
     "action_checklist": [
       "【部位控管】總持股水位建議控制在 40%-55%，保留彈性現金",
@@ -23190,12 +23197,56 @@
   },
   "verified_news": [
     {
-      "title": "三大法人賣超1123億！ 網憶7月走勢驚：外資狂跑散戶瘋進",
-      "publisher": "東森電視",
-      "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE14WlpqYmFqbkd1Q0kyR2I2ZG1weVJMNmlzUEZjY0tvMEhPYlc5bDJNaWg4Z1lkTlljSUZrWDhxWlZBX0I0Yy02SzdYQWs4WDRxVkpaOWxR?oc=5",
-      "published_at": "2026-09-11 07:55",
-      "age_hours": 0.8,
-      "age_text": "剛剛",
+      "title": "外資和自營商聯手賣超近1200億元 外資防禦操作轉買金控及電信股",
+      "publisher": "鉅亨網",
+      "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5zRV92TGt1NmlKMnQ0RWdoaW9aUVNMUjBhZ1VkMjZTNEhDeWhnazBLQk9MSnZrQVJtNVNuenVla01rdVQ1SnhwVUd4cw?oc=5",
+      "published_at": "2026-09-11 10:02",
+      "age_hours": 2.3,
+      "age_text": "2 小時前",
+      "related_symbol": "大盤/產業",
+      "is_verified": true,
+      "verification_tag": "🛡️ 24h 一手信源溯源"
+    },
+    {
+      "title": "🎯台股拉回＝危險？恐慌的人→殺出好股票！看懂趨勢的人→接走財富！",
+      "publisher": "hao.cnyes.com",
+      "url": "https://news.google.com/rss/articles/CBMiSEFVX3lxTFB2UUpEYjQ0Q3JLY1NFSmNmWngwaEgyTll5R25hUEhKRlBBUjZFMVlKRlFiMlRRcDh4S0JwUEh6RFpHdVA5WVRPMQ?oc=5",
+      "published_at": "2026-09-11 09:09",
+      "age_hours": 3.2,
+      "age_text": "3 小時前",
+      "related_symbol": "大盤/產業",
+      "is_verified": true,
+      "verification_tag": "🛡️ 24h 一手信源溯源"
+    },
+    {
+      "title": "三大法人》外資狂倒貨近900億！台積電、友達遭狠砍，法人資金轉進「這2族群」 | 下班經濟學 | 財經",
+      "publisher": "風傳媒",
+      "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5RR1Ffb2J4LU5KR092ZDY1QXdrR1ZRMGV1TTJLRnhhaDdrNUttcVhrcFk4aDZqT2xvUjlicWl6QjlOM3hPc3FsbjlWbGhNdw?oc=5",
+      "published_at": "2026-09-11 08:57",
+      "age_hours": 3.4,
+      "age_text": "3 小時前",
+      "related_symbol": "2330 台積電",
+      "is_verified": true,
+      "verification_tag": "🛡️ 24h 一手信源溯源"
+    },
+    {
+      "title": "9/11 ETF 三大法人買賣超日榜｜合計買超最多00940(元大台灣價值高息)、賣超最多00406A(主動中信台灣收益)-ETF股長",
+      "publisher": "CMoney投資網誌",
+      "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQM2xiak05MWdkYm1mVlFCNktiQmdXOHp5ckdZZWptYnVDQzAtMGVSRm5WQjlJNC0wclRRQmZqS1c4MERHOXpqU19mSDNZbDctT1B3cDhTa294UXdxRlpNaDBwbXN1bWpoUlhab2NUYzNjR19uOGlTaXVFMFY1b1hacg?oc=5",
+      "published_at": "2026-09-11 08:41",
+      "age_hours": 3.6,
+      "age_text": "3 小時前",
+      "related_symbol": "大盤/產業",
+      "is_verified": true,
+      "verification_tag": "🛡️ 24h 一手信源溯源"
+    },
+    {
+      "title": "黃仁勳點名資安為AI下一戰場！台美資安概念股有哪些？｜股市話題｜豐雲學堂 2026 年 09 月",
+      "publisher": "sinotrade.com.tw",
+      "url": "https://news.google.com/rss/articles/CBMiuwNBVV95cUxOTlpMTnpJS3VDUm5lZHJKbG9adUNsQ2doNEFDZjJtbGoyUTB4UkJfQmpjMGx4QUxmWlFkM0ZoUHMwMDRsUk1sMzdfaXBIQlNVc2NBM0tGR19OT0RBQkVsek5VRlhJSjJfX0tDRGxUdU1XYWhQNi1ELUdNUjZ2ZW9LcTNUUXhUNVA1UkNRd29nWVV2T0xEM2RZTlZ3R1ZCYXd0RWo5MGhOUmRxWUtQcldBTXJGQVI2N184cUFIOWxlUmJBdmwxRlhnRTdXclV6R3M4RmduT2ZRcEhzVENiQjBnNmp5NkU3dG02SUZBS0VKUUNoLUZLaXB3NXF5MUJtTjdTRmhoMjNSUldZd1VSQ3ltRkV6RmNxZUl3cHZiemVBZ2hVa2Y3VHFLNXYzU1MzSktuSWtsR2w0SFNYLVZPM3FhVjUtMGlFZXR6OFIyT05aZzJKbFA3OUlQcWVzYVQ3NTJhcDFLSFNsc09DY2N6bjkyZ2k5bEhKMnVGZXNUcGJZNW8wUmVuVVNCV1NuaFRrTWd6dDhlbGtpRHBkNlJ3RFdvNHVPSGhfNUc1Y0VjTUpmQWlxbE1iN0hXYTNBZw?oc=5",
+      "published_at": "2026-09-11 08:36",
+      "age_hours": 3.7,
+      "age_text": "3 小時前",
       "related_symbol": "大盤/產業",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
@@ -23205,75 +23256,31 @@
       "publisher": "經濟日報",
       "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE83Mklxa2VFbkpJQ2UwREF0dnk0YmhkWVZlakJ1NjRmc3hyRFkzWWVyZXAycWlYU29ZcHA3SGNUYVhrbWdScEZpTFNOWGE1ZWF5aUxQdEdPRzNQZ9IBX0FVX3lxTE5QT2dNaDdtNENCVXJBZVJHTmw1MnVDeWRpN2xadVJSbUg5TG1jRGxCbWZyeHFobnZoWlhtd180aGc4SWlNX3pTYWl6TkdwSEt4M1BOaTViUUktSEFMVDd3?oc=5",
       "published_at": "2026-09-11 07:21",
-      "age_hours": 1.3,
-      "age_text": "1 小時前",
+      "age_hours": 5.0,
+      "age_text": "4 小時前",
       "related_symbol": "大盤/產業",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
     },
     {
-      "title": "台股大跌755點、仍守住4萬6千點 外資大賣892億",
-      "publisher": "信傳媒",
-      "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5wcUhHVTRic09fclFEcHJqcVpjNS1mTWRwOGppVV9CdzZPRkV6YnVkOGtUMXNtZ01vbDVwSjJIeUdaaFdSamVybTNKTkg1VGZCaExrMWJDZjBfUQ?oc=5",
-      "published_at": "2026-09-11 07:17",
-      "age_hours": 1.4,
-      "age_text": "1 小時前",
-      "related_symbol": "大盤/產業",
+      "title": "AI拉貨台積電吃滿！2奈米接棒均線可布局法人喊買| Newtalk",
+      "publisher": "LINE TODAY",
+      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5xZDlQV3J3c2YzaVA0WFNxY09COWN2dUpfSzNrYk9OOUU2OXl1a1UxMkdtVWdNb1dsNUctd3dzQXg2QzJzb0FDTERuSGRXRm43UFFZbWhJVWtsbDJQdmt1TC1iY2RDeVlocjFyU3loamdveXQt?oc=5",
+      "published_at": "2026-09-11 07:06",
+      "age_hours": 5.2,
+      "age_text": "5 小時前",
+      "related_symbol": "2330 台積電",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
     },
     {
-      "title": "三大法人狂賣1,123億、台股重挫755點分析師揭「縮量下殺」該怎麼做- 證券",
-      "publisher": "ctee.com.tw",
-      "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9sRGZ1Vmp2MVoyTzBSOEdMV0pPRTNna29JZXM5Mkg5SG81RE1Ddm1wY2pYTE5neElQNHhxY0J2WWZocTY0aUNkblJCR3dNU1Y4T1lra0xNWElaaWptZVpj?oc=5",
-      "published_at": "2026-09-11 07:10",
-      "age_hours": 1.5,
-      "age_text": "1 小時前",
-      "related_symbol": "大盤/產業",
-      "is_verified": true,
-      "verification_tag": "🛡️ 24h 一手信源溯源"
-    },
-    {
-      "title": "AI拉貨台積電吃滿！2奈米接棒均線可布局法人喊買| 財經",
-      "publisher": "newtalk.tw",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1LV3R1LUFJa0wtcE5PemNGM2t3VVVWR2FfR0VlcVBmSUNZb0FjUzdRUHFpdXBvZEt0YVhfMFpIZ0d4ZF92NW45STB6Q09EQkdoNmNhWTBDT1dacDQ?oc=5",
+      "title": "AI支出疑慮升溫 全球科技股大跳水",
+      "publisher": "自由時報",
+      "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE5veE0xNVdFTnpyUkFpN2puUVJoMnBQRkJIYTZURmx3VGJad21HVkJ5Y0ttOVhCZFdnak44WHQ3T3JLdnZJZ2x1UHpUOFZ0Y0RRdkF6RVR5TVc?oc=5",
       "published_at": "2026-09-11 06:49",
-      "age_hours": 1.9,
-      "age_text": "1 小時前",
-      "related_symbol": "2330 台積電",
-      "is_verified": true,
-      "verification_tag": "🛡️ 24h 一手信源溯源"
-    },
-    {
-      "title": "知名經理人Gary Black狂加碼這檔股票、示警特斯拉！點名科技八雄Mag 8估值失衡｜美股觀察｜豐雲學堂2026 年 09 月",
-      "publisher": "sinotrade.com.tw",
-      "url": "https://news.google.com/rss/articles/CBMiigRBVV95cUxQUUlxR1pwdTlyQ3N0bXRkdmk1ZXNvMmM3OFBiNlhsa3cyV1J3RVB1UkRnRWVHNUlrRmhicGFvQ0lGUHNfWVBUUUkzYW1KeVBfbjJJSHQ4S24yYnFXa3dXSElaSnd4UUhmVkJOY0pfSktVaHF5YVR4V1AzaFRxSmtmeU9NOEdQZ1BHQmpYX0tOSmwzTXlFWXlGUXRoci1LUHdRM2RTbEVka0VqYUt1dVBTN0xkTEpPSEdfZVRvQVR3N0hjUGc3MERZc19nY0FiRHdaelFkcUVZMTN3QzVrdnlhWllmaDZ6VmhpMDRENURSdVNZVmZXcU5MRm1lLXJ5SlF3bHRfZC1NVE1vaGxpdnpEUnJIaWd3OU43Y2hmUlpCMjhxM3pUdVVmTzlQSWYzUGV0Z0JtV3RwRE5LWGpVOFItczJnSGxJNjRUa0RKTmo2eUpwVTdma3g5YzZQSGhPRnV5ak8xa21rVnVOWER2UU8yQ05CLVpoY3gwbUtMXzVQN1ViTmhWYW91bTdHOHo4UWVMSUFZaWFYUVpIaGtjcFNBZi13X3hFNUx4LWpEYmo0TGJoT1pDeTFRYUZvZng3cHlpV0FlUGMxeGVqUjVvQWViYW1paFBybWRGLUgzdzFJcjdTZWVuZGgwR3IxVjhhMy03b2dtUjlQR2lCTmhEcmtibk5rbWZ2cGZTMVE?oc=5",
-      "published_at": "2026-09-11 05:54",
-      "age_hours": 2.8,
-      "age_text": "2 小時前",
+      "age_hours": 5.5,
+      "age_text": "5 小時前",
       "related_symbol": "大盤/產業",
-      "is_verified": true,
-      "verification_tag": "🛡️ 24h 一手信源溯源"
-    },
-    {
-      "title": "2026光通訊概念股有哪些？16檔台股、CPO供應鏈與最新進度一次看",
-      "publisher": "數位時代",
-      "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNenlhajhKeGpjenpMSDJfaEtnTWZlR0pIY0F5ZmxWUFR5bXdtLUh0LXVVeFJYY0E2RHcySTlhQTJwRS1ITUNuMjkwT041U2FuamlWeHpJZ054bkFneVBTaDV2OFVDUVhWeFQ1Q2NGQmx6S1VBa0FETlAxaUJOZ0xDXw?oc=5",
-      "published_at": "2026-09-11 04:48",
-      "age_hours": 3.9,
-      "age_text": "3 小時前",
-      "related_symbol": "大盤/產業",
-      "is_verified": true,
-      "verification_tag": "🛡️ 24h 一手信源溯源"
-    },
-    {
-      "title": "美股科技股走弱，台股先看台積電與AI伺服器賣壓收斂嗎？-孔明投資長",
-      "publisher": "CMoney投資網誌",
-      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5uMkN6SXFCM2Z2NmthOGh2X2dmYXVtVGRmWFJpU0w1d2dqUmhrcEM0MGxZTlc3SUVRS0tLaVlBZUpDeTlRSmFiWVRvc1hJdnNKZTVETlUzNkEzNEtOcXBneFR6WmhRdDlLTzZqT3NQLXpZMTFuc1EzUDlrc0ZmblE?oc=5",
-      "published_at": "2026-09-11 02:19",
-      "age_hours": 6.4,
-      "age_text": "6 小時前",
-      "related_symbol": "2330 台積電",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
     }
@@ -23287,7 +23294,7 @@
     "tag": "🛡️ 數據雙源交叉驗證通過 (誤差 ≤ 1.0%) | 24h 一手信源溯源",
     "verified_news_count": 8
   },
-  "markdown_summary": "📊 *【每日美台財經全覽】2026-09-11*\n━━━━━━━━━━━━━━━━━━\n🎯 *核心結論*：市場處於高檔震盪整理期（平均評分 55.8 分），多空標的分化加劇（多方 19 檔 / 空方 11 檔），建議縮減追高部位，嚴守區間點位操作。\n📈 *市場氛圍*：`區間分化整理` | 恐慌指數：`31.2 (恐慌)` | 美債10Y：`4.944%`\n\n🟢 *多方主線*：\n  • 主流領頭羊 台中銀 (2812) 量化評分達 100.0 分，✓ 成交總值突破5MA (金額量比 1.49x，價量齊揚)。\n  • TSM ADR 對現貨維持溢價 +12.35% (換算每股 TWD $2707.72)，提供台股下檔堅實保護。\n\n🔴 *空方風險*：\n  • 美債 10 年期殖利率徘徊於 4.944% 高檔，對高估值科技股本益比形成一定壓制。\n  • 部分弱勢標的（如 台達電 2308）技術面破線，評分降至 3.8 分，防範補跌效應。\n\n📌 *焦點標的多空評分與操作點位*：\n• *2812 台中銀* (TWD $19.5 | `+2.09%`)\n  評分: `100.0分 (強力做多)` | 資金動能: `強勢主升 🟢` (5.7億)\n  進場: `$19.13 - 19.5` | 防守 SL: `$18.84` | 目標 TP: `$19.55` (風報比 0.08:1)\n• *2892 第一金* (TWD $38.9 | `+2.37%`)\n  評分: `100.0分 (強力做多)` | 資金動能: `強勢主升 🟢` (13.6億)\n  進場: `$37.75 - 38.9` | 防守 SL: `$37.18` | 目標 TP: `$39.32` (風報比 0.24:1)\n• *2609 陽明* (TWD $59.4 | `+2.41%`)\n  評分: `92.8分 (強力做多)` | 資金動能: `強勢主升 🟢` (47.1億)\n  進場: `$58.79 - 59.4` | 防守 SL: `$56.16` | 目標 TP: `$63.45` (風報比 1.25:1)\n• *4958 臻鼎-KY* (TWD $495.0 | `+0.10%`)\n  評分: `81.0分 (強力做多)` | 資金動能: `量縮築底 🟡` (92.6億)\n  進場: `$479.73 - 495.0` | 防守 SL: `$458.32` | 目標 TP: `$533.24` (風報比 1.04:1)\n• *AAPL Apple (蘋果)* (USD $326.57 | `+3.56%`)\n  評分: `81.0分 (強力做多)` | 資金動能: `強勢主升 🟢` ($228.3億)\n  進場: `$317.55 - 326.57` | 防守 SL: `$312.79` | 目標 TP: `$329.42` (風報比 0.21:1)\n\n⚠️ *主力籌碼與市場警報*：\n  • *[ADR 溢價]* TSM 對台股溢價達 +12.35%\n  • *[投信護盤]* 聯電 (2303) 外資調節，投信強勢承接\n  • *[投信護盤]* 日月光投控 (3711) 外資調節，投信強勢承接\n\n📋 *操作紀律檢查清單*：\n  ☑ 【部位控管】總持股水位建議控制在 40%-55%，保留彈性現金\n  ☑ 【停損紀律】單筆部位嚴格設定於關鍵停損防守點 (SL)，跌破立即停損出場\n  ☑ 【進場原則】嚴禁急拉追高，優先選擇拉回回測第一支撐 (S1) 且量縮守穩之強勢股\n",
+  "markdown_summary": "📊 *【每日美台財經全覽】2026-09-11*\n━━━━━━━━━━━━━━━━━━\n🎯 *核心結論*：市場處於高檔震盪整理期（平均評分 56.0 分），多空標的分化加劇（多方 19 檔 / 空方 11 檔），建議縮減追高部位，嚴守區間點位操作。\n📈 *市場氛圍*：`區間分化整理` | 恐慌指數：`31.2 (恐慌)` | 美債10Y：`4.944%`\n\n🟢 *多方主線*：\n  • 主流領頭羊 台中銀 (2812) 量化評分達 100.0 分，✓ 成交總值突破5MA (金額量比 1.49x，價量齊揚)。\n  • TSM ADR 對現貨維持溢價 +12.39% (換算每股 TWD $2708.57)，提供台股下檔堅實保護。\n\n🔴 *空方風險*：\n  • 美債 10 年期殖利率徘徊於 4.944% 高檔，對高估值科技股本益比形成一定壓制。\n  • 部分弱勢標的（如 台達電 2308）技術面破線，評分降至 3.8 分，防範補跌效應。\n\n📌 *焦點標的多空評分與操作點位*：\n• *2812 台中銀* (TWD $19.5 | `+2.09%`)\n  評分: `100.0分 (強力做多)` | 資金動能: `強勢主升 🟢` (5.7億)\n  進場: `$19.13 - 19.5` | 防守 SL: `$18.84` | 目標 TP: `$19.55` (風報比 0.08:1)\n• *2892 第一金* (TWD $38.9 | `+2.37%`)\n  評分: `100.0分 (強力做多)` | 資金動能: `強勢主升 🟢` (13.6億)\n  進場: `$37.75 - 38.9` | 防守 SL: `$37.18` | 目標 TP: `$39.32` (風報比 0.24:1)\n• *2609 陽明* (TWD $59.4 | `+2.41%`)\n  評分: `92.8分 (強力做多)` | 資金動能: `強勢主升 🟢` (47.1億)\n  進場: `$58.79 - 59.4` | 防守 SL: `$56.16` | 目標 TP: `$63.45` (風報比 1.25:1)\n• *4958 臻鼎-KY* (TWD $495.0 | `+0.10%`)\n  評分: `81.0分 (強力做多)` | 資金動能: `量縮築底 🟡` (92.6億)\n  進場: `$479.73 - 495.0` | 防守 SL: `$458.32` | 目標 TP: `$533.24` (風報比 1.04:1)\n• *AAPL Apple (蘋果)* (USD $326.57 | `+3.56%`)\n  評分: `81.0分 (強力做多)` | 資金動能: `強勢主升 🟢` ($228.3億)\n  進場: `$317.55 - 326.57` | 防守 SL: `$312.79` | 目標 TP: `$329.42` (風報比 0.21:1)\n\n⚠️ *主力籌碼與市場警報*：\n  • *[ADR 溢價]* TSM 對台股溢價達 +12.39%\n  • *[投信護盤]* 聯電 (2303) 外資調節，投信強勢承接\n  • *[投信護盤]* 日月光投控 (3711) 外資調節，投信強勢承接\n\n📋 *操作紀律檢查清單*：\n  ☑ 【部位控管】總持股水位建議控制在 40%-55%，保留彈性現金\n  ☑ 【停損紀律】單筆部位嚴格設定於關鍵停損防守點 (SL)，跌破立即停損出場\n  ☑ 【進場原則】嚴禁急拉追高，優先選擇拉回回測第一支撐 (S1) 且量縮守穩之強勢股\n\n🌐 [開啟完整互動式財經儀表板](https://wenlee2025.github.io/financial-dashboard/)",
   "history_list": [
     {
       "date": "2026-09-11",
