@@ -1,19 +1,19 @@
 {
   "total_evaluations": 530,
-  "total_wins": 329,
-  "total_losses": 201,
+  "total_wins": 330,
+  "total_losses": 200,
   "total_timeouts": 258,
-  "overall_win_rate": 62.08,
-  "profit_factor": 2.99,
-  "avg_win_pct": 4.99,
-  "avg_loss_pct": 2.73,
+  "overall_win_rate": 62.26,
+  "profit_factor": 3.04,
+  "avg_win_pct": 5.05,
+  "avg_loss_pct": 2.74,
   "archetype_stats": {
     "attack": {
       "name": "🚀 順勢進攻",
       "total": 60,
       "wins": 41,
       "win_rate": 68.3,
-      "avg_pnl_pct": 2.83,
+      "avg_pnl_pct": 2.93,
       "avg_days": 2.9
     },
     "lurk_accumulate": {
@@ -21,7 +21,7 @@
       "total": 106,
       "wins": 56,
       "win_rate": 52.8,
-      "avg_pnl_pct": 0.86,
+      "avg_pnl_pct": 0.93,
       "avg_days": 2.8
     },
     "wait_pullback": {
@@ -35,9 +35,9 @@
     "defense": {
       "name": "🛡️ 嚴禁進場",
       "total": 147,
-      "wins": 85,
-      "win_rate": 57.8,
-      "avg_pnl_pct": 0.87,
+      "wins": 86,
+      "win_rate": 58.5,
+      "avg_pnl_pct": 0.89,
       "avg_days": 3.1
     },
     "alert_exit": {
@@ -477,8 +477,8 @@
       "status": "TIMEOUT",
       "is_win": true,
       "days_held": 1,
-      "exit_price": 217.92,
-      "pnl_pct": 5.39,
+      "exit_price": 222.0,
+      "pnl_pct": 7.37,
       "exit_date": "2026-09-14",
       "failure_pattern": null
     },
@@ -729,8 +729,8 @@
       "status": "TIMEOUT",
       "is_win": true,
       "days_held": 1,
-      "exit_price": 496.95,
-      "pnl_pct": 1.93,
+      "exit_price": 495.66,
+      "pnl_pct": 1.67,
       "exit_date": "2026-09-14",
       "failure_pattern": null
     },
@@ -765,8 +765,8 @@
       "status": "TIMEOUT",
       "is_win": true,
       "days_held": 1,
-      "exit_price": 167.91,
-      "pnl_pct": 2.26,
+      "exit_price": 169.54,
+      "pnl_pct": 3.25,
       "exit_date": "2026-09-14",
       "failure_pattern": null
     },
