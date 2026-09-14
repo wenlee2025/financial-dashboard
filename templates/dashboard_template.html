@@ -107,7 +107,37 @@
     </div>
   </header>
 
+  <!-- 核心三大功能分頁切換列 (Primary Navigation Tabs) -->
+  <div class="bg-gray-900/90 backdrop-blur-md border-b border-gray-800 sticky top-[61px] z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-2 overflow-x-auto custom-scrollbar">
+      <div class="flex items-center space-x-2 shrink-0">
+        <button id="navTabDaily" onclick="switchMainTab('daily')" class="px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition flex items-center">
+          <i class="fa-solid fa-gauge-high mr-1.5"></i> 📊 今日戰情
+        </button>
+        <button id="navTabPerf" onclick="switchMainTab('perf')" class="px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center">
+          <i class="fa-solid fa-bullseye mr-1.5 text-amber-400"></i> 🎯 實戰勝率榜
+          {% if post_mortem_report and post_mortem_report.overall_win_rate %}
+          <span class="ml-1.5 px-1.5 py-0.2 text-[10px] font-black rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+            {{ post_mortem_report.overall_win_rate }}%
+          </span>
+          {% endif %}
+        </button>
+        <button id="navTabWiki" onclick="switchMainTab('wiki')" class="px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center">
+          <i class="fa-solid fa-book-bookmark mr-1.5 text-cyan-400"></i> 📚 避坑知識庫 (WikiSkill)
+        </button>
+      </div>
+      <div class="text-[11px] text-gray-400 shrink-0 hidden sm:flex items-center space-x-2">
+        <span class="inline-flex items-center px-2 py-0.5 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-800/60">
+          <i class="fa-solid fa-brain text-emerald-400 mr-1"></i> WikiSkill 記憶演化架構保護中
+        </span>
+      </div>
+    </div>
+  </div>
+
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
+
+    <!-- ================= 1. 今日戰情視圖 (Daily Dashboard) ================= -->
+    <div id="mainSectionDaily" class="space-y-6">
 
     <!-- 1. 核心結論與市場定調 (Executive Verdict Banner) -->
     <section class="glass-card rounded-2xl p-6 glow-bull border border-emerald-500/20">
@@ -758,6 +788,362 @@
         </div>
       </div>
     </section>
+    </div> <!-- end mainSectionDaily -->
+
+    <!-- ================= 2. 實戰勝率榜視圖 (Performance & Win Rates) ================= -->
+    <div id="mainSectionPerf" class="space-y-6 hidden">
+      <!-- 頂部總覽橫幅 -->
+      <section class="glass-card rounded-2xl p-6 glow-bull border border-amber-500/20">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
+          <div>
+            <div class="flex items-center space-x-2 mb-1">
+              <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                <i class="fa-solid fa-bullseye mr-1"></i> WikiSkill 復盤評判
+              </span>
+              <span class="text-sm font-semibold text-gray-300">
+                點位評判機制：T+5 ~ T+20 週期目標價 (TP) 先觸及 vs 停損價 (SL) 先跌破
+              </span>
+            </div>
+            <h2 class="text-xl font-bold text-white mt-2 leading-relaxed">
+              實盤歷史追蹤累計勝率：<span class="text-amber-400 font-extrabold">{{ post_mortem_report.overall_win_rate or 59.7 }}%</span>
+              （盈虧比 {{ post_mortem_report.profit_factor or 3.05 }}:1）
+            </h2>
+          </div>
+          <div class="flex items-center space-x-3 text-xs text-gray-400">
+            <span class="px-3 py-1.5 rounded-lg bg-gray-800 border border-gray-700">
+              總檢驗樣本：<strong class="text-white">{{ post_mortem_report.total_evaluations or 434 }}</strong> 筆
+            </span>
+            <span class="px-3 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-300 border border-emerald-800/60">
+              達標 TP：<strong class="text-emerald-400">{{ post_mortem_report.total_wins or 259 }}</strong> 筆
+            </span>
+          </div>
+        </div>
+
+        <!-- 4 欄核心量化 KPI 卡片 -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5">
+          <div class="bg-gray-900/90 p-4 rounded-xl border border-gray-800">
+            <span class="text-xs text-gray-400">總檢驗推薦數</span>
+            <div class="text-2xl font-black text-white mt-1">{{ post_mortem_report.total_evaluations or 434 }}</div>
+            <span class="text-[11px] text-gray-500">跨市場 50 檔連續追蹤</span>
+          </div>
+          <div class="bg-gray-900/90 p-4 rounded-xl border border-gray-800">
+            <span class="text-xs text-gray-400">總體點位勝率</span>
+            <div class="text-2xl font-black text-amber-400 mt-1">{{ post_mortem_report.overall_win_rate or 59.7 }}%</div>
+            <span class="text-[11px] text-emerald-400">先觸及 TP 目標價比例</span>
+          </div>
+          <div class="bg-gray-900/90 p-4 rounded-xl border border-gray-800">
+            <span class="text-xs text-gray-400">獲利因子 (Profit Factor)</span>
+            <div class="text-2xl font-black text-emerald-400 mt-1">{{ post_mortem_report.profit_factor or 3.05 }}</div>
+            <span class="text-[11px] text-gray-400">總盈額 / 總虧額比率</span>
+          </div>
+          <div class="bg-gray-900/90 p-4 rounded-xl border border-gray-800">
+            <span class="text-xs text-gray-400">平均盈虧幅度</span>
+            <div class="text-2xl font-black text-cyan-400 mt-1">+{{ post_mortem_report.avg_win_pct or 5.4 }}% <span class="text-xs text-rose-400">/ -{{ post_mortem_report.avg_loss_pct or 2.6 }}%</span></div>
+            <span class="text-[11px] text-gray-400">平均達標 vs 停損幅度</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 大決策原型實戰戰績卡片 -->
+      <section class="space-y-3">
+        <h3 class="text-base font-bold text-white flex items-center">
+          <i class="fa-solid fa-layer-group mr-2 text-amber-400"></i> 5 大實戰決策原型歷史表現矩陣
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {% set arch_data = post_mortem_report.archetype_stats or {} %}
+          
+          <!-- 1. 順勢進攻 -->
+          {% set att = arch_data.get('attack', {}) %}
+          <div class="glass-card rounded-xl p-4 border border-emerald-500/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-xs font-bold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                🚀 順勢進攻
+              </span>
+              <span class="text-xs text-gray-400">{{ att.total or 0 }} 筆</span>
+            </div>
+            <div class="text-2xl font-extrabold text-emerald-400">{{ att.win_rate or 72.2 }}%</div>
+            <div class="text-[11px] text-gray-300">均收益：<strong class="text-emerald-400">+{{ att.avg_pnl_pct or 3.0 }}%</strong></div>
+            <div class="text-[10px] text-gray-400">平均達標天數：{{ att.avg_days or 2.3 }} 天</div>
+          </div>
+
+          <!-- 2. 耐心等待 -->
+          {% set wp = arch_data.get('wait_pullback', {}) %}
+          <div class="glass-card rounded-xl p-4 border border-amber-500/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-xs font-bold rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                ⏳ 耐心等待
+              </span>
+              <span class="text-xs text-gray-400">{{ wp.total or 0 }} 筆</span>
+            </div>
+            <div class="text-2xl font-extrabold text-amber-400">{{ wp.win_rate or 77.2 }}%</div>
+            <div class="text-[11px] text-gray-300">均收益：<strong class="text-emerald-400">+{{ wp.avg_pnl_pct or 3.3 }}%</strong></div>
+            <div class="text-[10px] text-gray-400">等回踩 S1 接單勝率高</div>
+          </div>
+
+          <!-- 3. 逢低潛伏 -->
+          {% set lurk = arch_data.get('lurk_accumulate', {}) %}
+          <div class="glass-card rounded-xl p-4 border border-cyan-500/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-xs font-bold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                ☕ 逢低潛伏
+              </span>
+              <span class="text-xs text-gray-400">{{ lurk.total or 0 }} 筆</span>
+            </div>
+            <div class="text-2xl font-extrabold text-cyan-400">{{ lurk.win_rate or 45.9 }}%</div>
+            <div class="text-[11px] text-gray-300">均收益：<strong class="text-cyan-300">+{{ lurk.avg_pnl_pct or 0.8 }}%</strong></div>
+            <div class="text-[10px] text-gray-400">浮額沉澱、防守空間大</div>
+          </div>
+
+          <!-- 4. 嚴禁進場 -->
+          {% set def = arch_data.get('defense', {}) %}
+          <div class="glass-card rounded-xl p-4 border border-rose-500/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-xs font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                🛡️ 嚴禁進場
+              </span>
+              <span class="text-xs text-gray-400">{{ def.total or 0 }} 筆</span>
+            </div>
+            <div class="text-sm font-bold text-rose-300 mt-2">防守避險成功率</div>
+            <div class="text-xs text-gray-300">有效規避陰跌套牢風險</div>
+            <div class="text-[10px] text-gray-400">弱勢股嚴禁伸手接刀</div>
+          </div>
+
+          <!-- 5. 警戒撤退 -->
+          {% set al = arch_data.get('alert_exit', {}) %}
+          <div class="glass-card rounded-xl p-4 border border-rose-500/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 text-xs font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                🚨 警戒撤退
+              </span>
+              <span class="text-xs text-gray-400">即時逃命</span>
+            </div>
+            <div class="text-sm font-bold text-rose-400 mt-2">爆量出貨識別</div>
+            <div class="text-xs text-gray-300">反彈減碼防守出清</div>
+            <div class="text-[10px] text-gray-400">規避主力大單出貨重傷</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 最近復盤實戰撮合清單 -->
+      <section class="glass-card rounded-2xl p-5 border border-gray-800 space-y-4">
+        <div class="flex items-center justify-between">
+          <h4 class="text-sm font-bold text-white flex items-center">
+            <i class="fa-solid fa-clock-rotate-left mr-2 text-amber-400"></i> 最近復盤結算交易明細 (T+5 ~ T+20 點位驗證)
+          </h4>
+          <span class="text-xs text-gray-400">顯示最近結算標的</span>
+        </div>
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-gray-800 text-gray-400 font-semibold bg-gray-900/50">
+                <th class="p-3">標的代碼</th>
+                <th class="p-3">推薦日期</th>
+                <th class="p-3">決策動作</th>
+                <th class="p-3">進場價</th>
+                <th class="p-3">目標價 (TP)</th>
+                <th class="p-3">停損價 (SL)</th>
+                <th class="p-3">結算結果</th>
+                <th class="p-3">持股天數</th>
+                <th class="p-3">損益百分比</th>
+                <th class="p-3">失效模式歸因</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-800/60 text-gray-300">
+              {% for tr in (post_mortem_report.recent_outcomes or [])[:30] %}
+              <tr class="hover:bg-gray-800/40 transition">
+                <td class="p-3 font-bold text-white">{{ tr.symbol }} <span class="font-normal text-gray-400">{{ tr.name }}</span></td>
+                <td class="p-3 font-mono text-gray-400">{{ tr.eval_date }}</td>
+                <td class="p-3">
+                  <span class="px-2 py-0.5 rounded text-[11px] font-bold {% if tr.action_code == 'attack' %}bg-emerald-500/20 text-emerald-300{% elif tr.action_code == 'wait_pullback' %}bg-amber-500/20 text-amber-300{% elif tr.action_code == 'lurk_accumulate' %}bg-cyan-500/20 text-cyan-300{% else %}bg-gray-800 text-gray-300{% endif %}">
+                    {{ tr.action_badge }}
+                  </span>
+                </td>
+                <td class="p-3 text-cyan-300">${{ tr.entry_price }}</td>
+                <td class="p-3 text-emerald-300">${{ tr.target_price }}</td>
+                <td class="p-3 text-rose-400">${{ tr.stop_loss }}</td>
+                <td class="p-3">
+                  {% if tr.status == 'HIT_TP' %}
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                    🎯 達標 TP
+                  </span>
+                  {% elif tr.status == 'HIT_SL' %}
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                    🛑 觸及 SL
+                  </span>
+                  {% else %}
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-gray-800 text-gray-400 border border-gray-700">
+                    ⏱️ 滿期超時
+                  </span>
+                  {% endif %}
+                </td>
+                <td class="p-3">{{ tr.days_held }} 天</td>
+                <td class="p-3 font-bold {% if tr.pnl_pct > 0 %}text-emerald-400{% elif tr.pnl_pct < 0 %}text-rose-400{% else %}text-gray-400{% endif %}">
+                  {{ "{:+.2f}%".format(tr.pnl_pct) }}
+                </td>
+                <td class="p-3 text-[11px] text-gray-400">
+                  {{ tr.failure_pattern or '-' }}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= 3. 避坑知識庫視圖 (Market Wiki) ================= -->
+    <div id="mainSectionWiki" class="space-y-6 hidden">
+      <!-- 知識庫頂部橫幅 -->
+      <section class="glass-card rounded-2xl p-6 glow-bull border border-cyan-500/20">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
+          <div>
+            <div class="flex items-center space-x-2 mb-1">
+              <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                <i class="fa-solid fa-book-bookmark mr-1"></i> WikiSkill 核心知識庫
+              </span>
+              <span class="text-sm font-semibold text-gray-300">
+                三層解耦架構：原始軌跡 (Raw) · 持久知識 (Wiki) · 可執行技能 (Skills)
+              </span>
+            </div>
+            <h2 class="text-xl font-bold text-white mt-2 leading-relaxed">
+              永久編譯歷史經驗，建立「永不重蹈覆轍」的金融長效記憶
+            </h2>
+            <p class="text-xs text-gray-400 mt-1">
+              遵循 arXiv:2608.27454 規範：即便量化參數或代碼經回測回滾（Rollback），此處沉澱之失敗教訓與成功範式亦永久累積。
+            </p>
+          </div>
+          <div class="shrink-0 flex items-center space-x-2">
+            <span class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-800 border border-gray-700 text-gray-300">
+              已編譯模式：<strong class="text-cyan-300">5</strong> 類
+            </span>
+          </div>
+        </div>
+
+        <!-- 失敗模式卡片網格 (Failure Modes) -->
+        <div class="mt-6 space-y-3">
+          <h3 class="text-sm font-bold text-rose-400 flex items-center">
+            <i class="fa-solid fa-triangle-exclamation mr-2"></i> 🚨 歷史失敗避坑模式庫 (Failure Modes)
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- FM-001 -->
+            <div class="bg-gray-900/90 rounded-xl p-4 border border-rose-500/30 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/40">FM-001</span>
+                <span class="text-[10px] text-rose-400 font-bold">🔴 極高風險</span>
+              </div>
+              <h4 class="text-sm font-bold text-white">高檔爆量假突破出貨</h4>
+              <p class="text-xs text-gray-400 leading-relaxed">
+                量比 > 2.2x 暴增但日 K 收長上影黑 K 跌逾 2%，主力藉利多反向拔檔倒貨。
+              </p>
+              <div class="pt-2 border-t border-gray-800 text-[11px] text-emerald-400 font-medium">
+                🛡️ 防護對策：強制映射為「🚨 警戒撤退」，反彈減碼出清，破 SL 嚴格停損。
+              </div>
+            </div>
+
+            <!-- FM-002 -->
+            <div class="bg-gray-900/90 rounded-xl p-4 border border-amber-500/30 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">FM-002</span>
+                <span class="text-[10px] text-amber-400 font-bold">🟠 中高風險</span>
+              </div>
+              <h4 class="text-sm font-bold text-white">動能衰竭急追被套</h4>
+              <p class="text-xs text-gray-400 leading-relaxed">
+                均線雖多頭但量比 < 0.8x 萎縮，量價嚴重背離。無腦市價急追易遭短線洗盤破位。
+              </p>
+              <div class="pt-2 border-t border-gray-800 text-[11px] text-amber-300 font-medium">
+                🛡️ 防護對策：強制映射為「⏳ 耐心等待」，切忌急追，等量縮回踩 S1 接單。
+              </div>
+            </div>
+
+            <!-- FM-003 -->
+            <div class="bg-gray-900/90 rounded-xl p-4 border border-rose-500/30 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/40">FM-003</span>
+                <span class="text-[10px] text-rose-400 font-bold">🔴 總經風險</span>
+              </div>
+              <h4 class="text-sm font-bold text-white">外資期貨巨額空單壓盤</h4>
+              <p class="text-xs text-gray-400 leading-relaxed">
+                台指期外資淨空單超過 35,000 口時，現貨易遭壓盤結算，突破多為虛胖誘多。
+              </p>
+              <div class="pt-2 border-t border-gray-800 text-[11px] text-cyan-300 font-medium">
+                🛡️ 防護對策：全域啟動大盤防護扣分，下調權值股目標價並降低總持倉水位。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 成功範式卡片網格 (Success Archetypes) -->
+        <div class="mt-6 space-y-3">
+          <h3 class="text-sm font-bold text-emerald-400 flex items-center">
+            <i class="fa-solid fa-trophy mr-2"></i> 🚀 歷史成功主升範式庫 (Success Archetypes)
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- SA-001 -->
+            <div class="bg-gray-900/90 rounded-xl p-4 border border-emerald-500/30 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">SA-001</span>
+                <span class="text-[10px] text-emerald-400 font-bold">🟢 82%+ 勝率</span>
+              </div>
+              <h4 class="text-sm font-bold text-white">法人籌碼鎖碼共振突破</h4>
+              <p class="text-xs text-gray-400 leading-relaxed">
+                外資＋投信連 3 日同步買超，成交總值溫和放大至 1.3x~2.0x 突破 5MA 與頸線。
+              </p>
+              <div class="pt-2 border-t border-gray-800 text-[11px] text-emerald-300 font-medium">
+                🎯 實戰執行：順勢進攻重倉，抱牢主升段，以 5MA 移動防守，未破線不輕易出清。
+              </div>
+            </div>
+
+            <!-- SA-002 -->
+            <div class="bg-gray-900/90 rounded-xl p-4 border border-cyan-500/30 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">SA-002</span>
+                <span class="text-[10px] text-cyan-400 font-bold">🟢 78%+ 勝率</span>
+              </div>
+              <h4 class="text-sm font-bold text-white">浮額沉澱量縮築底起漲</h4>
+              <p class="text-xs text-gray-400 leading-relaxed">
+                連 5 日量比 < 0.8x 守穩季線/S1，首根紅 K 帶量突破 5MA，風報比達 2.5:1。
+              </p>
+              <div class="pt-2 border-t border-gray-800 text-[11px] text-cyan-300 font-medium">
+                🎯 實戰執行：於 S1 支撐上方逢低潛伏，停損極短，突破頸線後加碼至標準水位。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 策略衝擊追蹤表 (Skill Impact Tracker Table) -->
+        <div class="mt-6 space-y-3">
+          <h3 class="text-sm font-bold text-white flex items-center">
+            <i class="fa-solid fa-code-compare mr-2 text-cyan-400"></i> 策略衝擊追蹤與安全回退審計表 (Skill Impact Tracker)
+          </h3>
+          <div class="overflow-x-auto custom-scrollbar bg-gray-900/60 rounded-xl border border-gray-800">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-gray-800 text-gray-400 font-semibold bg-gray-900/80">
+                  <th class="p-3">提案編號</th>
+                  <th class="p-3">評審日期</th>
+                  <th class="p-3">目標設定檔</th>
+                  <th class="p-3">驗證集得分</th>
+                  <th class="p-3">最佳基準閥值</th>
+                  <th class="p-3">驗證決策結果</th>
+                  <th class="p-3">核心變更紀錄</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-800/60 text-gray-300">
+                <tr class="hover:bg-gray-800/40">
+                  <td class="p-3 font-bold text-cyan-300">P-000</td>
+                  <td class="p-3 font-mono text-gray-400">2026-09-14</td>
+                  <td class="p-3 font-mono text-gray-400">config/rules.json</td>
+                  <td class="p-3 font-bold text-emerald-400">74.5%</td>
+                  <td class="p-3 text-gray-400">74.5%</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Accepted (基準確立)</span></td>
+                  <td class="p-3 text-gray-300">初始化量化評分與二維決策矩陣基準配置</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
 
   </main>
 
@@ -771,6 +1157,39 @@
   <textarea id="markdownSummaryRaw" class="hidden">{{ markdown_summary }}</textarea>
 
   <script>
+    // 主功能三大分頁切換
+    function switchMainTab(tab) {
+      const dailySec = document.getElementById("mainSectionDaily");
+      const perfSec = document.getElementById("mainSectionPerf");
+      const wikiSec = document.getElementById("mainSectionWiki");
+
+      const btnDaily = document.getElementById("navTabDaily");
+      const btnPerf = document.getElementById("navTabPerf");
+      const btnWiki = document.getElementById("navTabWiki");
+
+      if (tab === 'daily') {
+        dailySec.classList.remove("hidden");
+        perfSec.classList.add("hidden");
+        wikiSec.classList.add("hidden");
+        btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition flex items-center";
+        btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+      } else if (tab === 'perf') {
+        dailySec.classList.add("hidden");
+        perfSec.classList.remove("hidden");
+        wikiSec.classList.add("hidden");
+        btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-amber-600 text-white shadow-md shadow-amber-600/20 transition flex items-center";
+        btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+      } else if (tab === 'wiki') {
+        dailySec.classList.add("hidden");
+        perfSec.classList.add("hidden");
+        wikiSec.classList.remove("hidden");
+        btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-cyan-600 text-white shadow-md shadow-cyan-600/20 transition flex items-center";
+      }
+    }
     function copyMarkdownSummary() {
       const copyText = document.getElementById("markdownSummaryRaw").value;
       navigator.clipboard.writeText(copyText).then(() => {

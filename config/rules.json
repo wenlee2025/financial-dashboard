@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-09-14",
+  "scoring_weights": {
+    "tech_weight": 0.40,
+    "flow_weight": 0.35,
+    "fund_weight": 0.25,
+    "momentum_bonus": 10.0,
+    "weekly_resonance_bonus": 8.0,
+    "weekly_bear_penalty": -10.0
+  },
+  "turnover_strategy": {
+    "surge_ratio_threshold": 1.3,
+    "exhaustion_ratio_threshold": 0.8,
+    "heavy_dump_ratio_threshold": 2.2,
+    "heavy_dump_drop_threshold": -2.0
+  },
+  "price_levels": {
+    "atr_period": 14,
+    "s2_atr_mult": 1.5,
+    "r1_atr_mult": 2.0,
+    "r2_atr_mult": 1.5,
+    "sl_atr_mult": 0.8,
+    "tp_reward_risk_ratio": 1.5,
+    "min_reward_risk_threshold": 1.5
+  },
+  "regime_adaptive": {
+    "panic_flow_weight": 0.50,
+    "panic_tech_weight": 0.30,
+    "panic_fund_weight": 0.20,
+    "bull_tech_weight": 0.50,
+    "bull_flow_weight": 0.30,
+    "bull_fund_weight": 0.20
+  }
+}

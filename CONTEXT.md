@@ -124,3 +124,27 @@ _Avoid_: 只有評分沒有動作, 脫離量能盲目追高
 4. **🚨 警戒撤退 (Alert & Exit)**：任何評級 ＋ 爆量出貨。假突破真倒貨、反彈減碼防守。
 5. **🛡️ 嚴禁進場 (Capital Defense)**：偏空/做空評級 ＋ 動能不足或常態整理。無量陰跌、嚴防接刀套牢、空手觀望。
 _Avoid_: 模糊的操作建議, 單一維度判斷
+
+**WikiSkill 記憶演化架構 (WikiSkill Co-Evolution Architecture)**:
+基於 arXiv:2608.27454 之智能體持續學習範式，將執行推理、持久知識編譯與可執行技能解耦，使系統能在不破壞穩定底層的前提下，經由歷史復盤持續自我迭代。
+_Avoid_: 靜態死板規則, 單純Prompt修改
+
+**不可變原始軌跡層 (Raw Traces Layer)**:
+儲存每日分析之不可變原始快照（包含輸入行情、三大法人籌碼、技術面、AI 推理鏈與點位預測），作為復盤驗證的 Ground Truth 原始證據鏈（`raw_traces/`）。
+_Avoid_: 覆寫歷史快照, 事後修改預測記錄
+
+**持久市場知識庫 (Market Wiki Layer)**:
+永久累積、永不回滾的結構化知識庫（`market_wiki/`），包含失敗模式（`patterns/failure_modes/`，如假突破倒貨、法說會洗盤）、成功範式（`patterns/success_archetypes/`）、演化日誌（`logs.md`）與策略衝擊審計表（`skill_impact.md`）。
+_Avoid_: 隨策略回滾而刪除錯誤記憶, 黑盒調整
+
+**可執行規則與技能層 (Executable Skills & Rules Layer)**:
+供推論引擎即時調用的結構化參數設定（`config/rules.json`）與 AI 推理手冊（`skills/`），每個技能皆配備 `PURPOSE.md` 嚴格綁定 Wiki 中激發該項變更的模式頁面。
+_Avoid_: 無明確動機的隨意微調, 缺乏溯源的手動改寫
+
+**點位觸及復盤引擎 (Post-Mortem Engine)**:
+在交易日 $T+5 \sim T+20$ 週期後，自動檢驗 $T$ 日之買入區間推薦在後續真實行情中「先觸及 TP 目標價」或「先觸及 SL 停損價」，精確產出量化勝率、盈虧比與失效歸因。
+_Avoid_: 主觀事後諸葛, 僅看收盤浮動盈虧
+
+**多體制走動驗證閘門 (Regime-Aware Walk-Forward Gating)**:
+策略提案合併之安全防護網。新策略必須在牛市、熊市與盤整震盪等歷史切片中同時通過綜合評分卡驗證（MDD 不擴大且勝率提升），方可採納；一旦退化即刻一鍵回滾（Rollback），但 Wiki 記憶永久保留。
+_Avoid_: 單一牛市過度擬合, 無回滾保護之直接上線

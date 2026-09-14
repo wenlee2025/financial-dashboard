@@ -30,6 +30,17 @@ class HTMLDashboardGenerator:
         history_list = self._update_history_index(date_str, market_mode)
         context["history_list"] = history_list
 
+        # 1.5 載入 WikiSkill 復盤統計報告
+        pm_file = self.data_dir / "post_mortem_report.json"
+        if pm_file.exists():
+            try:
+                with open(pm_file, "r", encoding="utf-8") as f:
+                    context["post_mortem_report"] = json.load(f)
+            except Exception:
+                context["post_mortem_report"] = {}
+        else:
+            context["post_mortem_report"] = {}
+
         # 2. 渲染模板
         template = self.env.get_template("dashboard_template.html")
         html_content = template.render(**context)

@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
+import json
 import logging
 import math
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
@@ -86,8 +88,29 @@ class EquityEvaluator:
     6. 雙軌執行點位規劃：👑 波克夏特許核心 (金字塔加碼 + 豁免ATR停損) vs ⚡ 戰術動量 (嚴格ATR停損)
     """
 
-    def __init__(self, weights: Optional[Dict[str, float]] = None, tiers: Optional[Dict[str, int]] = None):
-        self.weights = weights or {"technicals": 0.40, "flows": 0.35, "fundamentals": 0.25}
+    def __init__(
+        self,
+        weights: Optional[Dict[str, float]] = None,
+        tiers: Optional[Dict[str, int]] = None,
+        config_path: Optional[str] = "config/rules.json"
+    ):
+        self.config: Dict[str, Any] = {}
+        if config_path:
+            p = Path(config_path)
+            if p.exists():
+                try:
+                    with open(p, "r", encoding="utf-8") as f:
+                        self.config = json.load(f)
+                except Exception:
+                    self.config = {}
+
+        cfg_weights = self.config.get("scoring_weights", {})
+        default_weights = {
+            "technicals": cfg_weights.get("tech_weight", 0.40),
+            "flows": cfg_weights.get("flow_weight", 0.35),
+            "fundamentals": cfg_weights.get("fund_weight", 0.25)
+        }
+        self.weights = weights or default_weights
         self.tiers = tiers or {
             "strong_bull": 78,
             "lean_bull": 60,

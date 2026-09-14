@@ -171,6 +171,15 @@ class FinancialDashboardPipeline:
         context["markdown_summary"] = markdown_summary
         email_html = self.email_gen.generate(context)
 
+        # Step 7.5: 滾動更新 WikiSkill 復盤統計 (Post-Mortem Verification)
+        try:
+            from src.evolution.historical_bootstrapper import HistoricalBootstrapper
+            bootstrapper = HistoricalBootstrapper(data_dir=str(self.cfg.data_dir), output_dir=str(self.cfg.data_dir))
+            pm_report = bootstrapper.bootstrap_from_existing_snapshots()
+            context["post_mortem_report"] = pm_report.to_dict()
+        except Exception as e:
+            logger.warning(f"WikiSkill 復盤統計更新略過: {e}")
+
         # Step 8: 生成並發布 HTML 儀表板
         dashboard_path = self.html_gen.generate(context, date_str, mode)
 

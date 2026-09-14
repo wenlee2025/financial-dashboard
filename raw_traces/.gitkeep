@@ -1,0 +1,2 @@
+# Raw Traces Directory
+Stores immutable daily execution traces and snapshots for post-mortem analysis.
