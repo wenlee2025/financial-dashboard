@@ -2,26 +2,26 @@
   "total_evaluations": 530,
   "total_wins": 330,
   "total_losses": 200,
-  "total_timeouts": 258,
+  "total_timeouts": 253,
   "overall_win_rate": 62.26,
-  "profit_factor": 3.04,
-  "avg_win_pct": 5.05,
-  "avg_loss_pct": 2.74,
+  "profit_factor": 3.09,
+  "avg_win_pct": 5.11,
+  "avg_loss_pct": 2.73,
   "archetype_stats": {
     "attack": {
       "name": "🚀 順勢進攻",
       "total": 60,
       "wins": 41,
       "win_rate": 68.3,
-      "avg_pnl_pct": 2.93,
+      "avg_pnl_pct": 2.9,
       "avg_days": 2.9
     },
     "lurk_accumulate": {
       "name": "☕ 逢低潛伏",
       "total": 106,
-      "wins": 56,
-      "win_rate": 52.8,
-      "avg_pnl_pct": 0.93,
+      "wins": 58,
+      "win_rate": 54.7,
+      "avg_pnl_pct": 1.12,
       "avg_days": 2.8
     },
     "wait_pullback": {
@@ -35,9 +35,9 @@
     "defense": {
       "name": "🛡️ 嚴禁進場",
       "total": 147,
-      "wins": 86,
-      "win_rate": 58.5,
-      "avg_pnl_pct": 0.89,
+      "wins": 84,
+      "win_rate": 57.1,
+      "avg_pnl_pct": 0.91,
       "avg_days": 3.1
     },
     "alert_exit": {
@@ -78,13 +78,13 @@
       "entry_price": 421.57,
       "target_price": 438.38,
       "stop_loss": 415.25,
-      "status": "HIT_SL",
-      "is_win": false,
+      "status": "TIMEOUT",
+      "is_win": true,
       "days_held": 1,
-      "exit_price": 415.25,
-      "pnl_pct": -1.5,
+      "exit_price": 422.48,
+      "pnl_pct": 0.22,
       "exit_date": "2026-09-14",
-      "failure_pattern": "FM-003: 總經或流動性破線"
+      "failure_pattern": null
     },
     {
       "symbol": "2303",
@@ -474,11 +474,11 @@
       "entry_price": 206.77,
       "target_price": 228.6,
       "stop_loss": 193.07,
-      "status": "TIMEOUT",
+      "status": "HIT_TP",
       "is_win": true,
       "days_held": 1,
-      "exit_price": 222.0,
-      "pnl_pct": 7.37,
+      "exit_price": 228.6,
+      "pnl_pct": 10.56,
       "exit_date": "2026-09-14",
       "failure_pattern": null
     },
@@ -726,11 +726,11 @@
       "entry_price": 487.52,
       "target_price": 507.67,
       "stop_loss": 480.26,
-      "status": "TIMEOUT",
+      "status": "HIT_TP",
       "is_win": true,
       "days_held": 1,
-      "exit_price": 495.66,
-      "pnl_pct": 1.67,
+      "exit_price": 507.67,
+      "pnl_pct": 4.13,
       "exit_date": "2026-09-14",
       "failure_pattern": null
     },
@@ -765,8 +765,8 @@
       "status": "TIMEOUT",
       "is_win": true,
       "days_held": 1,
-      "exit_price": 169.54,
-      "pnl_pct": 3.25,
+      "exit_price": 167.61,
+      "pnl_pct": 2.08,
       "exit_date": "2026-09-14",
       "failure_pattern": null
     },
