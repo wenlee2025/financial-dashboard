@@ -1,27 +1,27 @@
 {
   "total_evaluations": 674,
-  "total_wins": 367,
-  "total_losses": 307,
-  "total_timeouts": 286,
-  "overall_win_rate": 54.45,
-  "profit_factor": 2.07,
-  "avg_win_pct": 5.24,
-  "avg_loss_pct": 3.03,
+  "total_wins": 372,
+  "total_losses": 302,
+  "total_timeouts": 278,
+  "overall_win_rate": 55.19,
+  "profit_factor": 2.15,
+  "avg_win_pct": 5.36,
+  "avg_loss_pct": 3.06,
   "archetype_stats": {
     "attack": {
       "name": "🚀 順勢進攻",
       "total": 71,
-      "wins": 41,
-      "win_rate": 57.7,
-      "avg_pnl_pct": 2.23,
+      "wins": 43,
+      "win_rate": 60.6,
+      "avg_pnl_pct": 2.57,
       "avg_days": 3.3
     },
     "lurk_accumulate": {
       "name": "☕ 逢低潛伏",
-      "total": 145,
-      "wins": 65,
-      "win_rate": 44.8,
-      "avg_pnl_pct": 0.62,
+      "total": 146,
+      "wins": 69,
+      "win_rate": 47.3,
+      "avg_pnl_pct": 0.78,
       "avg_days": 3.8
     },
     "wait_pullback": {
@@ -29,15 +29,15 @@
       "total": 75,
       "wins": 49,
       "win_rate": 65.3,
-      "avg_pnl_pct": 2.76,
+      "avg_pnl_pct": 2.84,
       "avg_days": 3.4
     },
     "defense": {
       "name": "🛡️ 嚴禁進場",
-      "total": 230,
-      "wins": 125,
-      "win_rate": 54.3,
-      "avg_pnl_pct": 0.59,
+      "total": 229,
+      "wins": 124,
+      "win_rate": 54.1,
+      "avg_pnl_pct": 0.68,
       "avg_days": 3.7
     },
     "alert_exit": {
@@ -276,11 +276,11 @@
       "entry_price": 499.89,
       "target_price": 527.51,
       "stop_loss": 492.39,
-      "status": "TIMEOUT",
+      "status": "HIT_TP",
       "is_win": true,
       "days_held": 1,
-      "exit_price": 512.5,
-      "pnl_pct": 2.52,
+      "exit_price": 527.51,
+      "pnl_pct": 5.53,
       "exit_date": "2026-09-17",
       "failure_pattern": null
     },
@@ -321,24 +321,6 @@
       "failure_pattern": null
     },
     {
-      "symbol": "META",
-      "name": "Meta (臉書)",
-      "eval_date": "2026-09-16",
-      "action_code": "defense",
-      "action_badge": "🛡️ 觀望等待",
-      "rating_code": "neutral",
-      "entry_price": 652.84,
-      "target_price": 690.48,
-      "stop_loss": 643.05,
-      "status": "TIMEOUT",
-      "is_win": true,
-      "days_held": 1,
-      "exit_price": 673.31,
-      "pnl_pct": 3.14,
-      "exit_date": "2026-09-17",
-      "failure_pattern": null
-    },
-    {
       "symbol": "3665",
       "name": "貿聯-KY",
       "eval_date": "2026-09-16",
@@ -375,6 +357,24 @@
       "failure_pattern": null
     },
     {
+      "symbol": "ARM",
+      "name": "ARM Holdings",
+      "eval_date": "2026-09-16",
+      "action_code": "lurk_accumulate",
+      "action_badge": "☕ 逢低潛伏",
+      "rating_code": "neutral",
+      "entry_price": 245.07,
+      "target_price": 265.82,
+      "stop_loss": 230.37,
+      "status": "TIMEOUT",
+      "is_win": true,
+      "days_held": 1,
+      "exit_price": 259.57,
+      "pnl_pct": 5.92,
+      "exit_date": "2026-09-17",
+      "failure_pattern": null
+    },
+    {
       "symbol": "TSM",
       "name": "台積電 ADR (TSMC)",
       "eval_date": "2026-09-16",
@@ -387,8 +387,8 @@
       "status": "TIMEOUT",
       "is_win": true,
       "days_held": 1,
-      "exit_price": 417.72,
-      "pnl_pct": 0.92,
+      "exit_price": 426.32,
+      "pnl_pct": 3.0,
       "exit_date": "2026-09-17",
       "failure_pattern": null
     },
@@ -531,8 +531,8 @@
       "status": "TIMEOUT",
       "is_win": true,
       "days_held": 1,
-      "exit_price": 213.9,
-      "pnl_pct": 0.47,
+      "exit_price": 219.02,
+      "pnl_pct": 2.87,
       "exit_date": "2026-09-17",
       "failure_pattern": null
     },
@@ -693,8 +693,8 @@
       "status": "TIMEOUT",
       "is_win": true,
       "days_held": 1,
-      "exit_price": 490.3,
-      "pnl_pct": 0.54,
+      "exit_price": 496.6,
+      "pnl_pct": 1.83,
       "exit_date": "2026-09-17",
       "failure_pattern": null
     },
@@ -801,8 +801,8 @@
       "status": "TIMEOUT",
       "is_win": true,
       "days_held": 1,
-      "exit_price": 174.34,
-      "pnl_pct": 3.36,
+      "exit_price": 176.8,
+      "pnl_pct": 4.81,
       "exit_date": "2026-09-17",
       "failure_pattern": null
     },
@@ -915,6 +915,24 @@
       "failure_pattern": "FM-001: 假突破出貨反轉"
     },
     {
+      "symbol": "CRWD",
+      "name": "CrowdStrike",
+      "eval_date": "2026-09-15",
+      "action_code": "attack",
+      "action_badge": "🚀 順勢進攻",
+      "rating_code": "strong_bull",
+      "entry_price": 217.14,
+      "target_price": 236.6,
+      "stop_loss": 213.88,
+      "status": "HIT_TP",
+      "is_win": true,
+      "days_held": 1,
+      "exit_price": 236.6,
+      "pnl_pct": 8.96,
+      "exit_date": "2026-09-17",
+      "failure_pattern": null
+    },
+    {
       "symbol": "2379",
       "name": "瑞昱",
       "eval_date": "2026-09-15",
@@ -930,24 +948,6 @@
       "exit_price": 722.8,
       "pnl_pct": 3.86,
       "exit_date": "2026-09-16",
-      "failure_pattern": null
-    },
-    {
-      "symbol": "GOOGL",
-      "name": "Alphabet (Google)",
-      "eval_date": "2026-09-15",
-      "action_code": "attack",
-      "action_badge": "🚀 順勢進攻",
-      "rating_code": "lean_bull",
-      "entry_price": 341.08,
-      "target_price": 351.12,
-      "stop_loss": 335.96,
-      "status": "TIMEOUT",
-      "is_win": true,
-      "days_held": 1,
-      "exit_price": 342.87,
-      "pnl_pct": 0.52,
-      "exit_date": "2026-09-17",
       "failure_pattern": null
     }
   ]
