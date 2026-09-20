@@ -61,12 +61,14 @@ class WatchlistManager:
 
     def _detect_market(self, symbol: str) -> str:
         """自動辨識股票市場 (TW 或 US)"""
+        import re
         clean = str(symbol).strip().upper()
         if clean.startswith("^"):
             return "INDEX"
         if clean.endswith(".TW") or clean.endswith(".TWO"):
             return "TW"
-        if clean.isdigit():
+        # 台灣股票/ETF 代碼：4-6 碼數字 (如 2330, 009816) 或數字後綴英文字母 (如特別股 2891A, 00981A)
+        if clean.isdigit() or re.match(r"^\d{4,6}[A-Z]{0,2}$", clean):
             return "TW"
         return "US"
 

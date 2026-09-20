@@ -53,3 +53,17 @@ def test_watchlist_manager_summary_text(tmp_path):
     assert "台積電" in summary
     assert "NVDA" in summary
     assert "2330" in summary
+
+def test_watchlist_manager_detect_market(tmp_path):
+    test_yaml = tmp_path / "watchlist.yaml"
+    wm = WatchlistManager(watchlist_path=test_yaml)
+    assert wm._detect_market("2330") == "TW"
+    assert wm._detect_market("009816") == "TW"
+    assert wm._detect_market("00981A") == "TW"
+    assert wm._detect_market("2891A") == "TW"
+    assert wm._detect_market("2330.TW") == "TW"
+    assert wm._detect_market("6223.TWO") == "TW"
+    assert wm._detect_market("NVDA") == "US"
+    assert wm._detect_market("AAPL") == "US"
+    assert wm._detect_market("^TWII") == "INDEX"
+

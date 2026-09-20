@@ -40,10 +40,6 @@ us_stocks:
   name: Palantir
   sector: AI 數據分析
   note: AIP 平台商業客戶擴展與標普納入效應
-- symbol: 00981A
-  name: 00981A
-  sector: 自選股
-  note: 用戶自選監控標的
 tw_stocks:
 - symbol: '2330'
   name: 台積電
@@ -562,9 +558,13 @@ tw_stocks:
   pyramid_buys: []
   berkshire_verdict: ⚠️ 破位觀望 / 動量轉空 (觸發動量一票否決)
   kelly_pct: 0.0
-- symbol: 009816
+- symbol: '009816'
   name: 'KGI SECURITIES INVT TST CO LTD '
   sector: 科技/零組件
+  note: 用戶自選監控標的
+- symbol: '00981A'
+  name: '00981A'
+  sector: 台股自選
   note: 用戶自選監控標的
 adr_mappings:
 - adr_symbol: TSM

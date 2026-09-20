@@ -15,7 +15,7 @@ ai_engine:
   provider: "gemini" # 支援: gemini, openai, claude, mock
   gemini:
     model: "gemini-3.6-flash"
-    fallback_model: "gemini-2.5-flash"
+    fallback_model: "gemini-2.5-pro"
     temperature: 0.2
     max_tokens: 4096
   openai:

@@ -1,6 +1,7 @@
 import json
 import logging
 import re
+import time
 from typing import Any, Dict, Optional
 import requests
 
@@ -15,7 +16,7 @@ class LLMClient:
         gemini_key: Optional[str] = None,
         openai_key: Optional[str] = None,
         anthropic_key: Optional[str] = None,
-        gemini_model: str = "gemini-2.5-flash"
+        gemini_model: str = "gemini-3.6-flash"
     ):
         self.provider = provider.lower()
         self.gemini_key = gemini_key
@@ -59,8 +60,10 @@ class LLMClient:
             return self._wrap_raw_text(raw_text)
 
     def _call_gemini(self, prompt: str, system_prompt: str) -> str:
-        """透過 Gemini REST API (支援 gemini-2.5-flash / gemini-2.0-flash / gemini-1.5-flash-latest)"""
-        models = list(dict.fromkeys([self.gemini_model, "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash-latest", "gemini-1.5-pro-latest"]))
+        """透過 Gemini REST API 調用，具備暫態 503/429 指數退避重試與模型容錯"""
+        candidate_models = [self.gemini_model, "gemini-3.6-flash", "gemini-2.5-pro"]
+        models = list(dict.fromkeys([m for m in candidate_models if m]))
+
         for model in models:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={self.gemini_key}"
             headers = {"Content-Type": "application/json"}
@@ -72,19 +75,33 @@ class LLMClient:
                     "responseMimeType": "application/json"
                 }
             }
-            try:
-                resp = self.session.post(url, headers=headers, json=payload, timeout=45)
-                if resp.status_code == 200:
-                    data = resp.json()
-                    candidates = data.get("candidates", [])
-                    if candidates:
-                        parts = candidates[0].get("content", {}).get("parts", [])
-                        if parts:
-                            return parts[0].get("text", "")
-                else:
-                    logger.warning(f"Gemini API ({model}) 回應代碼 {resp.status_code}: {resp.text}")
-            except Exception as e:
-                logger.warning(f"Gemini API ({model}) 調用例外: {e}")
+            max_retries = 3
+            for attempt in range(max_retries):
+                try:
+                    resp = self.session.post(url, headers=headers, json=payload, timeout=45)
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        candidates = data.get("candidates", [])
+                        if candidates:
+                            parts = candidates[0].get("content", {}).get("parts", [])
+                            if parts:
+                                return parts[0].get("text", "")
+                    elif resp.status_code in (429, 503):
+                        wait_sec = (attempt + 1) * 2
+                        logger.warning(
+                            f"Gemini API ({model}) 遭遇暫時狀態 {resp.status_code}，"
+                            f"第 {attempt + 1}/{max_retries} 次重試前等待 {wait_sec} 秒..."
+                        )
+                        time.sleep(wait_sec)
+                        continue
+                    else:
+                        logger.warning(f"Gemini API ({model}) 回應代碼 {resp.status_code}: {resp.text}")
+                        # 若遇 404 (模型下架) 或 400 錯誤，立即中斷切換下一候選模型
+                        break
+                except Exception as e:
+                    logger.warning(f"Gemini API ({model}) 調用例外 (嘗試 {attempt + 1}/{max_retries}): {e}")
+                    if attempt < max_retries - 1:
+                        time.sleep(2)
         return ""
 
     def _call_openai(self, prompt: str, system_prompt: str) -> str:
