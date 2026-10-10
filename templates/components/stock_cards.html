@@ -4,7 +4,7 @@
   {% set ts = (item.score_info.turnover_strategy if item.score_info and item.score_info.turnover_strategy else {}) %}
   {% set sc = (item.supply_chain if item.supply_chain else {}) %}
   {% set dm = (item.decision_matrix if item.decision_matrix else (item.score_info.decision_matrix if item.score_info and item.score_info.decision_matrix else {})) %}
-  <div class="stock-card glass-card rounded-2xl p-5 border {% if item.veto_triggered %}border-rose-500/80 bg-rose-950/20 shadow-lg shadow-rose-500/10{% elif item.divergence_warning %}border-amber-500/70 bg-amber-950/15{% else %}border-gray-800 hover:border-gray-700{% endif %} transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border {% if item.veto_triggered %}border-rose-500/80 bg-rose-950/20 shadow-lg shadow-rose-500/10{% elif item.divergence_warning %}border-amber-500/70 bg-amber-950/15{% else %}border-gray-800 hover:border-gray-700{% endif %} transition space-y-3.5 sm:space-y-4"
        data-symbol="{{ item.symbol }}"
        data-name="{{ item.name }}"
        data-market="{{ item.stock_data.market if item.stock_data else '' }}"
@@ -128,8 +128,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = {{ item.price_levels.risk_reward_ratio if item.price_levels and item.price_levels.risk_reward_ratio and item.price_levels.risk_reward_ratio != '-' and item.price_levels.risk_reward_ratio|string != 'nan' else '-' }}{% if item.price_levels and item.price_levels.risk_reward_ratio and item.price_levels.risk_reward_ratio != '-' and item.price_levels.risk_reward_ratio|string != 'nan' %}:1{% endif %}</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">{% if item.price_levels and item.price_levels.stop_loss_display %}{{ item.price_levels.stop_loss_display }}{% elif item.price_levels and item.price_levels.stop_loss and item.price_levels.stop_loss != '-' and item.price_levels.stop_loss|string != 'nan' and item.price_levels.stop_loss|float > 0 %}${{ item.price_levels.stop_loss }}{% else %}-{% endif %}</div>
@@ -176,7 +176,7 @@
     {% set dv = item.deliberation_verdict %}
     <div class="mt-2 pt-2 border-t border-gray-800/80">
       <details class="group cursor-pointer">
-        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-1 select-none list-none">
+        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-2 sm:py-1 min-h-[44px] sm:min-h-0 select-none list-none">
           <div class="flex items-center space-x-2">
             <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] {% if dv.veto_triggered %}bg-rose-500/20 text-rose-300 border border-rose-500/40{% elif dv.divergence_warning %}bg-amber-500/20 text-amber-300 border border-amber-500/40{% else %}bg-indigo-500/20 text-indigo-300 border border-indigo-500/40{% endif %}">
               <i class="fa-solid fa-scale-balanced"></i>

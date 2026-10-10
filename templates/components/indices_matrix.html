@@ -1,20 +1,20 @@
 <!-- 2. 全球主要指數與 ADR 溢價 (Indices & ADR Matrix) -->
-<section class="space-y-4">
+<section class="space-y-3.5 sm:space-y-4">
   <div class="flex items-center justify-between">
-    <h3 class="text-base font-bold text-white flex items-center">
+    <h3 class="text-sm sm:text-base font-bold text-white flex items-center">
       <i class="fa-solid fa-globe mr-2 text-indigo-400"></i> 主要大盤與跨市場 ADR 快照
     </h3>
-    <span class="text-xs text-gray-400">即時/盤後收盤序列</span>
+    <span class="text-[10px] sm:text-xs text-gray-400">👈 手機支援橫向滑動 👉</span>
   </div>
 
-  <!-- 指數卡片 -->
-  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+  <!-- 指數卡片 (手機端橫向吸附滾動，桌面端網格排開) -->
+  <div class="flex overflow-x-auto space-x-2.5 pb-2 snap-x snap-mandatory custom-scrollbar sm:grid sm:grid-cols-3 lg:grid-cols-6 sm:gap-3 sm:space-x-0 sm:overflow-visible sm:pb-0 -mx-1 px-1">
     {% if indices and indices.tw %}
       {% for idx in indices.tw %}
-      <div class="glass-card rounded-xl p-3.5 border border-gray-800">
-        <div class="text-xs text-gray-400 font-medium truncate">{{ idx.name }}</div>
-        <div class="text-lg font-bold text-white mt-1">{% if idx.price is not none and idx.price != '-' and idx.price|string != 'nan' %}{{ "{:,.2f}".format(idx.price|float) }}{% else %}-{% endif %}</div>
-        <div class="text-xs font-semibold mt-0.5 flex items-center {% if idx.change is not none and idx.change != '-' and idx.change|string != 'nan' and idx.change|float >= 0 %}text-rose-400{% else %}text-emerald-400{% endif %}">
+      <div class="glass-card rounded-xl p-3 sm:p-3.5 border border-gray-800 shrink-0 w-36 snap-start sm:w-auto">
+        <div class="text-[11px] sm:text-xs text-gray-400 font-medium truncate">{{ idx.name }}</div>
+        <div class="text-base sm:text-lg font-bold text-white mt-0.5 sm:mt-1">{% if idx.price is not none and idx.price != '-' and idx.price|string != 'nan' %}{{ "{:,.2f}".format(idx.price|float) }}{% else %}-{% endif %}</div>
+        <div class="text-[11px] sm:text-xs font-semibold mt-0.5 flex items-center {% if idx.change is not none and idx.change != '-' and idx.change|string != 'nan' and idx.change|float >= 0 %}text-rose-400{% else %}text-emerald-400{% endif %}">
           {% if idx.change is not none and idx.change != '-' and idx.change|string != 'nan' %}
           <i class="fa-solid {% if idx.change|float >= 0 %}fa-caret-up{% else %}fa-caret-down{% endif %} mr-1"></i>
           {{ "{:+.2f}".format(idx.change|float) }} ({{ "{:+.2f}%".format(idx.pct_change|float) if idx.pct_change is not none and idx.pct_change != '-' and idx.pct_change|string != 'nan' else '-' }})
@@ -28,10 +28,10 @@
 
     {% if indices and indices.us %}
       {% for idx in indices.us %}
-      <div class="glass-card rounded-xl p-3.5 border border-gray-800">
-        <div class="text-xs text-gray-400 font-medium truncate">{{ idx.name }}</div>
-        <div class="text-lg font-bold text-white mt-1">{% if idx.price is not none and idx.price != '-' and idx.price|string != 'nan' %}{{ "{:,.2f}".format(idx.price|float) }}{% else %}-{% endif %}</div>
-        <div class="text-xs font-semibold mt-0.5 flex items-center {% if idx.change is not none and idx.change != '-' and idx.change|string != 'nan' and idx.change|float >= 0 %}text-emerald-400{% else %}text-rose-400{% endif %}">
+      <div class="glass-card rounded-xl p-3 sm:p-3.5 border border-gray-800 shrink-0 w-36 snap-start sm:w-auto">
+        <div class="text-[11px] sm:text-xs text-gray-400 font-medium truncate">{{ idx.name }}</div>
+        <div class="text-base sm:text-lg font-bold text-white mt-0.5 sm:mt-1">{% if idx.price is not none and idx.price != '-' and idx.price|string != 'nan' %}{{ "{:,.2f}".format(idx.price|float) }}{% else %}-{% endif %}</div>
+        <div class="text-[11px] sm:text-xs font-semibold mt-0.5 flex items-center {% if idx.change is not none and idx.change != '-' and idx.change|string != 'nan' and idx.change|float >= 0 %}text-emerald-400{% else %}text-rose-400{% endif %}">
           {% if idx.change is not none and idx.change != '-' and idx.change|string != 'nan' %}
           <i class="fa-solid {% if idx.change|float >= 0 %}fa-caret-up{% else %}fa-caret-down{% endif %} mr-1"></i>
           {{ "{:+.2f}".format(idx.change|float) }} ({{ "{:+.2f}%".format(idx.pct_change|float) if idx.pct_change is not none and idx.pct_change != '-' and idx.pct_change|string != 'nan' else '-' }})
@@ -46,24 +46,24 @@
 
   <!-- ADR 溢價率對照卡 -->
   {% if adr_premiums %}
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3">
     {% for adr in adr_premiums %}
-    <div class="glass-card rounded-xl p-4 border border-indigo-500/20 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-sm">
+    <div class="glass-card rounded-xl p-3 sm:p-4 border border-indigo-500/20 flex items-center justify-between">
+      <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-xs sm:text-sm shrink-0">
           ADR
         </div>
-        <div>
-          <div class="text-sm font-bold text-white">{{ adr.adr_symbol }} (ADR) ⟷ {{ adr.tw_symbol }} (現貨)</div>
-          <div class="text-xs text-gray-400">換股比 1:{{ adr.ratio }} | 匯率 {{ adr.usdtwd_rate }}</div>
+        <div class="min-w-0">
+          <div class="text-xs sm:text-sm font-bold text-white truncate">{{ adr.adr_symbol }} ⟷ {{ adr.tw_symbol }}</div>
+          <div class="text-[10px] sm:text-xs text-gray-400">1:{{ adr.ratio }} | 匯率 {{ adr.usdtwd_rate }}</div>
         </div>
       </div>
-      <div class="text-right">
-        <div class="text-xs text-gray-400">折溢價率</div>
-        <div class="text-base font-extrabold {% if adr.premium_pct is not none and adr.premium_pct != '-' and adr.premium_pct|string != 'nan' and adr.premium_pct|float >= 0 %}text-emerald-400{% else %}text-rose-400{% endif %}">
+      <div class="text-right shrink-0">
+        <div class="text-[10px] sm:text-xs text-gray-400">折溢價率</div>
+        <div class="text-sm sm:text-base font-extrabold {% if adr.premium_pct is not none and adr.premium_pct != '-' and adr.premium_pct|string != 'nan' and adr.premium_pct|float >= 0 %}text-emerald-400{% else %}text-rose-400{% endif %}">
           {% if adr.premium_pct is not none and adr.premium_pct != '-' and adr.premium_pct|string != 'nan' %}{{ "{:+.2f}%".format(adr.premium_pct|float) }}{% else %}-{% endif %} ({{ adr.status }})
         </div>
-        <div class="text-xs text-gray-400">換算每股 TWD {% if adr.adr_parity_twd is not none and adr.adr_parity_twd != '-' and adr.adr_parity_twd|string != 'nan' %}${{ adr.adr_parity_twd }}{% else %}-{% endif %}</div>
+        <div class="text-[10px] sm:text-xs text-gray-400">每股 TWD {% if adr.adr_parity_twd is not none and adr.adr_parity_twd != '-' and adr.adr_parity_twd|string != 'nan' %}${{ adr.adr_parity_twd }}{% else %}-{% endif %}</div>
       </div>
     </div>
     {% endfor %}
@@ -72,23 +72,23 @@
 
   <!-- 台指期外資未平倉巨量空單防護橫條 -->
   {% if macro_sentiment and macro_sentiment.tx_futures %}
-  <div class="glass-card rounded-xl p-3.5 border {% if macro_sentiment.tx_futures.is_high_risk %}border-rose-500/40 bg-rose-950/20{% else %}border-emerald-500/30 bg-emerald-950/20{% endif %} flex flex-wrap items-center justify-between gap-2 mt-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-8 h-8 rounded-lg {% if macro_sentiment.tx_futures.is_high_risk %}bg-rose-500/20 text-rose-400{% else %}bg-emerald-500/20 text-emerald-400{% endif %} flex items-center justify-center font-bold text-sm">
+  <div class="glass-card rounded-xl p-3 sm:p-3.5 border {% if macro_sentiment.tx_futures.is_high_risk %}border-rose-500/40 bg-rose-950/20{% else %}border-emerald-500/30 bg-emerald-950/20{% endif %} flex flex-wrap items-center justify-between gap-2 mt-2 sm:mt-3">
+    <div class="flex items-center space-x-2.5 sm:space-x-3">
+      <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg {% if macro_sentiment.tx_futures.is_high_risk %}bg-rose-500/20 text-rose-400{% else %}bg-emerald-500/20 text-emerald-400{% endif %} flex items-center justify-center font-bold text-xs sm:text-sm shrink-0">
         <i class="fa-solid fa-shield-halved"></i>
       </div>
       <div>
-        <div class="text-sm font-bold text-white flex items-center space-x-2">
-          <span>台指期外資未平倉淨部位 (TX Futures Guard)</span>
-          <span class="px-2 py-0.5 text-xs font-extrabold rounded-full {% if macro_sentiment.tx_futures.is_high_risk %}bg-rose-500/30 text-rose-300 border border-rose-500/50{% else %}bg-emerald-500/30 text-emerald-300 border border-emerald-500/50{% endif %}">
+        <div class="text-xs sm:text-sm font-bold text-white flex items-center space-x-1.5 sm:space-x-2 flex-wrap">
+          <span>台指期外資淨部位</span>
+          <span class="px-1.5 py-0.2 sm:px-2 sm:py-0.5 text-[10px] sm:text-xs font-extrabold rounded-full {% if macro_sentiment.tx_futures.is_high_risk %}bg-rose-500/30 text-rose-300 border border-rose-500/50{% else %}bg-emerald-500/30 text-emerald-300 border border-emerald-500/50{% endif %}">
             {{ "{:+,d}".format(macro_sentiment.tx_futures.foreign_net_oi|int) if macro_sentiment.tx_futures.foreign_net_oi is not none and macro_sentiment.tx_futures.foreign_net_oi != '-' and macro_sentiment.tx_futures.foreign_net_oi|string != 'nan' else '-' }} 口
           </span>
         </div>
-        <div class="text-xs text-gray-400 mt-0.5">{{ macro_sentiment.tx_futures.status_label }} (警戒門檻: -35,000 口)</div>
+        <div class="text-[10px] sm:text-xs text-gray-400 mt-0.5">{{ macro_sentiment.tx_futures.status_label }} (門檻: -35,000 口)</div>
       </div>
     </div>
-    <div class="text-xs font-semibold {% if macro_sentiment.tx_futures.is_high_risk %}text-rose-400{% else %}text-emerald-400{% endif %}">
-      {% if macro_sentiment.tx_futures.is_high_risk %}⚠️ 啟動權值股壓盤防護 (扣10分){% else %}✅ 期現貨平衡無異常壓盤{% endif %}
+    <div class="text-[11px] sm:text-xs font-semibold {% if macro_sentiment.tx_futures.is_high_risk %}text-rose-400{% else %}text-emerald-400{% endif %}">
+      {% if macro_sentiment.tx_futures.is_high_risk %}⚠️ 啟動防護扣分{% else %}✅ 無異常壓盤{% endif %}
     </div>
   </div>
   {% endif %}

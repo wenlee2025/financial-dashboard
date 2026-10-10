@@ -2,7 +2,11 @@
 <html lang="zh-TW" class="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="財經儀表板">
+  <meta name="theme-color" content="#0B0F19">
   <title>【每日美台財經全覽】2026-10-10 | 每日財經儀表板</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -33,14 +37,26 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+    }
     body {
       font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background-color: #0B0F19;
       color: #F3F4F6;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: calc(var(--sab) + 76px);
+    }
+    @media (min-width: 640px) {
+      body {
+        padding-bottom: 4rem;
+      }
     }
     .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 4px;
+      height: 4px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
       background: #111827;
@@ -50,8 +66,8 @@
       border-radius: 4px;
     }
     .glass-card {
-      background: rgba(17, 24, 39, 0.85);
-      backdrop-filter: blur(12px);
+      background: rgba(17, 24, 39, 0.88);
+      backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .glow-bull {
@@ -60,38 +76,49 @@
     .glow-bear {
       box-shadow: 0 0 20px rgba(244, 63, 94, 0.15);
     }
+    /* iOS 橫向吸附滾動 */
+    .snap-carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .snap-item {
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
   </style>
 </head>
-<body class="min-h-screen custom-scrollbar pb-16">
+<body class="min-h-screen custom-scrollbar">
 
-  <!-- 頂部導航列 -->
-  <header class="sticky top-0 z-50 glass-card border-b border-darkborder">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
-          <i class="fa-solid fa-chart-line text-lg"></i>
+  <!-- 頂部導航列 (iOS Safe-Area Compliant) -->
+  <header class="sticky top-0 z-50 glass-card border-b border-darkborder pt-[env(safe-area-inset-top)]">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-4">
+      <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20 shrink-0">
+          <i class="fa-solid fa-chart-line text-sm sm:text-lg"></i>
         </div>
-        <div>
-          <div class="flex items-center space-x-2">
-            <h1 class="text-lg font-bold text-white tracking-wide">每日財經分析儀表板</h1>
-            <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+        <div class="min-w-0">
+          <div class="flex items-center space-x-1.5 sm:space-x-2">
+            <h1 class="text-sm sm:text-lg font-bold text-white tracking-wide truncate">每日財經儀表板</h1>
+            <span class="px-1.5 py-0.2 sm:px-2 sm:py-0.5 text-[10px] sm:text-xs font-semibold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
               每日美台財經全覽
             </span>
           </div>
-          <div class="flex flex-wrap items-center gap-2 mt-0.5">
-            <p class="text-xs text-gray-400">更新時間：2026-10-10 12:49:04 (Asia/Taipei) | 監控標的：50 檔</p>
-            <span class="inline-flex items-center px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-950/70 text-emerald-300 border border-emerald-800">
-              <i class="fa-solid fa-shield-halved mr-1 text-emerald-400"></i>🛡️ 數據雙源交叉驗證通過 (誤差 ≤ 1.0%) | 24h 一手信源溯源
+          <div class="flex items-center gap-1.5 mt-0.5 text-[10px] sm:text-xs text-gray-400">
+            <span class="truncate">2026-10-10 13:06:10 | 50 檔</span>
+            <span class="hidden sm:inline-flex items-center px-1.5 py-0.2 text-[9px] font-bold rounded bg-emerald-950/70 text-emerald-300 border border-emerald-800">
+              🛡️ 雙源驗證通過
             </span>
           </div>
         </div>
       </div>
 
-      <div class="flex items-center space-x-3">
+      <div class="flex items-center space-x-2 shrink-0">
         <!-- 歷史存檔切換器 -->
         <div class="relative">
-          <select id="historySelect" onchange="window.location.href=this.value" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-3 py-1.5 focus:ring-emerald-500 focus:border-emerald-500">
-            <option value="index.html" selected>📅 今日最新報告 (2026-10-10)</option>
+          <select id="historySelect" onchange="window.location.href=this.value" class="bg-gray-800 border border-gray-700 text-gray-200 text-[11px] sm:text-xs rounded-lg px-2 sm:px-3 py-1.5 focus:ring-emerald-500 focus:border-emerald-500 max-w-[130px] sm:max-w-none truncate">
+            <option value="index.html" selected>📅 今日 (2026-10-10)</option>
             
             <option value="history/2026-10-10_full.html">2026-10-10 全覽</option>
             
@@ -143,16 +170,16 @@
         </div>
 
         <!-- 複製 Markdown 摘要按鈕 -->
-        <button onclick="copyMarkdownSummary()" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-gray-200 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg transition shadow-sm">
-          <i class="fa-regular fa-copy mr-1.5 text-emerald-400"></i>
-          <span id="copyBtnText">複製摘要</span>
+        <button onclick="copyMarkdownSummary()" class="inline-flex items-center px-2 sm:px-3 py-1.5 text-[11px] sm:text-xs font-medium text-gray-200 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg transition shadow-sm h-8">
+          <i class="fa-regular fa-copy mr-1 text-emerald-400"></i>
+          <span id="copyBtnText" class="hidden sm:inline">複製摘要</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- 核心三大功能分頁切換列 (Primary Navigation Tabs) -->
-  <div class="bg-gray-900/90 backdrop-blur-md border-b border-gray-800 sticky top-[61px] z-40">
+  <!-- 桌面端三大功能分頁切換列 (Desktop-Only Tab Bar) -->
+  <div class="hidden sm:block bg-gray-900/90 backdrop-blur-md border-b border-gray-800 sticky top-[61px] z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-2 overflow-x-auto custom-scrollbar">
       <div class="flex items-center space-x-2 shrink-0">
         <button id="navTabDaily" onclick="switchMainTab('daily')" class="px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition flex items-center">
@@ -172,46 +199,46 @@
       </div>
       <div class="text-[11px] text-gray-400 shrink-0 hidden sm:flex items-center space-x-2">
         <span class="inline-flex items-center px-2 py-0.5 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-800/60">
-          <i class="fa-solid fa-brain text-emerald-400 mr-1"></i> WikiSkill 記憶演化架構保護中
+          <i class="fa-solid fa-brain text-emerald-400 mr-1"></i> WikiSkill 記憶演化保護中
         </span>
       </div>
     </div>
   </div>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6 space-y-5 sm:space-y-6">
 
     <!-- ================= 1. 今日戰情視圖 (Daily Dashboard) ================= -->
-    <div id="mainSectionDaily" class="space-y-6">
+    <div id="mainSectionDaily" class="space-y-5 sm:space-y-6">
 
       <!-- 1. 核心結論與市場定調 (Executive Verdict Banner) -->
       <!-- 1. 核心結論與市場定調 (Executive Verdict Banner) -->
-<section class="glass-card rounded-2xl p-6 glow-bull border border-emerald-500/20">
+<section class="glass-card rounded-2xl p-4 sm:p-6 glow-bull border border-emerald-500/20">
   <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
     <div>
       <div class="flex items-center space-x-2 mb-1">
         <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
           <i class="fa-solid fa-bullseye mr-1"></i> 核心定調
         </span>
-        <span class="text-sm font-semibold text-gray-300">
-          市場氛圍：<span class="text-emerald-400 font-bold">震盪整理 / 觀望蓄勢</span>
+        <span class="text-xs sm:text-sm font-semibold text-gray-300">
+          市場氛圍：<span class="text-emerald-400 font-bold">高檔震盪分化與避險防守</span>
         </span>
       </div>
-      <h2 class="text-xl font-bold text-white mt-2 leading-relaxed">
-        美股科技股強勢反彈且 TSMC ADR 溢價率達 +13.49% 形成底部強勁支撐，惟台股受外資台指期 -38,200 口巨額淨空單壓盤與高價 AI 供應鏈（如川湖爆量跌停）籌碼鬆動影響，短線呈現高檔震盪整理，市場焦點靜待 10 月 15 日台積電法說會指引。
+      <h2 class="text-base sm:text-xl font-bold text-white mt-2 leading-relaxed">
+        美股標普與那指受 AI 與光通訊板塊反彈帶動小幅收高，但台股受外資巨額台指期淨空單 (-38,200 口) 壓盤與連假提款影響，加權指數下跌 0.99%；台積電 ADR 溢價達 +13.49% 形成防守底氣，惟需提防台積電 10/15 法說會前高檔高價股爆量派發與籌碼分化風險。
       </h2>
     </div>
     
-    <div class="flex items-center space-x-4 bg-gray-900/80 px-4 py-3 rounded-xl border border-gray-800 shrink-0">
-      <div class="text-center">
-        <div class="text-xs text-gray-400">恐慌與貪婪指數</div>
-        <div class="text-2xl font-black text-emerald-400">45.0</div>
-        <div class="text-xs font-medium text-emerald-300">恐慌</div>
+    <div class="flex items-center justify-around sm:justify-start space-x-4 bg-gray-900/80 px-4 py-3 rounded-xl border border-gray-800 w-full sm:w-auto shrink-0">
+      <div class="text-center flex-1 sm:flex-initial">
+        <div class="text-[11px] sm:text-xs text-gray-400">恐慌與貪婪指數</div>
+        <div class="text-xl sm:text-2xl font-black text-emerald-400">45.0</div>
+        <div class="text-[11px] sm:text-xs font-medium text-emerald-300">恐慌</div>
       </div>
       <div class="w-px h-10 bg-gray-800"></div>
-      <div class="text-center">
-        <div class="text-xs text-gray-400">美債 10 年期</div>
-        <div class="text-2xl font-black text-cyan-400">5.244%</div>
-        <div class="text-xs font-medium text-rose-400">
+      <div class="text-center flex-1 sm:flex-initial">
+        <div class="text-[11px] sm:text-xs text-gray-400">美債 10 年期</div>
+        <div class="text-xl sm:text-2xl font-black text-cyan-400">5.244%</div>
+        <div class="text-[11px] sm:text-xs font-medium text-rose-400">
           +0.25%
         </div>
       </div>
@@ -229,17 +256,17 @@
           
           <li class="flex items-start">
             <span class="text-emerald-400 mr-2 font-bold">•</span>
-            <span>TSM ADR 對台股現貨大幅溢價 +13.49%（換算台幣達 $2893.93），提供權值龍頭台積電(2330)強烈下檔防守價值與補漲動能。</span>
+            <span>美股科技主線回溫：標普 500 (+0.59%) 與那斯達克 (+0.64%) 止跌回升，VIX 恐慌指數下降 3.70% 至 14.84，顯示美股總體情緒保持穩定。</span>
           </li>
           
           <li class="flex items-start">
             <span class="text-emerald-400 mr-2 font-bold">•</span>
-            <span>美股科技板塊回溫，標普 500 (+0.59%) 與那斯達克 (+0.64%) 雙雙收高，CBOE 波動率指數 VIX 下降 -3.7% 至 14.84，美股市場避險情緒顯著降溫。</span>
+            <span>台積電 ADR 顯著高溢價：TSM ADR 收在 453.31 美元，對台股現貨 (2330) 溢價率高達 +13.49% (換算台幣達 2893.93 元)，為台股大盤提供下檔支撐力道。</span>
           </li>
           
           <li class="flex items-start">
             <span class="text-emerald-400 mr-2 font-bold">•</span>
-            <span>半導體測試與散熱主升股表現亮眼，京元電子(2449, 評分88.5)、健策(3653, 評分86.7, +5.29%) 價量齊揚突破 5MA，顯示實質營收爆發股仍獲大資金青睞。</span>
+            <span>戰術動量個股逆勢主升：京元電子 (2449, +1.67%)、健策 (3653, +5.29%) 等高分標的成交總值突破 5MA 且價量齊揚，呈現強勢大多頭控盤。</span>
           </li>
           
         
@@ -255,17 +282,17 @@
           
           <li class="flex items-start">
             <span class="text-rose-400 mr-2 font-bold">•</span>
-            <span>外資台指期淨空單高達 -38,200 口（超越 -35,000 口高風險警戒線），顯示法人避險與壓盤力道強勁，台股權值股面臨結算提款風險。</span>
+            <span>外資台指期巨額淨空單壓盤：外資期貨淨空單達 -38,200 口高風險警戒，壓制台積電、鴻海、聯發科等大型權值股反彈動能。</span>
           </li>
           
           <li class="flex items-start">
             <span class="text-rose-400 mr-2 font-bold">•</span>
-            <span>AI 伺服器與高價機殼籌碼鬆動，川湖(2059)爆量下殺 -9.97%、信驊(5274)與廣達(2382)成交總值突破 5MA 且呈「爆量出貨」型態，主力資金出現獲利落袋跡象。</span>
+            <span>高價股與 AI 供應鏈爆量下殺：川湖 (2059, -9.97%)、信驊 (5274, -1.49%)、廣達 (2382, -2.84%) 出現金額量比 1.40x 至 2.87x 的爆量出貨訊號，籌碼明顯鬆動。</span>
           </li>
           
           <li class="flex items-start">
             <span class="text-rose-400 mr-2 font-bold">•</span>
-            <span>美債 10 年期殖利率攀升至 5.244% (+0.25%)，高利率環境持續對高本益比科技股之評價擴張帶來壓力。</span>
+            <span>美債殖利率維持高位：美國 10 年期國債殖利率攀升至 5.244% (+0.25%)，持續對高估值與高 PE 科技股造成資金成本壓迫。</span>
           </li>
           
         
@@ -276,22 +303,22 @@
 
       <!-- 2. 全球主要指數與 ADR 溢價 (Indices & ADR Matrix) -->
       <!-- 2. 全球主要指數與 ADR 溢價 (Indices & ADR Matrix) -->
-<section class="space-y-4">
+<section class="space-y-3.5 sm:space-y-4">
   <div class="flex items-center justify-between">
-    <h3 class="text-base font-bold text-white flex items-center">
+    <h3 class="text-sm sm:text-base font-bold text-white flex items-center">
       <i class="fa-solid fa-globe mr-2 text-indigo-400"></i> 主要大盤與跨市場 ADR 快照
     </h3>
-    <span class="text-xs text-gray-400">即時/盤後收盤序列</span>
+    <span class="text-[10px] sm:text-xs text-gray-400">👈 手機支援橫向滑動 👉</span>
   </div>
 
-  <!-- 指數卡片 -->
-  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+  <!-- 指數卡片 (手機端橫向吸附滾動，桌面端網格排開) -->
+  <div class="flex overflow-x-auto space-x-2.5 pb-2 snap-x snap-mandatory custom-scrollbar sm:grid sm:grid-cols-3 lg:grid-cols-6 sm:gap-3 sm:space-x-0 sm:overflow-visible sm:pb-0 -mx-1 px-1">
     
       
-      <div class="glass-card rounded-xl p-3.5 border border-gray-800">
-        <div class="text-xs text-gray-400 font-medium truncate">台灣加權指數 (TAIEX)</div>
-        <div class="text-lg font-bold text-white mt-1">49,313.44</div>
-        <div class="text-xs font-semibold mt-0.5 flex items-center text-emerald-400">
+      <div class="glass-card rounded-xl p-3 sm:p-3.5 border border-gray-800 shrink-0 w-36 snap-start sm:w-auto">
+        <div class="text-[11px] sm:text-xs text-gray-400 font-medium truncate">台灣加權指數 (TAIEX)</div>
+        <div class="text-base sm:text-lg font-bold text-white mt-0.5 sm:mt-1">49,313.44</div>
+        <div class="text-[11px] sm:text-xs font-semibold mt-0.5 flex items-center text-emerald-400">
           
           <i class="fa-solid fa-caret-down mr-1"></i>
           -492.93 (-0.99%)
@@ -299,10 +326,10 @@
         </div>
       </div>
       
-      <div class="glass-card rounded-xl p-3.5 border border-gray-800">
-        <div class="text-xs text-gray-400 font-medium truncate">台灣櫃買富櫃50 (TPEx 50)</div>
-        <div class="text-lg font-bold text-white mt-1">47.82</div>
-        <div class="text-xs font-semibold mt-0.5 flex items-center text-emerald-400">
+      <div class="glass-card rounded-xl p-3 sm:p-3.5 border border-gray-800 shrink-0 w-36 snap-start sm:w-auto">
+        <div class="text-[11px] sm:text-xs text-gray-400 font-medium truncate">台灣櫃買富櫃50 (TPEx 50)</div>
+        <div class="text-base sm:text-lg font-bold text-white mt-0.5 sm:mt-1">47.82</div>
+        <div class="text-[11px] sm:text-xs font-semibold mt-0.5 flex items-center text-emerald-400">
           
           <i class="fa-solid fa-caret-down mr-1"></i>
           -0.66 (-1.36%)
@@ -314,10 +341,10 @@
 
     
       
-      <div class="glass-card rounded-xl p-3.5 border border-gray-800">
-        <div class="text-xs text-gray-400 font-medium truncate">標普 500 指數 (S&amp;P 500)</div>
-        <div class="text-lg font-bold text-white mt-1">7,811.54</div>
-        <div class="text-xs font-semibold mt-0.5 flex items-center text-emerald-400">
+      <div class="glass-card rounded-xl p-3 sm:p-3.5 border border-gray-800 shrink-0 w-36 snap-start sm:w-auto">
+        <div class="text-[11px] sm:text-xs text-gray-400 font-medium truncate">標普 500 指數 (S&amp;P 500)</div>
+        <div class="text-base sm:text-lg font-bold text-white mt-0.5 sm:mt-1">7,811.54</div>
+        <div class="text-[11px] sm:text-xs font-semibold mt-0.5 flex items-center text-emerald-400">
           
           <i class="fa-solid fa-caret-up mr-1"></i>
           +46.18 (+0.59%)
@@ -325,10 +352,10 @@
         </div>
       </div>
       
-      <div class="glass-card rounded-xl p-3.5 border border-gray-800">
-        <div class="text-xs text-gray-400 font-medium truncate">那斯達克綜合指數 (Nasdaq)</div>
-        <div class="text-lg font-bold text-white mt-1">27,366.17</div>
-        <div class="text-xs font-semibold mt-0.5 flex items-center text-emerald-400">
+      <div class="glass-card rounded-xl p-3 sm:p-3.5 border border-gray-800 shrink-0 w-36 snap-start sm:w-auto">
+        <div class="text-[11px] sm:text-xs text-gray-400 font-medium truncate">那斯達克綜合指數 (Nasdaq)</div>
+        <div class="text-base sm:text-lg font-bold text-white mt-0.5 sm:mt-1">27,366.17</div>
+        <div class="text-[11px] sm:text-xs font-semibold mt-0.5 flex items-center text-emerald-400">
           
           <i class="fa-solid fa-caret-up mr-1"></i>
           +172.83 (+0.64%)
@@ -336,10 +363,10 @@
         </div>
       </div>
       
-      <div class="glass-card rounded-xl p-3.5 border border-gray-800">
-        <div class="text-xs text-gray-400 font-medium truncate">費城半導體指數 (SOX)</div>
-        <div class="text-lg font-bold text-white mt-1">12,572.42</div>
-        <div class="text-xs font-semibold mt-0.5 flex items-center text-rose-400">
+      <div class="glass-card rounded-xl p-3 sm:p-3.5 border border-gray-800 shrink-0 w-36 snap-start sm:w-auto">
+        <div class="text-[11px] sm:text-xs text-gray-400 font-medium truncate">費城半導體指數 (SOX)</div>
+        <div class="text-base sm:text-lg font-bold text-white mt-0.5 sm:mt-1">12,572.42</div>
+        <div class="text-[11px] sm:text-xs font-semibold mt-0.5 flex items-center text-rose-400">
           
           <i class="fa-solid fa-caret-down mr-1"></i>
           -51.29 (-0.41%)
@@ -347,10 +374,10 @@
         </div>
       </div>
       
-      <div class="glass-card rounded-xl p-3.5 border border-gray-800">
-        <div class="text-xs text-gray-400 font-medium truncate">CBOE 波動率指數 (VIX)</div>
-        <div class="text-lg font-bold text-white mt-1">14.84</div>
-        <div class="text-xs font-semibold mt-0.5 flex items-center text-rose-400">
+      <div class="glass-card rounded-xl p-3 sm:p-3.5 border border-gray-800 shrink-0 w-36 snap-start sm:w-auto">
+        <div class="text-[11px] sm:text-xs text-gray-400 font-medium truncate">CBOE 波動率指數 (VIX)</div>
+        <div class="text-base sm:text-lg font-bold text-white mt-0.5 sm:mt-1">14.84</div>
+        <div class="text-[11px] sm:text-xs font-semibold mt-0.5 flex items-center text-rose-400">
           
           <i class="fa-solid fa-caret-down mr-1"></i>
           -0.57 (-3.70%)
@@ -363,24 +390,24 @@
 
   <!-- ADR 溢價率對照卡 -->
   
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3">
     
-    <div class="glass-card rounded-xl p-4 border border-indigo-500/20 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-sm">
+    <div class="glass-card rounded-xl p-3 sm:p-4 border border-indigo-500/20 flex items-center justify-between">
+      <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-xs sm:text-sm shrink-0">
           ADR
         </div>
-        <div>
-          <div class="text-sm font-bold text-white">TSM (ADR) ⟷ 2330 (現貨)</div>
-          <div class="text-xs text-gray-400">換股比 1:5.0 | 匯率 31.92</div>
+        <div class="min-w-0">
+          <div class="text-xs sm:text-sm font-bold text-white truncate">TSM ⟷ 2330</div>
+          <div class="text-[10px] sm:text-xs text-gray-400">1:5.0 | 匯率 31.92</div>
         </div>
       </div>
-      <div class="text-right">
-        <div class="text-xs text-gray-400">折溢價率</div>
-        <div class="text-base font-extrabold text-emerald-400">
+      <div class="text-right shrink-0">
+        <div class="text-[10px] sm:text-xs text-gray-400">折溢價率</div>
+        <div class="text-sm sm:text-base font-extrabold text-emerald-400">
           +13.49% (溢價)
         </div>
-        <div class="text-xs text-gray-400">換算每股 TWD $2893.93</div>
+        <div class="text-[10px] sm:text-xs text-gray-400">每股 TWD $2893.93</div>
       </div>
     </div>
     
@@ -389,23 +416,23 @@
 
   <!-- 台指期外資未平倉巨量空單防護橫條 -->
   
-  <div class="glass-card rounded-xl p-3.5 border border-rose-500/40 bg-rose-950/20 flex flex-wrap items-center justify-between gap-2 mt-3">
-    <div class="flex items-center space-x-3">
-      <div class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-sm">
+  <div class="glass-card rounded-xl p-3 sm:p-3.5 border border-rose-500/40 bg-rose-950/20 flex flex-wrap items-center justify-between gap-2 mt-2 sm:mt-3">
+    <div class="flex items-center space-x-2.5 sm:space-x-3">
+      <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-xs sm:text-sm shrink-0">
         <i class="fa-solid fa-shield-halved"></i>
       </div>
       <div>
-        <div class="text-sm font-bold text-white flex items-center space-x-2">
-          <span>台指期外資未平倉淨部位 (TX Futures Guard)</span>
-          <span class="px-2 py-0.5 text-xs font-extrabold rounded-full bg-rose-500/30 text-rose-300 border border-rose-500/50">
+        <div class="text-xs sm:text-sm font-bold text-white flex items-center space-x-1.5 sm:space-x-2 flex-wrap">
+          <span>台指期外資淨部位</span>
+          <span class="px-1.5 py-0.2 sm:px-2 sm:py-0.5 text-[10px] sm:text-xs font-extrabold rounded-full bg-rose-500/30 text-rose-300 border border-rose-500/50">
             -38,200 口
           </span>
         </div>
-        <div class="text-xs text-gray-400 mt-0.5">⚠️ 外資台指期巨額淨空單壓盤 (-38,200 口) (警戒門檻: -35,000 口)</div>
+        <div class="text-[10px] sm:text-xs text-gray-400 mt-0.5">⚠️ 外資台指期巨額淨空單壓盤 (-38,200 口) (門檻: -35,000 口)</div>
       </div>
     </div>
-    <div class="text-xs font-semibold text-rose-400">
-      ⚠️ 啟動權值股壓盤防護 (扣10分)
+    <div class="text-[11px] sm:text-xs font-semibold text-rose-400">
+      ⚠️ 啟動防護扣分
     </div>
   </div>
   
@@ -545,55 +572,57 @@
 
 
       <!-- 4. 個股多空量化矩陣與關鍵點位 (Stock Scoring & Key Levels) -->
-      <section class="space-y-4">
-        <div class="flex flex-wrap items-center justify-between gap-3">
+      <section class="space-y-3.5 sm:space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h3 class="text-base font-bold text-white flex items-center">
-              <i class="fa-solid fa-cubes-stacked mr-2 text-emerald-400"></i> 監控標的多空評分與操作點位儀表
-              <span id="stockCountBadge" class="ml-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-gray-800 text-gray-300 border border-gray-700">
+            <h3 class="text-sm sm:text-base font-bold text-white flex items-center">
+              <i class="fa-solid fa-cubes-stacked mr-2 text-emerald-400"></i> 標的多空評分與操作點位
+              <span id="stockCountBadge" class="ml-2 px-2 py-0.5 text-[10px] sm:text-xs font-semibold rounded-full bg-gray-800 text-gray-300 border border-gray-700">
                 共 50 檔
               </span>
             </h3>
-            <p class="text-xs text-gray-400 mt-0.5">即時多空評分、S1/S2、R1/R2、停損停利 (TP/SL) 與風險報酬比</p>
+            <p class="text-[11px] sm:text-xs text-gray-400 mt-0.5">即時多空評分、ATR 點位與 TradingAgent 激辯裁決</p>
           </div>
 
-          <!-- 視圖切換與搜尋列 -->
-          <div class="flex flex-wrap items-center gap-2">
+          <!-- 視圖切換與搜尋列 (Mobile-First: 搜尋滿版 + 3等分篩選網格) -->
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
             <!-- 搜尋框 -->
-            <div class="relative">
-              <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-gray-400"></i>
-              <input type="text" id="stockSearchInput" oninput="applyFilters()" placeholder="搜尋代碼、股名、產業..." class="bg-gray-800/90 border border-gray-700 text-gray-200 text-xs rounded-lg pl-8 pr-3 py-1.5 focus:ring-emerald-500 focus:border-emerald-500 w-44 sm:w-56">
+            <div class="relative w-full sm:w-48">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 sm:top-2.5 text-xs text-gray-400"></i>
+              <input type="text" id="stockSearchInput" oninput="applyFilters()" placeholder="搜尋代碼、股名..." class="w-full bg-gray-800/90 border border-gray-700 text-gray-200 text-xs sm:text-xs rounded-xl pl-8 pr-3 py-2 sm:py-1.5 focus:ring-emerald-500 focus:border-emerald-500 h-10 sm:h-8">
             </div>
 
-            <!-- 市場篩選 -->
-            <select id="marketFilter" onchange="applyFilters()" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-2.5 py-1.5 focus:ring-emerald-500">
-              <option value="ALL">全部市場</option>
-              <option value="TW">台股 (TW)</option>
-              <option value="US">美股 (US)</option>
-            </select>
+            <!-- 篩選器與排序 (手機端 3 列網格均分，桌面端 flex-row) -->
+            <div class="grid grid-cols-3 sm:flex items-center gap-2 w-full sm:w-auto">
+              <!-- 市場篩選 -->
+              <select id="marketFilter" onchange="applyFilters()" class="w-full sm:w-auto bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-xl px-2 py-2 sm:py-1.5 focus:ring-emerald-500 h-10 sm:h-8">
+                <option value="ALL">全部市場</option>
+                <option value="TW">台股 (TW)</option>
+                <option value="US">美股 (US)</option>
+              </select>
 
-            <!-- 評級篩選 -->
-            <select id="ratingFilter" onchange="applyFilters()" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-2.5 py-1.5 focus:ring-emerald-500">
-              <option value="ALL">全部評級</option>
-              <option value="strong_bull">🟢🟢 強力做多</option>
-              <option value="lean_bull">🟢 偏多震盪</option>
-              <option value="neutral">🟡 中立觀望</option>
-              <option value="lean_bear">🟠 偏空防守</option>
-              <option value="strong_bear">🔴 避險做空</option>
-            </select>
+              <!-- 評級篩選 -->
+              <select id="ratingFilter" onchange="applyFilters()" class="w-full sm:w-auto bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-xl px-1.5 py-2 sm:py-1.5 focus:ring-emerald-500 h-10 sm:h-8">
+                <option value="ALL">全部評級</option>
+                <option value="strong_bull">🟢 強力做多</option>
+                <option value="lean_bull">🟢 偏多震盪</option>
+                <option value="neutral">🟡 中立觀望</option>
+                <option value="lean_bear">🟠 偏空防守</option>
+                <option value="strong_bear">🔴 避險做空</option>
+              </select>
 
-            <!-- 排序 -->
-            <select id="sortSelect" onchange="applySorting()" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-2.5 py-1.5 focus:ring-emerald-500">
-              <option value="score_desc">評分 (高至低)</option>
-              <option value="score_asc">評分 (低至高)</option>
-              <option value="matrix_desc">決策 (進攻優先)</option>
-              <option value="pct_desc">漲跌幅 (高至低)</option>
-              <option value="pct_asc">漲跌幅 (低至高)</option>
-              <option value="symbol_asc">代碼排序</option>
-            </select>
+              <!-- 排序 -->
+              <select id="sortSelect" onchange="applySorting()" class="w-full sm:w-auto bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-xl px-1.5 py-2 sm:py-1.5 focus:ring-emerald-500 h-10 sm:h-8">
+                <option value="score_desc">評分↓</option>
+                <option value="score_asc">評分↑</option>
+                <option value="matrix_desc">決策優先</option>
+                <option value="pct_desc">漲幅高</option>
+                <option value="symbol_asc">代碼序</option>
+              </select>
+            </div>
 
-            <!-- 視圖切換按鈕 (卡片 / 表格) -->
-            <div class="flex items-center bg-gray-800 rounded-lg p-0.5 border border-gray-700">
+            <!-- 桌面端視圖切換按鈕 (手機端隱藏，鎖定最佳卡片模式) -->
+            <div class="hidden sm:flex items-center bg-gray-800 rounded-lg p-0.5 border border-gray-700 shrink-0">
               <button id="btnCardView" onclick="setViewMode('card')" class="px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition">
                 <i class="fa-solid fa-table-cells-large mr-1"></i> 卡片
               </button>
@@ -604,25 +633,25 @@
           </div>
         </div>
 
-        <!-- 產業板塊與標籤快速過濾列 (Industry Sector Tabs) -->
-        <div class="flex flex-wrap items-center gap-2 pb-2">
-          <button onclick="setSectorFilter('all')" id="tab-sec-all" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 text-white border border-emerald-500 shadow-sm transition">
+        <!-- 產業板塊快速滑動列 (橫向吸附滾動，適配單手輕滑) -->
+        <div class="flex overflow-x-auto whitespace-nowrap custom-scrollbar py-1 space-x-2 -mx-1 px-1">
+          <button onclick="setSectorFilter('all')" id="tab-sec-all" class="sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 text-white border border-emerald-500 shadow-sm transition">
             🌐 全部 (50)
           </button>
-          <button onclick="setSectorFilter('focus')" id="tab-sec-focus" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
+          <button onclick="setSectorFilter('focus')" id="tab-sec-focus" class="sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white transition">
             🔥 主力焦點
           </button>
-          <button onclick="setSectorFilter('ai_server')" id="tab-sec-ai_server" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
+          <button onclick="setSectorFilter('ai_server')" id="tab-sec-ai_server" class="sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white transition">
             🤖 AI 伺服器與散熱
           </button>
-          <button onclick="setSectorFilter('semiconductor')" id="tab-sec-semiconductor" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
+          <button onclick="setSectorFilter('semiconductor')" id="tab-sec-semiconductor" class="sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white transition">
             ⚡ 半導體與IC設計
           </button>
-          <button onclick="setSectorFilter('pcb_substrate')" id="tab-sec-pcb_substrate" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
-            📦 PCB與載板
+          <button onclick="setSectorFilter('pcb_substrate')" id="tab-sec-pcb_substrate" class="sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white transition">
+            📦 PCB載板
           </button>
-          <button onclick="setSectorFilter('us_tech')" id="tab-sec-us_tech" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
-            🇺🇸 美股科技巨頭
+          <button onclick="setSectorFilter('us_tech')" id="tab-sec-us_tech" class="sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white transition">
+            🇺🇸 美股巨頭
           </button>
         </div>
 
@@ -633,7 +662,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2449"
        data-name="京元電子"
        data-market="TW"
@@ -751,8 +780,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.97:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$283.24</div>
@@ -823,7 +852,7 @@
     
     <div class="mt-2 pt-2 border-t border-gray-800/80">
       <details class="group cursor-pointer">
-        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-1 select-none list-none">
+        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-2 sm:py-1 min-h-[44px] sm:min-h-0 select-none list-none">
           <div class="flex items-center space-x-2">
             <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
               <i class="fa-solid fa-scale-balanced"></i>
@@ -889,7 +918,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="3653"
        data-name="健策"
        data-market="TW"
@@ -1007,8 +1036,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.84:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$6594.43</div>
@@ -1079,7 +1108,7 @@
     
     <div class="mt-2 pt-2 border-t border-gray-800/80">
       <details class="group cursor-pointer">
-        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-1 select-none list-none">
+        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-2 sm:py-1 min-h-[44px] sm:min-h-0 select-none list-none">
           <div class="flex items-center space-x-2">
             <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
               <i class="fa-solid fa-scale-balanced"></i>
@@ -1147,7 +1176,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="3443"
        data-name="創意"
        data-market="TW"
@@ -1265,8 +1294,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.04:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$7668.08</div>
@@ -1337,7 +1366,7 @@
     
     <div class="mt-2 pt-2 border-t border-gray-800/80">
       <details class="group cursor-pointer">
-        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-1 select-none list-none">
+        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-2 sm:py-1 min-h-[44px] sm:min-h-0 select-none list-none">
           <div class="flex items-center space-x-2">
             <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
               <i class="fa-solid fa-scale-balanced"></i>
@@ -1405,7 +1434,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2344"
        data-name="華邦電"
        data-market="TW"
@@ -1523,8 +1552,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$168.65</div>
@@ -1599,7 +1628,7 @@
     
     <div class="mt-2 pt-2 border-t border-gray-800/80">
       <details class="group cursor-pointer">
-        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-1 select-none list-none">
+        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-2 sm:py-1 min-h-[44px] sm:min-h-0 select-none list-none">
           <div class="flex items-center space-x-2">
             <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
               <i class="fa-solid fa-scale-balanced"></i>
@@ -1663,7 +1692,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2376"
        data-name="技嘉"
        data-market="TW"
@@ -1781,8 +1810,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$347.27</div>
@@ -1861,7 +1890,7 @@
     
     <div class="mt-2 pt-2 border-t border-gray-800/80">
       <details class="group cursor-pointer">
-        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-1 select-none list-none">
+        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-2 sm:py-1 min-h-[44px] sm:min-h-0 select-none list-none">
           <div class="flex items-center space-x-2">
             <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
               <i class="fa-solid fa-scale-balanced"></i>
@@ -1925,7 +1954,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="3711"
        data-name="日月光投控"
        data-market="TW"
@@ -2043,8 +2072,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.71:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$699.67</div>
@@ -2126,7 +2155,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="6415"
        data-name="矽力*-KY"
        data-market="TW"
@@ -2244,8 +2273,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.75:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$435.60</div>
@@ -2307,7 +2336,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="NVDA"
        data-name="NVIDIA (輝達)"
        data-market="US"
@@ -2425,8 +2454,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$223.04</div>
@@ -2496,7 +2525,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="PLTR"
        data-name="Palantir"
        data-market="US"
@@ -2614,8 +2643,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.71:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$198.64</div>
@@ -2685,7 +2714,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2379"
        data-name="瑞昱"
        data-market="TW"
@@ -2803,8 +2832,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.21:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$721.23</div>
@@ -2886,7 +2915,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="3665"
        data-name="貿聯-KY"
        data-market="TW"
@@ -3004,8 +3033,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$2192.43</div>
@@ -3075,7 +3104,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="3017"
        data-name="奇鋐"
        data-market="TW"
@@ -3193,8 +3222,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.12:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$3212.43</div>
@@ -3268,7 +3297,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2455"
        data-name="全新"
        data-market="TW"
@@ -3386,8 +3415,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.98:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$521.65</div>
@@ -3465,7 +3494,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="3008"
        data-name="大立光"
        data-market="TW"
@@ -3583,8 +3612,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.91:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">🛡️ 豁免硬停損 (論文控管)</div>
@@ -3650,7 +3679,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2330"
        data-name="台積電"
        data-market="TW"
@@ -3768,8 +3797,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.66:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">🛡️ 豁免硬停損 (論文控管)</div>
@@ -3851,7 +3880,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2313"
        data-name="華通"
        data-market="TW"
@@ -3969,8 +3998,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.13:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$233.13</div>
@@ -4044,7 +4073,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2360"
        data-name="致茂"
        data-market="TW"
@@ -4162,8 +4191,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.83:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$2152.57</div>
@@ -4237,7 +4266,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="TSM"
        data-name="台積電 ADR (TSMC)"
        data-market="US"
@@ -4355,8 +4384,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$439.81</div>
@@ -4426,7 +4455,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="AAPL"
        data-name="Apple (蘋果)"
        data-market="US"
@@ -4544,8 +4573,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.71:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$328.89</div>
@@ -4603,7 +4632,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="6239"
        data-name="力成"
        data-market="TW"
@@ -4721,8 +4750,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.33:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$289.25</div>
@@ -4788,7 +4817,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="6669"
        data-name="緯穎"
        data-market="TW"
@@ -4906,8 +4935,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$2148.72</div>
@@ -4977,7 +5006,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="3037"
        data-name="欣興"
        data-market="TW"
@@ -5095,8 +5124,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.02:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$1173.95</div>
@@ -5162,7 +5191,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="3189"
        data-name="景碩"
        data-market="TW"
@@ -5280,8 +5309,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.82:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$986.85</div>
@@ -5351,7 +5380,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2383"
        data-name="台光電"
        data-market="TW"
@@ -5469,8 +5498,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.07:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$5571.01</div>
@@ -5540,7 +5569,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="6213"
        data-name="聯茂"
        data-market="TW"
@@ -5658,8 +5687,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.16:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$742.66</div>
@@ -5733,7 +5762,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="1785"
        data-name="光洋科"
        data-market="TW"
@@ -5851,8 +5880,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.76:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$97.68</div>
@@ -5914,7 +5943,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="3035"
        data-name="智原"
        data-market="TW"
@@ -6032,8 +6061,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$191.25</div>
@@ -6091,7 +6120,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2345"
        data-name="智邦"
        data-market="TW"
@@ -6209,8 +6238,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.19:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$1924.97</div>
@@ -6276,7 +6305,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2327"
        data-name="國巨*"
        data-market="TW"
@@ -6394,8 +6423,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.33:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$586.89</div>
@@ -6465,7 +6494,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="6285"
        data-name="啟碁"
        data-market="TW"
@@ -6583,8 +6612,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.13:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$242.68</div>
@@ -6658,7 +6687,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="00981A"
        data-name="00981A"
        data-market="TW"
@@ -6772,8 +6801,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.72:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$30.92</div>
@@ -6843,7 +6872,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="MSFT"
        data-name="Microsoft (微軟)"
        data-market="US"
@@ -6961,8 +6990,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.07:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$512.01</div>
@@ -7024,7 +7053,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="6274"
        data-name="台燿"
        data-market="TW"
@@ -7142,8 +7171,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.36:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$1595.70</div>
@@ -7201,7 +7230,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="4958"
        data-name="臻鼎-KY"
        data-market="TW"
@@ -7319,8 +7348,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.11:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$552.68</div>
@@ -7378,7 +7407,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="AMZN"
        data-name="Amazon (亞馬遜)"
        data-market="US"
@@ -7492,8 +7521,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.64:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$251.83</div>
@@ -7551,7 +7580,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="009816"
        data-name="KGI SECURITIES INVT TST CO LTD "
        data-market="TW"
@@ -7665,8 +7694,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.61:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$16.38</div>
@@ -7728,7 +7757,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="6223"
        data-name="旺矽"
        data-market="TW"
@@ -7846,8 +7875,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.81:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$5207.28</div>
@@ -7905,7 +7934,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2308"
        data-name="台達電"
        data-market="TW"
@@ -8023,8 +8052,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.97:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$1838.43</div>
@@ -8090,7 +8119,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="CRWD"
        data-name="CrowdStrike"
        data-market="US"
@@ -8204,8 +8233,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 0.5:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$258.80</div>
@@ -8271,7 +8300,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2303"
        data-name="聯電"
        data-market="TW"
@@ -8389,8 +8418,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$139.05</div>
@@ -8460,7 +8489,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="3034"
        data-name="聯詠"
        data-market="TW"
@@ -8578,8 +8607,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$514.45</div>
@@ -8645,7 +8674,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2324"
        data-name="仁寶"
        data-market="TW"
@@ -8763,8 +8792,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$34.59</div>
@@ -8830,7 +8859,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2317"
        data-name="鴻海"
        data-market="TW"
@@ -8948,8 +8977,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.21:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">🛡️ 豁免硬停損 (論文控管)</div>
@@ -9031,7 +9060,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2454"
        data-name="聯發科"
        data-market="TW"
@@ -9149,8 +9178,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">🛡️ 豁免硬停損 (論文控管)</div>
@@ -9220,7 +9249,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="6515"
        data-name="穎崴"
        data-market="TW"
@@ -9338,8 +9367,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$5177.85</div>
@@ -9401,7 +9430,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="7769"
        data-name="鴻勁"
        data-market="TW"
@@ -9519,8 +9548,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$5559.85</div>
@@ -9579,7 +9608,7 @@
     
     <div class="mt-2 pt-2 border-t border-gray-800/80">
       <details class="group cursor-pointer">
-        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-1 select-none list-none">
+        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-2 sm:py-1 min-h-[44px] sm:min-h-0 select-none list-none">
           <div class="flex items-center space-x-2">
             <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
               <i class="fa-solid fa-scale-balanced"></i>
@@ -9643,7 +9672,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="5274"
        data-name="信驊"
        data-market="TW"
@@ -9761,8 +9790,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$16185.15</div>
@@ -9817,7 +9846,7 @@
     
     <div class="mt-2 pt-2 border-t border-gray-800/80">
       <details class="group cursor-pointer">
-        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-1 select-none list-none">
+        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-2 sm:py-1 min-h-[44px] sm:min-h-0 select-none list-none">
           <div class="flex items-center space-x-2">
             <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
               <i class="fa-solid fa-scale-balanced"></i>
@@ -9881,7 +9910,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2059"
        data-name="川湖"
        data-market="TW"
@@ -9999,8 +10028,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$9751.85</div>
@@ -10063,7 +10092,7 @@
     
     <div class="mt-2 pt-2 border-t border-gray-800/80">
       <details class="group cursor-pointer">
-        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-1 select-none list-none">
+        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-2 sm:py-1 min-h-[44px] sm:min-h-0 select-none list-none">
           <div class="flex items-center space-x-2">
             <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
               <i class="fa-solid fa-scale-balanced"></i>
@@ -10127,7 +10156,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="COIN"
        data-name="Coinbase"
        data-market="US"
@@ -10241,8 +10270,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$167.95</div>
@@ -10293,7 +10322,7 @@
     
     <div class="mt-2 pt-2 border-t border-gray-800/80">
       <details class="group cursor-pointer">
-        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-1 select-none list-none">
+        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-2 sm:py-1 min-h-[44px] sm:min-h-0 select-none list-none">
           <div class="flex items-center space-x-2">
             <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
               <i class="fa-solid fa-scale-balanced"></i>
@@ -10357,7 +10386,7 @@
   
   
   
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-3.5 sm:p-5 border border-gray-800 hover:border-gray-700 transition space-y-3.5 sm:space-y-4"
        data-symbol="2382"
        data-name="廣達"
        data-market="TW"
@@ -10475,8 +10504,8 @@
         <span class="text-emerald-400 font-bold">風報比 R:R = 1.25:1</span>
       </div>
 
-      <!-- 點位網格 -->
-      <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
+      <!-- 點位網格 (手機 2x2 大字磁貼，桌面 4 欄並列) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs pt-1">
         <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
           <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
           <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">$317.92</div>
@@ -10547,7 +10576,7 @@
     
     <div class="mt-2 pt-2 border-t border-gray-800/80">
       <details class="group cursor-pointer">
-        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-1 select-none list-none">
+        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-2 sm:py-1 min-h-[44px] sm:min-h-0 select-none list-none">
           <div class="flex items-center space-x-2">
             <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
               <i class="fa-solid fa-scale-balanced"></i>
@@ -10610,7 +10639,7 @@
   
 </div>
 
-        <!-- 視圖 B: 高密度清單表格視圖 (Table View) -->
+        <!-- 視圖 B: 高密度清單表格視圖 (Table View, 桌面端支援) -->
         <!-- 視圖 B: 高密度清單表格視圖 (Table View) -->
 <div id="stockTableContainer" class="hidden glass-card rounded-2xl border border-gray-800 overflow-hidden">
   <div class="overflow-x-auto">
@@ -15234,11 +15263,11 @@
 
       <!-- 4.5 多股多維度量化雷達圖橫向對比 (Multi-Stock Radar Comparison) -->
       <!-- 4.5 多股多維度量化雷達圖橫向對比 (Multi-Stock Radar Comparison) -->
-<section id="multiStockRadarSection" class="glass-card rounded-2xl p-6 glow-bull border border-emerald-500/20 space-y-5">
+<section id="multiStockRadarSection" class="glass-card rounded-2xl p-4 sm:p-6 glow-bull border border-emerald-500/20 space-y-4 sm:space-y-5">
   <!-- 標題與簡介 -->
-  <div class="flex flex-wrap items-center justify-between gap-3">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
     <div>
-      <h3 class="text-base font-bold text-white flex items-center">
+      <h3 class="text-sm sm:text-base font-bold text-white flex items-center">
         <i class="fa-solid fa-chart-pie mr-2 text-emerald-400"></i> 多股六大維度量化雷達橫向對比
         <span id="selectedRadarBadge" class="ml-2.5 px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
           已選取 3/6 檔
@@ -15250,8 +15279,8 @@
     </div>
 
     <!-- 快捷情境按鈕 -->
-    <div class="flex flex-wrap items-center gap-2">
-      <span class="text-xs text-gray-400 font-medium">快捷情境：</span>
+    <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+      <span class="text-xs text-gray-400 font-medium">快捷：</span>
       <button type="button" onclick="applyRadarPreset('core')" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-gray-800 text-amber-300 border border-amber-500/30 hover:bg-gray-700 transition">
         👑 權值核心
       </button>
@@ -15269,23 +15298,23 @@
 
   <!-- 標的挑選器標籤列表 (Pill Chips) -->
   <div class="space-y-2">
-    <div class="flex items-center justify-between text-xs text-gray-400">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-gray-400 gap-2">
       <span>點擊標籤切換選取（支援同時比對 2~6 檔）：</span>
-      <div class="relative w-48">
+      <div class="relative w-full sm:w-48">
         <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-[10px] text-gray-400"></i>
-        <input type="text" id="radarSearchInput" oninput="filterRadarChips()" placeholder="過濾候選標的..." class="w-full bg-gray-900 border border-gray-700 text-gray-200 text-xs rounded-lg pl-7 pr-2 py-1 focus:ring-emerald-500">
+        <input type="text" id="radarSearchInput" oninput="filterRadarChips()" placeholder="過濾候選標的..." class="w-full bg-gray-900 border border-gray-700 text-gray-200 text-xs rounded-lg pl-7 pr-2 py-1.5 sm:py-1 focus:ring-emerald-500">
       </div>
     </div>
-    <div id="radarChipContainer" class="flex flex-wrap gap-2 max-h-28 overflow-y-auto custom-scrollbar p-1.5 bg-gray-900/50 rounded-xl border border-gray-800/80">
+    <div id="radarChipContainer" class="flex flex-wrap gap-1.5 sm:gap-2 max-h-28 overflow-y-auto custom-scrollbar p-2 bg-gray-900/50 rounded-xl border border-gray-800/80">
       <!-- 由 JS 動態生成 chip 元素 -->
     </div>
   </div>
 
   <!-- 主要展示區：左側雷達圖 + 右側對比指標總覽 -->
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-    <!-- ECharts 雷達圖容器 -->
-    <div class="lg:col-span-7 bg-gray-900/60 rounded-xl p-4 border border-gray-800/80">
-      <div id="multiStockRadarChart" style="width: 100%; height: 420px;"></div>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-start">
+    <!-- ECharts 雷達圖容器 (支援手機手勢透傳) -->
+    <div class="lg:col-span-7 bg-gray-900/60 rounded-xl p-3 sm:p-4 border border-gray-800/80 overflow-hidden">
+      <div id="multiStockRadarChart" class="w-full h-[310px] sm:h-[420px]" style="touch-action: pan-y;"></div>
     </div>
 
     <!-- 右側橫向對比卡片/列表 -->
@@ -15315,7 +15344,7 @@
 
 
 
-<section id="portfolioGovernorSection" class="glass-card rounded-2xl p-6 glow-bull border border-indigo-500/20 space-y-5">
+<section id="portfolioGovernorSection" class="glass-card rounded-2xl p-4 sm:p-6 glow-bull border border-indigo-500/20 space-y-4 sm:space-y-5">
   <!-- 頂部標題與核心摘要 -->
   <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-gray-800">
     <div>
@@ -15421,7 +15450,7 @@
               <span class="text-gray-400 font-medium">大盤/產業</span>
             </div>
             <span class="text-gray-400 flex items-center">
-              <i class="fa-regular fa-clock mr-1 text-gray-400"></i> 2 小時前 (2026-10-10 02:05)
+              <i class="fa-regular fa-clock mr-1 text-gray-400"></i> 3 小時前 (2026-10-10 02:05)
             </span>
           </div>
           <a href="https://news.google.com/rss/articles/CBMiakFVX3lxTE9VRjFaUDVFVHZMSVJBYldfMU9lQk1aWTFrd1hHMzBiS25jNmRoaHAza1VIRk1hdTkyTFBGRE5JbVFlRURkbktkZEktdk8tTUVOZ2VWakdWVHhHQUZuQmFWY2FZcUQtWXlWRmc?oc=5" target="_blank" rel="noopener noreferrer" class="font-semibold text-white hover:text-emerald-400 transition leading-snug flex items-start justify-between group">
@@ -15457,7 +15486,7 @@
               <span class="text-gray-400 font-medium">2330 台積電</span>
             </div>
             <span class="text-gray-400 flex items-center">
-              <i class="fa-regular fa-clock mr-1 text-gray-400"></i> 3 小時前 (2026-10-10 00:50)
+              <i class="fa-regular fa-clock mr-1 text-gray-400"></i> 4 小時前 (2026-10-10 00:50)
             </span>
           </div>
           <a href="https://news.google.com/rss/articles/CBMiggFBVV95cUxON0ZHRjJXYVQ1Yl91WE45NkNvbWlVMkgwSk1wTDVZVU1yZWVpMzY3bjlhSXFDazd2c2liVmZ6WUNtNFlDSXhTcFNoUWJPRXhqMHVnRTF6NjY2d0p6OUNhREdEYUVsUDl0Y241ckRuRDZqVjRraTh3S3NQclB4YnBkRi1B?oc=5" target="_blank" rel="noopener noreferrer" class="font-semibold text-white hover:text-emerald-400 transition leading-snug flex items-start justify-between group">
@@ -15511,7 +15540,7 @@
               <span class="text-gray-400 font-medium">2344 華邦電</span>
             </div>
             <span class="text-gray-400 flex items-center">
-              <i class="fa-regular fa-clock mr-1 text-gray-400"></i> 9 小時前 (2026-10-09 19:00)
+              <i class="fa-regular fa-clock mr-1 text-gray-400"></i> 10 小時前 (2026-10-09 19:00)
             </span>
           </div>
           <a href="https://news.google.com/rss/articles/CBMiX0FVX3lxTE9ONUJ0VElOelZDRV9qNFQtcnljSjZQQnF1WHJIYkZRLVNobGhWdEpMdXFzUmlQLXRtbThEOEI5bkQxOFhvTEU4bEowTUhIbzFTUEpveC1nNTlaZWp1NThZ?oc=5" target="_blank" rel="noopener noreferrer" class="font-semibold text-white hover:text-emerald-400 transition leading-snug flex items-start justify-between group">
@@ -15570,22 +15599,22 @@
         
         <label class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:bg-gray-800/80 transition">
           <input type="checkbox" class="mt-0.5 rounded text-emerald-500 focus:ring-emerald-400 bg-gray-700 border-gray-600 mr-2.5">
-          <span class="leading-relaxed">持股水位控管：總持股比重建議維持在 50% - 60%，預留現金部位以因應外資台指期巨額空單引發的短線波動。</span>
+          <span class="leading-relaxed">總體部位控管：建議將總持股水位維持在 40%-50% 中性偏防守區間，保留現金因應外資結算與高檔震盪。</span>
         </label>
         
         <label class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:bg-gray-800/80 transition">
           <input type="checkbox" class="mt-0.5 rounded text-emerald-500 focus:ring-emerald-400 bg-gray-700 border-gray-600 mr-2.5">
-          <span class="leading-relaxed">落實停損避險：針對「爆量出貨」及評分低於 40 分之弱勢股（如川湖 2059、廣達 2382、信驊 5274），跌破支撐位 S1 即應嚴格執行減碼停損。</span>
+          <span class="leading-relaxed">破線與爆量出貨防守：針對評分偏低且爆量下殺之標的（如川湖 $9751.85、信驊 $16185.15、廣達 $317.92），應切實執行停損或防守減碼。</span>
         </label>
         
         <label class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:bg-gray-800/80 transition">
           <input type="checkbox" class="mt-0.5 rounded text-emerald-500 focus:ring-emerald-400 bg-gray-700 border-gray-600 mr-2.5">
-          <span class="leading-relaxed">分批佈局主升股：對於多空評分高於 75 分之強勢動能股（如京元電子 2449、健策 3653、創意 3443），可在進場區間（Entry Zone）採拉回分批佈局策略。</span>
+          <span class="leading-relaxed">特許核心資產採金字塔接刀：台積電 (2330)、鴻海 (2317)、聯發科 (2454) 具備波克夏核心護城河，豁免硬停損，建議採 -10%、-20%、-30% 金字塔左側分批佈局。</span>
         </label>
         
         <label class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:bg-gray-800/80 transition">
           <input type="checkbox" class="mt-0.5 rounded text-emerald-500 focus:ring-emerald-400 bg-gray-700 border-gray-600 mr-2.5">
-          <span class="leading-relaxed">波克夏特許核心防守：波克夏核心資產（台積電 2330、鴻海 2317）豁免 ATR 硬停損，採左側金字塔策略於 -10%、-20%、-30% 折價點位分批承接。</span>
+          <span class="leading-relaxed">戰術動量標的右側順勢操作：優先選擇量價齊揚且雙週期多頭之高分標的（如京元電子 2449、健策 3653），於建議進場區內分批佈局並嚴格執行 ATR 止損。</span>
         </label>
         
       
@@ -16729,25 +16758,50 @@
 
   </main>
 
-  <!-- 頁尾 -->
-  <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-400">
+  <!-- 手機端底部浮動大拇指導航列 (iPhone 16 Pro Home Bar Safe-Area Compliant) -->
+  <nav class="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-xl border-t border-gray-800 pb-[env(safe-area-inset-bottom)] px-3 py-1.5 shadow-2xl">
+    <div class="grid grid-cols-3 gap-1">
+      <button id="mobileNavTabDaily" onclick="switchMainTab('daily')" class="flex flex-col items-center justify-center py-1.5 px-2 rounded-xl text-emerald-400 bg-emerald-500/10 font-bold text-[11px] transition">
+        <i class="fa-solid fa-gauge-high text-base mb-0.5"></i>
+        <span>今日戰情</span>
+      </button>
+      <button id="mobileNavTabPerf" onclick="switchMainTab('perf')" class="flex flex-col items-center justify-center py-1.5 px-2 rounded-xl text-gray-400 font-medium text-[11px] transition hover:text-gray-200">
+        <div class="relative">
+          <i class="fa-solid fa-bullseye text-base mb-0.5 text-amber-400"></i>
+          
+          <span class="absolute -top-1 -right-3.5 px-1 py-0.1 text-[8px] font-black rounded-full bg-amber-500 text-black">
+            71%
+          </span>
+          
+        </div>
+        <span>勝率榜</span>
+      </button>
+      <button id="mobileNavTabWiki" onclick="switchMainTab('wiki')" class="flex flex-col items-center justify-center py-1.5 px-2 rounded-xl text-gray-400 font-medium text-[11px] transition hover:text-gray-200">
+        <i class="fa-solid fa-book-bookmark text-base mb-0.5 text-cyan-400"></i>
+        <span>避坑知識庫</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 頁尾 (預留手機底部浮動導航列空間 pb-20 sm:pb-6) -->
+  <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 pt-6 pb-20 sm:pb-6 border-t border-gray-800 text-center text-xs text-gray-400">
     <p>每日財經分析推播系統 | 本地量化投研版 (Local Quantitative Intelligence)</p>
-    <p class="mt-1 text-[11px] text-gray-400">免責聲明：本儀表板數據與量化分析僅供參考，不構成任何實質投資建議或買賣要約。投資人應獨立判斷並自負盈虧。</p>
+    <p class="mt-1 text-[11px] text-gray-500">免責聲明：本儀表板數據與量化分析僅供參考，不構成任何實質投資建議或買賣要約。</p>
   </footer>
 
   <!-- 隱藏 Markdown 摘要供一鍵複製 -->
   <textarea id="markdownSummaryRaw" class="hidden">📊 *【每日美台財經全覽】2026-10-10*
 ━━━━━━━━━━━━━━━━━━
-🎯 *核心結論*：美股科技股強勢反彈且 TSMC ADR 溢價率達 +13.49% 形成底部強勁支撐，惟台股受外資台指期 -38,200 口巨額淨空單壓盤與高價 AI 供應鏈（如川湖爆量跌停）籌碼鬆動影響，短線呈現高檔震盪整理，市場焦點靜待 10 月 15 日台積電法說會指引。
-📈 *市場氛圍*：`震盪整理 / 觀望蓄勢` | 恐慌指數：`45.0 (恐慌)` | 美債10Y：`5.244%`
+🎯 *核心結論*：美股標普與那指受 AI 與光通訊板塊反彈帶動小幅收高，但台股受外資巨額台指期淨空單 (-38,200 口) 壓盤與連假提款影響，加權指數下跌 0.99%；台積電 ADR 溢價達 +13.49% 形成防守底氣，惟需提防台積電 10/15 法說會前高檔高價股爆量派發與籌碼分化風險。
+📈 *市場氛圍*：`高檔震盪分化與避險防守` | 恐慌指數：`45.0 (恐慌)` | 美債10Y：`5.244%`
 
 🟢 *多方主線*：
-  • TSM ADR 對台股現貨大幅溢價 +13.49%（換算台幣達 $2893.93），提供權值龍頭台積電(2330)強烈下檔防守價值與補漲動能。
-  • 美股科技板塊回溫，標普 500 (+0.59%) 與那斯達克 (+0.64%) 雙雙收高，CBOE 波動率指數 VIX 下降 -3.7% 至 14.84，美股市場避險情緒顯著降溫。
+  • 美股科技主線回溫：標普 500 (+0.59%) 與那斯達克 (+0.64%) 止跌回升，VIX 恐慌指數下降 3.70% 至 14.84，顯示美股總體情緒保持穩定。
+  • 台積電 ADR 顯著高溢價：TSM ADR 收在 453.31 美元，對台股現貨 (2330) 溢價率高達 +13.49% (換算台幣達 2893.93 元)，為台股大盤提供下檔支撐力道。
 
 🔴 *空方風險*：
-  • 外資台指期淨空單高達 -38,200 口（超越 -35,000 口高風險警戒線），顯示法人避險與壓盤力道強勁，台股權值股面臨結算提款風險。
-  • AI 伺服器與高價機殼籌碼鬆動，川湖(2059)爆量下殺 -9.97%、信驊(5274)與廣達(2382)成交總值突破 5MA 且呈「爆量出貨」型態，主力資金出現獲利落袋跡象。
+  • 外資台指期巨額淨空單壓盤：外資期貨淨空單達 -38,200 口高風險警戒，壓制台積電、鴻海、聯發科等大型權值股反彈動能。
+  • 高價股與 AI 供應鏈爆量下殺：川湖 (2059, -9.97%)、信驊 (5274, -1.49%)、廣達 (2382, -2.84%) 出現金額量比 1.40x 至 2.87x 的爆量出貨訊號，籌碼明顯鬆動。
 
 📌 *焦點標的多空評分與操作點位*：
 • *2449 京元電子* (TWD $304.5 | `+1.67%`)
@@ -16772,52 +16826,78 @@
   • *[動能衰竭]* 00981A (00981A) 高檔成交總值萎縮 (量價背離)
 
 📋 *操作紀律檢查清單*：
-  ☑ 持股水位控管：總持股比重建議維持在 50% - 60%，預留現金部位以因應外資台指期巨額空單引發的短線波動。
-  ☑ 落實停損避險：針對「爆量出貨」及評分低於 40 分之弱勢股（如川湖 2059、廣達 2382、信驊 5274），跌破支撐位 S1 即應嚴格執行減碼停損。
-  ☑ 分批佈局主升股：對於多空評分高於 75 分之強勢動能股（如京元電子 2449、健策 3653、創意 3443），可在進場區間（Entry Zone）採拉回分批佈局策略。
+  ☑ 總體部位控管：建議將總持股水位維持在 40%-50% 中性偏防守區間，保留現金因應外資結算與高檔震盪。
+  ☑ 破線與爆量出貨防守：針對評分偏低且爆量下殺之標的（如川湖 $9751.85、信驊 $16185.15、廣達 $317.92），應切實執行停損或防守減碼。
+  ☑ 特許核心資產採金字塔接刀：台積電 (2330)、鴻海 (2317)、聯發科 (2454) 具備波克夏核心護城河，豁免硬停損，建議採 -10%、-20%、-30% 金字塔左側分批佈局。
 </textarea>
 
   <script>
-    // 主功能三大分頁切換
+    // 主功能三大分頁切換 (雙端連動)
     function switchMainTab(tab) {
       const dailySec = document.getElementById("mainSectionDaily");
       const perfSec = document.getElementById("mainSectionPerf");
       const wikiSec = document.getElementById("mainSectionWiki");
 
+      // 桌面端 Tab 按鈕
       const btnDaily = document.getElementById("navTabDaily");
       const btnPerf = document.getElementById("navTabPerf");
       const btnWiki = document.getElementById("navTabWiki");
+
+      // 手機端底部導航按鈕
+      const mBtnDaily = document.getElementById("mobileNavTabDaily");
+      const mBtnPerf = document.getElementById("mobileNavTabPerf");
+      const mBtnWiki = document.getElementById("mobileNavTabWiki");
+
+      // 重設手機端按鈕樣式
+      const resetMobileBtn = (btn) => {
+        if (!btn) return;
+        btn.className = "flex flex-col items-center justify-center py-1.5 px-2 rounded-xl text-gray-400 font-medium text-[11px] transition hover:text-gray-200";
+      };
+      const activeMobileBtn = (btn, colorClass, bgClass) => {
+        if (!btn) return;
+        btn.className = `flex flex-col items-center justify-center py-1.5 px-2 rounded-xl ${colorClass} ${bgClass} font-bold text-[11px] transition`;
+      };
+
+      resetMobileBtn(mBtnDaily);
+      resetMobileBtn(mBtnPerf);
+      resetMobileBtn(mBtnWiki);
 
       if (tab === 'daily') {
         dailySec.classList.remove("hidden");
         perfSec.classList.add("hidden");
         wikiSec.classList.add("hidden");
-        btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition flex items-center";
-        btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
-        btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        if (btnDaily) btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition flex items-center";
+        if (btnPerf) btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        if (btnWiki) btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        activeMobileBtn(mBtnDaily, "text-emerald-400", "bg-emerald-500/10");
       } else if (tab === 'perf') {
         dailySec.classList.add("hidden");
         perfSec.classList.remove("hidden");
         wikiSec.classList.add("hidden");
-        btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
-        btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-amber-600 text-white shadow-md shadow-amber-600/20 transition flex items-center";
-        btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        if (btnDaily) btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        if (btnPerf) btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-amber-600 text-white shadow-md shadow-amber-600/20 transition flex items-center";
+        if (btnWiki) btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        activeMobileBtn(mBtnPerf, "text-amber-400", "bg-amber-500/10");
       } else if (tab === 'wiki') {
         dailySec.classList.add("hidden");
         perfSec.classList.add("hidden");
         wikiSec.classList.remove("hidden");
-        btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
-        btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
-        btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-cyan-600 text-white shadow-md shadow-cyan-600/20 transition flex items-center";
+        if (btnDaily) btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        if (btnPerf) btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        if (btnWiki) btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-cyan-600 text-white shadow-md shadow-cyan-600/20 transition flex items-center";
+        activeMobileBtn(mBtnWiki, "text-cyan-400", "bg-cyan-500/10");
       }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
     function copyMarkdownSummary() {
       const copyText = document.getElementById("markdownSummaryRaw").value;
       navigator.clipboard.writeText(copyText).then(() => {
         const btnText = document.getElementById("copyBtnText");
-        btnText.innerText = "已複製！";
+        if (btnText) btnText.innerText = "已複製！";
         setTimeout(() => {
-          btnText.innerText = "複製摘要";
+          if (btnText) btnText.innerText = "複製摘要";
         }, 2000);
       }).catch(err => {
         console.error("複製失敗:", err);
@@ -16834,13 +16914,13 @@
       if (mode === "table") {
         cardsContainer.classList.add("hidden");
         tableContainer.classList.remove("hidden");
-        btnTable.className = "px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition";
-        btnCard.className = "px-2.5 py-1 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition";
+        if (btnTable) btnTable.className = "px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition";
+        if (btnCard) btnCard.className = "px-2.5 py-1 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition";
       } else {
         tableContainer.classList.add("hidden");
         cardsContainer.classList.remove("hidden");
-        btnCard.className = "px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition";
-        btnTable.className = "px-2.5 py-1 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition";
+        if (btnCard) btnCard.className = "px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition";
+        if (btnTable) btnTable.className = "px-2.5 py-1 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition";
       }
     }
 
@@ -16850,11 +16930,11 @@
     function setSectorFilter(sectorKey) {
       currentSectorFilter = sectorKey;
       document.querySelectorAll(".sector-tab-btn").forEach(btn => {
-        btn.className = "sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition";
+        btn.className = "sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white transition";
       });
       const activeBtn = document.getElementById("tab-sec-" + sectorKey);
       if (activeBtn) {
-        activeBtn.className = "sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 text-white border border-emerald-500 shadow-sm transition";
+        activeBtn.className = "sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 text-white border border-emerald-500 shadow-sm transition";
       }
       applyFilters();
     }
@@ -16890,14 +16970,14 @@
         if (isVisible) visibleCount++;
       });
 
-      document.getElementById("stockCountBadge").innerText = `顯示 ${visibleCount} 檔`;
+      const countBadge = document.getElementById("stockCountBadge");
+      if (countBadge) countBadge.innerText = `顯示 ${visibleCount} 檔`;
     }
 
     // 全域排序狀態
     let currentSortCol = 'score';
     let currentSortDir = 'desc';
 
-    // 點擊表頭排序
     function sortTable(colKey, forceDir = null) {
       if (forceDir) {
         currentSortCol = colKey;
@@ -16906,7 +16986,6 @@
         currentSortDir = (currentSortDir === 'asc' ? 'desc' : 'asc');
       } else {
         currentSortCol = colKey;
-        // 預設方向：代碼、支撐、停損預設升序，其他指標（漲跌幅、評分、成交值等）預設降序
         currentSortDir = (colKey === 'symbol' || colKey === 's1' || colKey === 'sl') ? 'asc' : 'desc';
       }
 
@@ -16947,9 +17026,10 @@
       };
 
       cardElements.sort(comparator).forEach(card => cardsContainer.appendChild(card));
-      rowElements.sort(comparator).forEach(row => tableBody.appendChild(row));
+      if (tableBody) {
+        rowElements.sort(comparator).forEach(row => tableBody.appendChild(row));
+      }
 
-      // 更新所有欄位的圖示狀態
       const allCols = ['symbol', 'pct', 'price', 'score', 'turnover', 'turnover_strat', 'rating', 'matrix', 'entry', 's1', 'sl', 'tp', 'rr', 'lots'];
       allCols.forEach(col => {
         const icon = document.getElementById(`sort-icon-${col}`);
@@ -16963,7 +17043,6 @@
       });
     }
 
-    // 頂部下拉選單排序連動
     function applySorting() {
       const sortBy = document.getElementById("sortSelect").value;
       const parts = sortBy.split('_');
@@ -17141,6 +17220,8 @@
         };
       });
 
+      const isMobile = window.innerWidth < 640;
+
       const option = {
         backgroundColor: 'transparent',
         tooltip: {
@@ -17165,17 +17246,20 @@
         },
         legend: {
           bottom: 0,
-          textStyle: { color: '#9ca3af', fontSize: 11 },
-          itemGap: 14,
+          type: isMobile ? 'scroll' : 'plain',
+          textStyle: { color: '#9ca3af', fontSize: isMobile ? 10 : 11 },
+          itemGap: isMobile ? 8 : 14,
           data: activeStocks.map(s => `${s.symbol} ${s.name}`)
         },
         radar: {
           indicator: dimensions.map(d => ({ name: d.name, max: 100 })),
           shape: 'polygon',
+          radius: isMobile ? '60%' : '74%',
+          center: ['50%', isMobile ? '46%' : '48%'],
           splitNumber: 4,
           axisName: {
             color: '#cbd5e1',
-            fontSize: 11,
+            fontSize: isMobile ? 10 : 11,
             fontWeight: 600,
             borderRadius: 3,
             padding: [2, 4]

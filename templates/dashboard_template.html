@@ -2,7 +2,11 @@
 <html lang="zh-TW" class="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="財經儀表板">
+  <meta name="theme-color" content="#0B0F19">
   <title>{{ page_title }} | 每日財經儀表板</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -33,14 +37,26 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+    }
     body {
       font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background-color: #0B0F19;
       color: #F3F4F6;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: calc(var(--sab) + 76px);
+    }
+    @media (min-width: 640px) {
+      body {
+        padding-bottom: 4rem;
+      }
     }
     .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 4px;
+      height: 4px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
       background: #111827;
@@ -50,8 +66,8 @@
       border-radius: 4px;
     }
     .glass-card {
-      background: rgba(17, 24, 39, 0.85);
-      backdrop-filter: blur(12px);
+      background: rgba(17, 24, 39, 0.88);
+      backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .glow-bull {
@@ -60,38 +76,49 @@
     .glow-bear {
       box-shadow: 0 0 20px rgba(244, 63, 94, 0.15);
     }
+    /* iOS 橫向吸附滾動 */
+    .snap-carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .snap-item {
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
   </style>
 </head>
-<body class="min-h-screen custom-scrollbar pb-16">
+<body class="min-h-screen custom-scrollbar">
 
-  <!-- 頂部導航列 -->
-  <header class="sticky top-0 z-50 glass-card border-b border-darkborder">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
-          <i class="fa-solid fa-chart-line text-lg"></i>
+  <!-- 頂部導航列 (iOS Safe-Area Compliant) -->
+  <header class="sticky top-0 z-50 glass-card border-b border-darkborder pt-[env(safe-area-inset-top)]">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-4">
+      <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20 shrink-0">
+          <i class="fa-solid fa-chart-line text-sm sm:text-lg"></i>
         </div>
-        <div>
-          <div class="flex items-center space-x-2">
-            <h1 class="text-lg font-bold text-white tracking-wide">每日財經分析儀表板</h1>
-            <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+        <div class="min-w-0">
+          <div class="flex items-center space-x-1.5 sm:space-x-2">
+            <h1 class="text-sm sm:text-lg font-bold text-white tracking-wide truncate">每日財經儀表板</h1>
+            <span class="px-1.5 py-0.2 sm:px-2 sm:py-0.5 text-[10px] sm:text-xs font-semibold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
               {{ market_mode_text }}
             </span>
           </div>
-          <div class="flex flex-wrap items-center gap-2 mt-0.5">
-            <p class="text-xs text-gray-400">更新時間：{{ updated_at }} ({{ timezone }}) | 監控標的：{{ stocks|length }} 檔</p>
-            <span class="inline-flex items-center px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-950/70 text-emerald-300 border border-emerald-800">
-              <i class="fa-solid fa-shield-halved mr-1 text-emerald-400"></i>{{ (data_validation_report.tag if data_validation_report and data_validation_report.tag else '🛡️ 數據雙源交叉驗證通過 (誤差 ≤ 1%)') }}
+          <div class="flex items-center gap-1.5 mt-0.5 text-[10px] sm:text-xs text-gray-400">
+            <span class="truncate">{{ updated_at }} | {{ stocks|length }} 檔</span>
+            <span class="hidden sm:inline-flex items-center px-1.5 py-0.2 text-[9px] font-bold rounded bg-emerald-950/70 text-emerald-300 border border-emerald-800">
+              🛡️ 雙源驗證通過
             </span>
           </div>
         </div>
       </div>
 
-      <div class="flex items-center space-x-3">
+      <div class="flex items-center space-x-2 shrink-0">
         <!-- 歷史存檔切換器 -->
         <div class="relative">
-          <select id="historySelect" onchange="window.location.href=this.value" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-3 py-1.5 focus:ring-emerald-500 focus:border-emerald-500">
-            <option value="index.html" selected>📅 今日最新報告 ({{ date }})</option>
+          <select id="historySelect" onchange="window.location.href=this.value" class="bg-gray-800 border border-gray-700 text-gray-200 text-[11px] sm:text-xs rounded-lg px-2 sm:px-3 py-1.5 focus:ring-emerald-500 focus:border-emerald-500 max-w-[130px] sm:max-w-none truncate">
+            <option value="index.html" selected>📅 今日 ({{ date }})</option>
             {% for h in history_list %}
             <option value="{{ h.url }}">{{ h.title }}</option>
             {% endfor %}
@@ -99,16 +126,16 @@
         </div>
 
         <!-- 複製 Markdown 摘要按鈕 -->
-        <button onclick="copyMarkdownSummary()" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-gray-200 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg transition shadow-sm">
-          <i class="fa-regular fa-copy mr-1.5 text-emerald-400"></i>
-          <span id="copyBtnText">複製摘要</span>
+        <button onclick="copyMarkdownSummary()" class="inline-flex items-center px-2 sm:px-3 py-1.5 text-[11px] sm:text-xs font-medium text-gray-200 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg transition shadow-sm h-8">
+          <i class="fa-regular fa-copy mr-1 text-emerald-400"></i>
+          <span id="copyBtnText" class="hidden sm:inline">複製摘要</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- 核心三大功能分頁切換列 (Primary Navigation Tabs) -->
-  <div class="bg-gray-900/90 backdrop-blur-md border-b border-gray-800 sticky top-[61px] z-40">
+  <!-- 桌面端三大功能分頁切換列 (Desktop-Only Tab Bar) -->
+  <div class="hidden sm:block bg-gray-900/90 backdrop-blur-md border-b border-gray-800 sticky top-[61px] z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-2 overflow-x-auto custom-scrollbar">
       <div class="flex items-center space-x-2 shrink-0">
         <button id="navTabDaily" onclick="switchMainTab('daily')" class="px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition flex items-center">
@@ -128,16 +155,16 @@
       </div>
       <div class="text-[11px] text-gray-400 shrink-0 hidden sm:flex items-center space-x-2">
         <span class="inline-flex items-center px-2 py-0.5 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-800/60">
-          <i class="fa-solid fa-brain text-emerald-400 mr-1"></i> WikiSkill 記憶演化架構保護中
+          <i class="fa-solid fa-brain text-emerald-400 mr-1"></i> WikiSkill 記憶演化保護中
         </span>
       </div>
     </div>
   </div>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6 space-y-5 sm:space-y-6">
 
     <!-- ================= 1. 今日戰情視圖 (Daily Dashboard) ================= -->
-    <div id="mainSectionDaily" class="space-y-6">
+    <div id="mainSectionDaily" class="space-y-5 sm:space-y-6">
 
       <!-- 1. 核心結論與市場定調 (Executive Verdict Banner) -->
       {% include "components/verdict_banner.html" %}
@@ -149,55 +176,57 @@
       {% include "components/alerts_section.html" %}
 
       <!-- 4. 個股多空量化矩陣與關鍵點位 (Stock Scoring & Key Levels) -->
-      <section class="space-y-4">
-        <div class="flex flex-wrap items-center justify-between gap-3">
+      <section class="space-y-3.5 sm:space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h3 class="text-base font-bold text-white flex items-center">
-              <i class="fa-solid fa-cubes-stacked mr-2 text-emerald-400"></i> 監控標的多空評分與操作點位儀表
-              <span id="stockCountBadge" class="ml-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-gray-800 text-gray-300 border border-gray-700">
+            <h3 class="text-sm sm:text-base font-bold text-white flex items-center">
+              <i class="fa-solid fa-cubes-stacked mr-2 text-emerald-400"></i> 標的多空評分與操作點位
+              <span id="stockCountBadge" class="ml-2 px-2 py-0.5 text-[10px] sm:text-xs font-semibold rounded-full bg-gray-800 text-gray-300 border border-gray-700">
                 共 {{ stocks|length }} 檔
               </span>
             </h3>
-            <p class="text-xs text-gray-400 mt-0.5">即時多空評分、S1/S2、R1/R2、停損停利 (TP/SL) 與風險報酬比</p>
+            <p class="text-[11px] sm:text-xs text-gray-400 mt-0.5">即時多空評分、ATR 點位與 TradingAgent 激辯裁決</p>
           </div>
 
-          <!-- 視圖切換與搜尋列 -->
-          <div class="flex flex-wrap items-center gap-2">
+          <!-- 視圖切換與搜尋列 (Mobile-First: 搜尋滿版 + 3等分篩選網格) -->
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
             <!-- 搜尋框 -->
-            <div class="relative">
-              <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-gray-400"></i>
-              <input type="text" id="stockSearchInput" oninput="applyFilters()" placeholder="搜尋代碼、股名、產業..." class="bg-gray-800/90 border border-gray-700 text-gray-200 text-xs rounded-lg pl-8 pr-3 py-1.5 focus:ring-emerald-500 focus:border-emerald-500 w-44 sm:w-56">
+            <div class="relative w-full sm:w-48">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 sm:top-2.5 text-xs text-gray-400"></i>
+              <input type="text" id="stockSearchInput" oninput="applyFilters()" placeholder="搜尋代碼、股名..." class="w-full bg-gray-800/90 border border-gray-700 text-gray-200 text-xs sm:text-xs rounded-xl pl-8 pr-3 py-2 sm:py-1.5 focus:ring-emerald-500 focus:border-emerald-500 h-10 sm:h-8">
             </div>
 
-            <!-- 市場篩選 -->
-            <select id="marketFilter" onchange="applyFilters()" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-2.5 py-1.5 focus:ring-emerald-500">
-              <option value="ALL">全部市場</option>
-              <option value="TW">台股 (TW)</option>
-              <option value="US">美股 (US)</option>
-            </select>
+            <!-- 篩選器與排序 (手機端 3 列網格均分，桌面端 flex-row) -->
+            <div class="grid grid-cols-3 sm:flex items-center gap-2 w-full sm:w-auto">
+              <!-- 市場篩選 -->
+              <select id="marketFilter" onchange="applyFilters()" class="w-full sm:w-auto bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-xl px-2 py-2 sm:py-1.5 focus:ring-emerald-500 h-10 sm:h-8">
+                <option value="ALL">全部市場</option>
+                <option value="TW">台股 (TW)</option>
+                <option value="US">美股 (US)</option>
+              </select>
 
-            <!-- 評級篩選 -->
-            <select id="ratingFilter" onchange="applyFilters()" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-2.5 py-1.5 focus:ring-emerald-500">
-              <option value="ALL">全部評級</option>
-              <option value="strong_bull">🟢🟢 強力做多</option>
-              <option value="lean_bull">🟢 偏多震盪</option>
-              <option value="neutral">🟡 中立觀望</option>
-              <option value="lean_bear">🟠 偏空防守</option>
-              <option value="strong_bear">🔴 避險做空</option>
-            </select>
+              <!-- 評級篩選 -->
+              <select id="ratingFilter" onchange="applyFilters()" class="w-full sm:w-auto bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-xl px-1.5 py-2 sm:py-1.5 focus:ring-emerald-500 h-10 sm:h-8">
+                <option value="ALL">全部評級</option>
+                <option value="strong_bull">🟢 強力做多</option>
+                <option value="lean_bull">🟢 偏多震盪</option>
+                <option value="neutral">🟡 中立觀望</option>
+                <option value="lean_bear">🟠 偏空防守</option>
+                <option value="strong_bear">🔴 避險做空</option>
+              </select>
 
-            <!-- 排序 -->
-            <select id="sortSelect" onchange="applySorting()" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-2.5 py-1.5 focus:ring-emerald-500">
-              <option value="score_desc">評分 (高至低)</option>
-              <option value="score_asc">評分 (低至高)</option>
-              <option value="matrix_desc">決策 (進攻優先)</option>
-              <option value="pct_desc">漲跌幅 (高至低)</option>
-              <option value="pct_asc">漲跌幅 (低至高)</option>
-              <option value="symbol_asc">代碼排序</option>
-            </select>
+              <!-- 排序 -->
+              <select id="sortSelect" onchange="applySorting()" class="w-full sm:w-auto bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-xl px-1.5 py-2 sm:py-1.5 focus:ring-emerald-500 h-10 sm:h-8">
+                <option value="score_desc">評分↓</option>
+                <option value="score_asc">評分↑</option>
+                <option value="matrix_desc">決策優先</option>
+                <option value="pct_desc">漲幅高</option>
+                <option value="symbol_asc">代碼序</option>
+              </select>
+            </div>
 
-            <!-- 視圖切換按鈕 (卡片 / 表格) -->
-            <div class="flex items-center bg-gray-800 rounded-lg p-0.5 border border-gray-700">
+            <!-- 桌面端視圖切換按鈕 (手機端隱藏，鎖定最佳卡片模式) -->
+            <div class="hidden sm:flex items-center bg-gray-800 rounded-lg p-0.5 border border-gray-700 shrink-0">
               <button id="btnCardView" onclick="setViewMode('card')" class="px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition">
                 <i class="fa-solid fa-table-cells-large mr-1"></i> 卡片
               </button>
@@ -208,32 +237,32 @@
           </div>
         </div>
 
-        <!-- 產業板塊與標籤快速過濾列 (Industry Sector Tabs) -->
-        <div class="flex flex-wrap items-center gap-2 pb-2">
-          <button onclick="setSectorFilter('all')" id="tab-sec-all" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 text-white border border-emerald-500 shadow-sm transition">
+        <!-- 產業板塊快速滑動列 (橫向吸附滾動，適配單手輕滑) -->
+        <div class="flex overflow-x-auto whitespace-nowrap custom-scrollbar py-1 space-x-2 -mx-1 px-1">
+          <button onclick="setSectorFilter('all')" id="tab-sec-all" class="sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 text-white border border-emerald-500 shadow-sm transition">
             🌐 全部 ({{ stocks|length }})
           </button>
-          <button onclick="setSectorFilter('focus')" id="tab-sec-focus" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
+          <button onclick="setSectorFilter('focus')" id="tab-sec-focus" class="sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white transition">
             🔥 主力焦點
           </button>
-          <button onclick="setSectorFilter('ai_server')" id="tab-sec-ai_server" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
+          <button onclick="setSectorFilter('ai_server')" id="tab-sec-ai_server" class="sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white transition">
             🤖 AI 伺服器與散熱
           </button>
-          <button onclick="setSectorFilter('semiconductor')" id="tab-sec-semiconductor" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
+          <button onclick="setSectorFilter('semiconductor')" id="tab-sec-semiconductor" class="sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white transition">
             ⚡ 半導體與IC設計
           </button>
-          <button onclick="setSectorFilter('pcb_substrate')" id="tab-sec-pcb_substrate" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
-            📦 PCB與載板
+          <button onclick="setSectorFilter('pcb_substrate')" id="tab-sec-pcb_substrate" class="sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white transition">
+            📦 PCB載板
           </button>
-          <button onclick="setSectorFilter('us_tech')" id="tab-sec-us_tech" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
-            🇺🇸 美股科技巨頭
+          <button onclick="setSectorFilter('us_tech')" id="tab-sec-us_tech" class="sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white transition">
+            🇺🇸 美股巨頭
           </button>
         </div>
 
         <!-- 視圖 A: 卡片矩陣視圖 (Cards Grid) -->
         {% include "components/stock_cards.html" %}
 
-        <!-- 視圖 B: 高密度清單表格視圖 (Table View) -->
+        <!-- 視圖 B: 高密度清單表格視圖 (Table View, 桌面端支援) -->
         {% include "components/stock_table.html" %}
       </section>
 
@@ -260,56 +289,107 @@
 
   </main>
 
-  <!-- 頁尾 -->
-  <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-400">
+  <!-- 手機端底部浮動大拇指導航列 (iPhone 16 Pro Home Bar Safe-Area Compliant) -->
+  <nav class="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-xl border-t border-gray-800 pb-[env(safe-area-inset-bottom)] px-3 py-1.5 shadow-2xl">
+    <div class="grid grid-cols-3 gap-1">
+      <button id="mobileNavTabDaily" onclick="switchMainTab('daily')" class="flex flex-col items-center justify-center py-1.5 px-2 rounded-xl text-emerald-400 bg-emerald-500/10 font-bold text-[11px] transition">
+        <i class="fa-solid fa-gauge-high text-base mb-0.5"></i>
+        <span>今日戰情</span>
+      </button>
+      <button id="mobileNavTabPerf" onclick="switchMainTab('perf')" class="flex flex-col items-center justify-center py-1.5 px-2 rounded-xl text-gray-400 font-medium text-[11px] transition hover:text-gray-200">
+        <div class="relative">
+          <i class="fa-solid fa-bullseye text-base mb-0.5 text-amber-400"></i>
+          {% if post_mortem_report and post_mortem_report.overall_win_rate %}
+          <span class="absolute -top-1 -right-3.5 px-1 py-0.1 text-[8px] font-black rounded-full bg-amber-500 text-black">
+            {{ post_mortem_report.overall_win_rate|int }}%
+          </span>
+          {% endif %}
+        </div>
+        <span>勝率榜</span>
+      </button>
+      <button id="mobileNavTabWiki" onclick="switchMainTab('wiki')" class="flex flex-col items-center justify-center py-1.5 px-2 rounded-xl text-gray-400 font-medium text-[11px] transition hover:text-gray-200">
+        <i class="fa-solid fa-book-bookmark text-base mb-0.5 text-cyan-400"></i>
+        <span>避坑知識庫</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 頁尾 (預留手機底部浮動導航列空間 pb-20 sm:pb-6) -->
+  <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 pt-6 pb-20 sm:pb-6 border-t border-gray-800 text-center text-xs text-gray-400">
     <p>每日財經分析推播系統 | 本地量化投研版 (Local Quantitative Intelligence)</p>
-    <p class="mt-1 text-[11px] text-gray-400">免責聲明：本儀表板數據與量化分析僅供參考，不構成任何實質投資建議或買賣要約。投資人應獨立判斷並自負盈虧。</p>
+    <p class="mt-1 text-[11px] text-gray-500">免責聲明：本儀表板數據與量化分析僅供參考，不構成任何實質投資建議或買賣要約。</p>
   </footer>
 
   <!-- 隱藏 Markdown 摘要供一鍵複製 -->
   <textarea id="markdownSummaryRaw" class="hidden">{{ markdown_summary }}</textarea>
 
   <script>
-    // 主功能三大分頁切換
+    // 主功能三大分頁切換 (雙端連動)
     function switchMainTab(tab) {
       const dailySec = document.getElementById("mainSectionDaily");
       const perfSec = document.getElementById("mainSectionPerf");
       const wikiSec = document.getElementById("mainSectionWiki");
 
+      // 桌面端 Tab 按鈕
       const btnDaily = document.getElementById("navTabDaily");
       const btnPerf = document.getElementById("navTabPerf");
       const btnWiki = document.getElementById("navTabWiki");
+
+      // 手機端底部導航按鈕
+      const mBtnDaily = document.getElementById("mobileNavTabDaily");
+      const mBtnPerf = document.getElementById("mobileNavTabPerf");
+      const mBtnWiki = document.getElementById("mobileNavTabWiki");
+
+      // 重設手機端按鈕樣式
+      const resetMobileBtn = (btn) => {
+        if (!btn) return;
+        btn.className = "flex flex-col items-center justify-center py-1.5 px-2 rounded-xl text-gray-400 font-medium text-[11px] transition hover:text-gray-200";
+      };
+      const activeMobileBtn = (btn, colorClass, bgClass) => {
+        if (!btn) return;
+        btn.className = `flex flex-col items-center justify-center py-1.5 px-2 rounded-xl ${colorClass} ${bgClass} font-bold text-[11px] transition`;
+      };
+
+      resetMobileBtn(mBtnDaily);
+      resetMobileBtn(mBtnPerf);
+      resetMobileBtn(mBtnWiki);
 
       if (tab === 'daily') {
         dailySec.classList.remove("hidden");
         perfSec.classList.add("hidden");
         wikiSec.classList.add("hidden");
-        btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition flex items-center";
-        btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
-        btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        if (btnDaily) btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition flex items-center";
+        if (btnPerf) btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        if (btnWiki) btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        activeMobileBtn(mBtnDaily, "text-emerald-400", "bg-emerald-500/10");
       } else if (tab === 'perf') {
         dailySec.classList.add("hidden");
         perfSec.classList.remove("hidden");
         wikiSec.classList.add("hidden");
-        btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
-        btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-amber-600 text-white shadow-md shadow-amber-600/20 transition flex items-center";
-        btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        if (btnDaily) btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        if (btnPerf) btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-amber-600 text-white shadow-md shadow-amber-600/20 transition flex items-center";
+        if (btnWiki) btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        activeMobileBtn(mBtnPerf, "text-amber-400", "bg-amber-500/10");
       } else if (tab === 'wiki') {
         dailySec.classList.add("hidden");
         perfSec.classList.add("hidden");
         wikiSec.classList.remove("hidden");
-        btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
-        btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
-        btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-cyan-600 text-white shadow-md shadow-cyan-600/20 transition flex items-center";
+        if (btnDaily) btnDaily.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        if (btnPerf) btnPerf.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-gray-800 text-gray-300 hover:text-white border border-gray-700 transition flex items-center";
+        if (btnWiki) btnWiki.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-cyan-600 text-white shadow-md shadow-cyan-600/20 transition flex items-center";
+        activeMobileBtn(mBtnWiki, "text-cyan-400", "bg-cyan-500/10");
       }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
     function copyMarkdownSummary() {
       const copyText = document.getElementById("markdownSummaryRaw").value;
       navigator.clipboard.writeText(copyText).then(() => {
         const btnText = document.getElementById("copyBtnText");
-        btnText.innerText = "已複製！";
+        if (btnText) btnText.innerText = "已複製！";
         setTimeout(() => {
-          btnText.innerText = "複製摘要";
+          if (btnText) btnText.innerText = "複製摘要";
         }, 2000);
       }).catch(err => {
         console.error("複製失敗:", err);
@@ -326,13 +406,13 @@
       if (mode === "table") {
         cardsContainer.classList.add("hidden");
         tableContainer.classList.remove("hidden");
-        btnTable.className = "px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition";
-        btnCard.className = "px-2.5 py-1 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition";
+        if (btnTable) btnTable.className = "px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition";
+        if (btnCard) btnCard.className = "px-2.5 py-1 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition";
       } else {
         tableContainer.classList.add("hidden");
         cardsContainer.classList.remove("hidden");
-        btnCard.className = "px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition";
-        btnTable.className = "px-2.5 py-1 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition";
+        if (btnCard) btnCard.className = "px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition";
+        if (btnTable) btnTable.className = "px-2.5 py-1 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition";
       }
     }
 
@@ -342,11 +422,11 @@
     function setSectorFilter(sectorKey) {
       currentSectorFilter = sectorKey;
       document.querySelectorAll(".sector-tab-btn").forEach(btn => {
-        btn.className = "sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition";
+        btn.className = "sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white transition";
       });
       const activeBtn = document.getElementById("tab-sec-" + sectorKey);
       if (activeBtn) {
-        activeBtn.className = "sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 text-white border border-emerald-500 shadow-sm transition";
+        activeBtn.className = "sector-tab-btn shrink-0 px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 text-white border border-emerald-500 shadow-sm transition";
       }
       applyFilters();
     }
@@ -382,14 +462,14 @@
         if (isVisible) visibleCount++;
       });
 
-      document.getElementById("stockCountBadge").innerText = `顯示 ${visibleCount} 檔`;
+      const countBadge = document.getElementById("stockCountBadge");
+      if (countBadge) countBadge.innerText = `顯示 ${visibleCount} 檔`;
     }
 
     // 全域排序狀態
     let currentSortCol = 'score';
     let currentSortDir = 'desc';
 
-    // 點擊表頭排序
     function sortTable(colKey, forceDir = null) {
       if (forceDir) {
         currentSortCol = colKey;
@@ -398,7 +478,6 @@
         currentSortDir = (currentSortDir === 'asc' ? 'desc' : 'asc');
       } else {
         currentSortCol = colKey;
-        // 預設方向：代碼、支撐、停損預設升序，其他指標（漲跌幅、評分、成交值等）預設降序
         currentSortDir = (colKey === 'symbol' || colKey === 's1' || colKey === 'sl') ? 'asc' : 'desc';
       }
 
@@ -439,9 +518,10 @@
       };
 
       cardElements.sort(comparator).forEach(card => cardsContainer.appendChild(card));
-      rowElements.sort(comparator).forEach(row => tableBody.appendChild(row));
+      if (tableBody) {
+        rowElements.sort(comparator).forEach(row => tableBody.appendChild(row));
+      }
 
-      // 更新所有欄位的圖示狀態
       const allCols = ['symbol', 'pct', 'price', 'score', 'turnover', 'turnover_strat', 'rating', 'matrix', 'entry', 's1', 'sl', 'tp', 'rr', 'lots'];
       allCols.forEach(col => {
         const icon = document.getElementById(`sort-icon-${col}`);
@@ -455,7 +535,6 @@
       });
     }
 
-    // 頂部下拉選單排序連動
     function applySorting() {
       const sortBy = document.getElementById("sortSelect").value;
       const parts = sortBy.split('_');

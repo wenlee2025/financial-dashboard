@@ -8,7 +8,7 @@
 {% set ret_pct = (ps.overall_return_pct if ps.overall_return_pct is defined and ps.overall_return_pct is not none and ps.overall_return_pct != '-' else 0) %}
 {% set holdings_list = (ps.holdings if ps.holdings is defined and ps.holdings else []) %}
 
-<section id="portfolioGovernorSection" class="glass-card rounded-2xl p-6 glow-bull border border-indigo-500/20 space-y-5">
+<section id="portfolioGovernorSection" class="glass-card rounded-2xl p-4 sm:p-6 glow-bull border border-indigo-500/20 space-y-4 sm:space-y-5">
   <!-- 頂部標題與核心摘要 -->
   <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-gray-800">
     <div>

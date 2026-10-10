@@ -167,6 +167,8 @@
         };
       });
 
+      const isMobile = window.innerWidth < 640;
+
       const option = {
         backgroundColor: 'transparent',
         tooltip: {
@@ -191,17 +193,20 @@
         },
         legend: {
           bottom: 0,
-          textStyle: { color: '#9ca3af', fontSize: 11 },
-          itemGap: 14,
+          type: isMobile ? 'scroll' : 'plain',
+          textStyle: { color: '#9ca3af', fontSize: isMobile ? 10 : 11 },
+          itemGap: isMobile ? 8 : 14,
           data: activeStocks.map(s => `${s.symbol} ${s.name}`)
         },
         radar: {
           indicator: dimensions.map(d => ({ name: d.name, max: 100 })),
           shape: 'polygon',
+          radius: isMobile ? '60%' : '74%',
+          center: ['50%', isMobile ? '46%' : '48%'],
           splitNumber: 4,
           axisName: {
             color: '#cbd5e1',
-            fontSize: 11,
+            fontSize: isMobile ? 10 : 11,
             fontWeight: 600,
             borderRadius: 3,
             padding: [2, 4]
