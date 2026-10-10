@@ -35,6 +35,7 @@ def test_deliberation_engine_bullish_verdict():
     assert len(verdict.bull_arguments) > 0
     assert verdict.jev_triage["choice"] == "BUY"
     assert verdict.divergence_warning is False
+    assert verdict.veto_triggered is False
 
 def test_deliberation_engine_bearish_veto():
     """驗證破線空頭標的被風控委員會一票否決"""
@@ -65,3 +66,33 @@ def test_deliberation_engine_bearish_veto():
     assert verdict.action == "🛡️ 嚴禁進場"
     assert "一票否決" in verdict.risk_committee_summary
     assert verdict.jev_triage["choice"] == "SELL"
+
+def test_deliberation_engine_downside_veto_override():
+    """驗證量化得分偏多但實質跌破停損時，風控委員會觸發一票否決 (Downside Veto)"""
+    stock_item = {
+        "symbol": "2382",
+        "name": "廣達",
+        "date": "2026-10-10",
+        "tier": "TIER_2_MOMENTUM",
+        "stock_data": {
+            "price": 270.0,
+            "foreign_buy_lots": 1200,
+            "rev_yoy": 20.0,
+            "turnover_ratio": 1.2
+        },
+        "score_info": {
+            "score": 72.0,  # 量化分偏多
+            "rating": "偏多震盪",
+            "signals": ["營收成長"]
+        },
+        "price_levels": {
+            "stop_loss": 280.0,  # 現價 270 < 停損價 280 (實質破線)
+            "target_price": 320.0
+        }
+    }
+
+    verdict = DeliberationEngine.deliberate(stock_item)
+    assert verdict.veto_triggered is True
+    assert verdict.divergence_warning is True
+    assert "風控否決" in verdict.action
+    assert "破線出清" in verdict.risk_committee_summary

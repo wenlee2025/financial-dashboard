@@ -4,7 +4,7 @@
   {% set ts = (item.score_info.turnover_strategy if item.score_info and item.score_info.turnover_strategy else {}) %}
   {% set sc = (item.supply_chain if item.supply_chain else {}) %}
   {% set dm = (item.decision_matrix if item.decision_matrix else (item.score_info.decision_matrix if item.score_info and item.score_info.decision_matrix else {})) %}
-  <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
+  <div class="stock-card glass-card rounded-2xl p-5 border {% if item.veto_triggered %}border-rose-500/80 bg-rose-950/20 shadow-lg shadow-rose-500/10{% elif item.divergence_warning %}border-amber-500/70 bg-amber-950/15{% else %}border-gray-800 hover:border-gray-700{% endif %} transition space-y-4"
        data-symbol="{{ item.symbol }}"
        data-name="{{ item.name }}"
        data-market="{{ item.stock_data.market if item.stock_data else '' }}"
@@ -170,6 +170,78 @@
       </span>
       {% endif %}
     </div>
+
+    <!-- 4.7 多智能體激辯與風控委員會裁決抽屜 (Multi-Agent Deliberation Drawer) -->
+    {% if item.deliberation_verdict %}
+    {% set dv = item.deliberation_verdict %}
+    <div class="mt-2 pt-2 border-t border-gray-800/80">
+      <details class="group cursor-pointer">
+        <summary class="flex items-center justify-between text-xs font-bold text-gray-300 hover:text-white transition py-1 select-none list-none">
+          <div class="flex items-center space-x-2">
+            <span class="w-5 h-5 rounded-md flex items-center justify-center text-[10px] {% if dv.veto_triggered %}bg-rose-500/20 text-rose-300 border border-rose-500/40{% elif dv.divergence_warning %}bg-amber-500/20 text-amber-300 border border-amber-500/40{% else %}bg-indigo-500/20 text-indigo-300 border border-indigo-500/40{% endif %}">
+              <i class="fa-solid fa-scale-balanced"></i>
+            </span>
+            <span class="text-indigo-300 group-hover:text-indigo-200">
+              TradingAgent 深度激辯裁決
+            </span>
+            {% if dv.veto_triggered %}
+            <span class="px-1.5 py-0.2 text-[9px] font-black rounded bg-rose-500/30 text-rose-300 border border-rose-500/50">
+              🛑 風控一票否決
+            </span>
+            {% elif dv.divergence_warning %}
+            <span class="px-1.5 py-0.2 text-[9px] font-black rounded bg-amber-500/30 text-amber-300 border border-amber-500/50">
+              ⚠️ 雙系統分歧
+            </span>
+            {% else %}
+            <span class="px-1.5 py-0.2 text-[9px] font-bold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              ✅ 裁決放行
+            </span>
+            {% endif %}
+          </div>
+          <div class="text-[10px] text-gray-400 flex items-center group-open:rotate-180 transition-transform">
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+        </summary>
+        
+        <!-- 展開內容 -->
+        <div class="mt-2.5 p-3 rounded-xl bg-gray-950/70 border border-gray-800 space-y-2.5 text-xs">
+          <!-- 風控委員會最終意見 -->
+          <div class="p-2.5 rounded-lg {% if dv.veto_triggered %}bg-rose-950/30 border border-rose-800/60 text-rose-200{% elif dv.divergence_warning %}bg-amber-950/30 border border-amber-800/60 text-amber-200{% else %}bg-indigo-950/30 border border-indigo-800/60 text-indigo-200{% endif %} font-medium leading-relaxed">
+            <div class="text-[10px] font-bold tracking-wider mb-1 opacity-80 uppercase">
+              <i class="fa-solid fa-gavel mr-1"></i> 風控委員會終審裁決
+            </div>
+            <div>{{ dv.risk_committee_summary }}</div>
+          </div>
+
+          <!-- 多空研究員論證對壘 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-[11px]">
+            <!-- 多方研究員 -->
+            <div class="bg-gray-900/80 rounded-lg p-2.5 border border-emerald-900/40 space-y-1">
+              <div class="font-bold text-emerald-400 flex items-center text-[10px]">
+                <i class="fa-solid fa-arrow-trend-up mr-1"></i> 多方研究員論據
+              </div>
+              <ul class="space-y-1 text-gray-300">
+                {% for b_arg in dv.bull_arguments %}
+                <li class="flex items-start"><span class="text-emerald-400 mr-1.5">•</span><span>{{ b_arg }}</span></li>
+                {% endfor %}
+              </ul>
+            </div>
+            <!-- 空方研究員 -->
+            <div class="bg-gray-900/80 rounded-lg p-2.5 border border-rose-900/40 space-y-1">
+              <div class="font-bold text-rose-400 flex items-center text-[10px]">
+                <i class="fa-solid fa-shield-halved mr-1"></i> 空方研究員警示
+              </div>
+              <ul class="space-y-1 text-gray-300">
+                {% for b_arg in dv.bear_arguments %}
+                <li class="flex items-start"><span class="text-rose-400 mr-1.5">•</span><span>{{ b_arg }}</span></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+    {% endif %}
 
   </div>
   {% endfor %}

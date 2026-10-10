@@ -50,7 +50,7 @@
         {% set ts = (item.score_info.turnover_strategy if item.score_info and item.score_info.turnover_strategy else {}) %}
         {% set sc = (item.supply_chain if item.supply_chain else {}) %}
         {% set dm = (item.decision_matrix if item.decision_matrix else (item.score_info.decision_matrix if item.score_info and item.score_info.decision_matrix else {})) %}
-        <tr class="stock-table-row hover:bg-gray-800/40 transition"
+        <tr class="stock-table-row {% if item.veto_triggered %}bg-rose-950/20 hover:bg-rose-900/30{% elif item.divergence_warning %}bg-amber-950/15 hover:bg-amber-900/25{% else %}hover:bg-gray-800/40{% endif %} transition"
             data-symbol="{{ item.symbol }}"
             data-name="{{ item.name }}"
             data-market="{{ item.stock_data.market if item.stock_data else '' }}"

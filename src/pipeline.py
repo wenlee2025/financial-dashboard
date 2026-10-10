@@ -185,11 +185,79 @@ class FinancialDashboardPipeline:
         deliberation_verdicts = {}
         try:
             from src.analytics.deliberation_engine import DeliberationEngine
-            for s in analyzed_stocks[:12]:
-                sym = str(s.get("symbol", ""))
-                if sym:
-                    verdict = DeliberationEngine.deliberate(s, eval_date=date_str)
-                    deliberation_verdicts[sym] = verdict.to_dict()
+
+            # 1. 精準篩選受審查標的 (持倉股 + Top 5 多空極端股 + 多空分歧爭議股)
+            holding_syms = {str(h.get("symbol", "")).strip() for h in portfolio_summary.get("holdings", [])}
+            selected_symbols = set()
+            target_stocks = []
+
+            # (A) 投資組合實盤持倉
+            for s in analyzed_stocks:
+                sym = str(s.get("symbol", "")).strip()
+                if sym in holding_syms and sym not in selected_symbols:
+                    selected_symbols.add(sym)
+                    target_stocks.append(s)
+
+            # (B) 前 5 檔多頭強勢股與後 5 檔空頭破線股
+            for s in analyzed_stocks[:5]:
+                sym = str(s.get("symbol", "")).strip()
+                if sym not in selected_symbols:
+                    selected_symbols.add(sym)
+                    target_stocks.append(s)
+            
+            if len(analyzed_stocks) >= 10:
+                for s in analyzed_stocks[-5:]:
+                    sym = str(s.get("symbol", "")).strip()
+                    if sym not in selected_symbols:
+                        selected_symbols.add(sym)
+                        target_stocks.append(s)
+
+            # (C) 多空分歧爭議股 (高量化分但遇破線或天量出貨)
+            for s in analyzed_stocks:
+                sym = str(s.get("symbol", "")).strip()
+                if sym in selected_symbols:
+                    continue
+                score = float(s.get("score_info", {}).get("score", 50.0) or 50.0)
+                price = float(s.get("stock_data", {}).get("price", 0.0) or 0.0)
+                sl = float(s.get("price_levels", {}).get("stop_loss", 0.0) or 0.0)
+                turnover_ratio = float(s.get("stock_data", {}).get("turnover_ratio", 1.0) or 1.0)
+                pct = float(s.get("stock_data", {}).get("pct_change", 0.0) or 0.0)
+                
+                is_divergent = (score >= 60.0 and sl > 0 and price < sl) or (score >= 60.0 and turnover_ratio > 2.5 and pct < -1.0)
+                if is_divergent and len(target_stocks) < 15:
+                    selected_symbols.add(sym)
+                    target_stocks.append(s)
+
+            logger.info(f"多智能體激辯定向鎖定審查共 {len(target_stocks)} 檔: {[s.get('symbol') for s in target_stocks]}")
+
+            # 2. 執行階層激辯並落實「風控委員會一票否決 (Downside Veto)」
+            for s in target_stocks:
+                sym = str(s.get("symbol", "")).strip()
+                if not sym:
+                    continue
+                verdict = DeliberationEngine.deliberate(s, eval_date=date_str)
+                v_dict = verdict.to_dict()
+                deliberation_verdicts[sym] = v_dict
+                s["deliberation_verdict"] = v_dict
+
+                # 觸發一票否決時，強制覆寫決策動作為警戒撤退/嚴禁進場
+                if verdict.veto_triggered:
+                    s["decision_matrix"] = {
+                        "action_code": "alert_exit" if "警戒撤退" in verdict.action else "defense",
+                        "action_badge": verdict.action,
+                        "badge_color": "rose",
+                        "sort_rank": 0,
+                        "guidance": verdict.risk_committee_summary,
+                        "confidence": "HIGH",
+                        "veto_overridden": True
+                    }
+                    s["veto_triggered"] = True
+                    s["divergence_warning"] = True
+                    logger.warning(f"標的 {sym} ({s.get('name')}) 觸發風控一票否決: {verdict.action}")
+                else:
+                    s["veto_triggered"] = False
+                    s["divergence_warning"] = verdict.divergence_warning
+
         except Exception as e:
             logger.warning(f"多智能體激辯引擎執行略過: {e}")
 

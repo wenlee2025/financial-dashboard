@@ -29,6 +29,7 @@ class DeliberationVerdict:
     bear_arguments: List[str]
     jev_triage: Optional[Dict[str, Any]] = None
     divergence_warning: bool = False
+    veto_triggered: bool = False
     is_fallback: bool = False
 
     def to_dict(self) -> Dict[str, Any]:
@@ -142,9 +143,26 @@ class DeliberationEngine:
         entry_range = f"{price * 0.98:.1f} ~ {price * 1.01:.1f}" if price > 0 else "暫無報價"
         plan_summary = f"{name} ({symbol}) 當前評估為「{quant_rating}」，多方論點共 {len(bull_args)} 項，空方警示共 {len(bear_args)} 項。"
 
-        # 檢驗雙系統是否發生衝突 (例如量化大漲但空方提出致命停損警告)
+        # 檢驗雙系統是否發生衝突或觸發下檔一票否決 (Downside Veto)
         divergence = False
-        if quant_score >= 70.0 and any("跌破" in b for b in bear_args):
+        veto_triggered = False
+        is_breakdown = price > 0 and stop_loss > 0 and price < stop_loss
+        is_volume_dump = stock_data.get("turnover_ratio", 1.0) > 2.8 and float(stock_data.get("pct_change", 0.0) or 0.0) < -1.5
+        is_rev_collapse = float(stock_data.get("rev_yoy", 0.0) or 0.0) < -15.0
+
+        if quant_score >= 60.0 and (is_breakdown or is_volume_dump or is_rev_collapse):
+            veto_triggered = True
+            divergence = True
+            if is_breakdown:
+                action = "🚨 警戒撤退 (風控否決)"
+                risk_summary = f"【風控委員會一票否決：破線出清】量化原評分為「{quant_rating}」，但現價 ${price:.1f} 已跌破停損價 ${stop_loss:.1f}，強制否決做多！"
+            elif is_volume_dump:
+                action = "🛡️ 嚴禁進場 (一票否決)"
+                risk_summary = f"【風控委員會一票否決：爆量倒貨】量化評分雖高，但爆出 {stock_data.get('turnover_ratio', 1.0):.1f}x 天量收黑，主力拔檔倒貨假突破，嚴禁追多！"
+            else:
+                action = "🛡️ 嚴禁進場 (一票否決)"
+                risk_summary = "【風控委員會一票否決：營收衰退】月營收年減逾 15%，成長核心動能中斷，一票否決買進！"
+        elif quant_score >= 70.0 and any("跌破" in b for b in bear_args):
             divergence = True
             risk_summary += " ⚠️ [雙系統分歧警訊] 量化得分偏高但已觸發下檔防守破位，以風控第一原則為準！"
 
@@ -164,5 +182,6 @@ class DeliberationEngine:
             bear_arguments=bear_args[:3],
             jev_triage=jev_triage,
             divergence_warning=divergence,
+            veto_triggered=veto_triggered,
             is_fallback=True
         )
