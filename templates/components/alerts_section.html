@@ -1,0 +1,21 @@
+<!-- 3. 風險警報與籌碼主力流向 (Risk Alerts) -->
+{% if alerts %}
+<section class="space-y-3">
+  <h3 class="text-base font-bold text-white flex items-center">
+    <i class="fa-solid fa-triangle-exclamation mr-2 text-amber-400"></i> 風險警報與主力異常流向
+  </h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    {% for alert in alerts %}
+    <div class="glass-card rounded-xl p-4 border {% if alert.level == 'danger' %}border-rose-500/40 bg-rose-950/10{% elif alert.level == 'warning' %}border-amber-500/40 bg-amber-950/10{% else %}border-blue-500/30 bg-blue-950/10{% endif %}">
+      <div class="flex items-center space-x-2 mb-1">
+        <span class="px-2 py-0.5 text-xs font-bold rounded {% if alert.level == 'danger' %}bg-rose-500/20 text-rose-300{% elif alert.level == 'warning' %}bg-amber-500/20 text-amber-300{% else %}bg-blue-500/20 text-blue-300{% endif %}">
+          {{ alert.badge }}
+        </span>
+        <span class="text-sm font-bold text-white">{{ alert.title }}</span>
+      </div>
+      <p class="text-xs text-gray-300 mt-1 leading-relaxed">{{ alert.desc }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

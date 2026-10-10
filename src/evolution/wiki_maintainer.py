@@ -4,7 +4,6 @@ Wiki Maintainer (知識庫維護與模式提煉智能體)
 分析復盤失敗軌跡，提煉根因並持久化編譯至 market_wiki/patterns/ 與 logs.md。
 """
 
-import os
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from datetime import datetime

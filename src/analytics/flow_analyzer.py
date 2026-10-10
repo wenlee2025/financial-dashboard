@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +67,7 @@ class FlowAnalyzer:
                     "level": "warning",
                     "badge": "ADR 折價",
                     "title": f"{adr.get('adr_symbol')} 對台股出現罕見折價 ({prem:.2f}%)",
-                    "desc": f"外資在美股 ADR 拋售力道較重，注意台股現貨可能面臨套利壓制回調壓力。",
+                    "desc": "外資在美股 ADR 拋售力道較重，注意台股現貨可能面臨套利壓制回調壓力。",
                     "symbol": adr.get("tw_symbol")
                 })
 
@@ -117,7 +117,7 @@ class FlowAnalyzer:
                     "level": "danger",
                     "badge": "破線警報",
                     "title": f"{name} ({sym}) 技術與籌碼全面轉弱 (多空評分 {score_info.get('score')} 分)",
-                    "desc": f"股價跌破關鍵支撐，量能轉為空方主導，建議切實執行停損或避險策略。",
+                    "desc": "股價跌破關鍵支撐，量能轉為空方主導，建議切實執行停損或避險策略。",
                     "symbol": sym
                 })
 

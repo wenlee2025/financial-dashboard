@@ -1,11 +1,10 @@
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 from .tw_market import TWMarketFetcher
 from .us_market import USMarketFetcher
+from .market_gateway import MarketGateway
 
 logger = logging.getLogger(__name__)
-
-from .market_gateway import MarketGateway
 
 class MarketScanner:
     """[相容轉發器] 全市場動態焦點強勢股 / 法人買超股掃描器 (底層代理至深模組 MarketGateway)"""

@@ -1,4 +1,3 @@
-import pytest
 import math
 from src.analytics.radar_metrics import RadarMetricsCalculator, StockRadarMetrics, _sanitize_score
 

@@ -1,4 +1,3 @@
-import pytest
 from src.analytics.deliberation_engine import DeliberationEngine, DeliberationVerdict
 
 def test_deliberation_engine_bullish_verdict():

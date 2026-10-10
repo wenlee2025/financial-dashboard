@@ -1,7 +1,7 @@
 import logging
 import urllib.parse
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 import requests
 

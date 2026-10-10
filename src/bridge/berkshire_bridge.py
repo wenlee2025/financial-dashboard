@@ -159,7 +159,8 @@ class BerkshireBridge:
         """
         執行單向戰略同步：AI Berkshire ➜ 財經儀表板 watchlist.yaml
         """
-        b_dir = Path(berkshire_dir) if berkshire_dir else self.berkshire_dir
+        if berkshire_dir:
+            self.berkshire_dir = Path(berkshire_dir)
         w_path = Path(watchlist_path) if watchlist_path else self.watchlist_path
 
         if not w_path.exists():

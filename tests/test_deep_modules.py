@@ -1,4 +1,3 @@
-import pytest
 import pandas as pd
 import numpy as np
 from src.analytics.technicals import TechnicalsEngine

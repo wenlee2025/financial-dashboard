@@ -1,4 +1,3 @@
-import pytest
 from src.analytics.equity_evaluator import EquityEvaluator, EquityEvaluationResult
 
 def test_equity_evaluator_tier1_core_complete_decision():

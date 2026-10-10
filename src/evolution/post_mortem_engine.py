@@ -6,7 +6,6 @@ Post-Mortem Engine (復盤驗證與點位評判引擎)
 
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
-import math
 
 
 @dataclass
@@ -215,10 +214,10 @@ class PostMortemEngine:
         overall_win_rate = (total_wins / total * 100.0) if total > 0 else 0.0
 
         avg_win_pct = (sum(w.pnl_pct for w in wins) / total_wins) if total_wins > 0 else 0.0
-        avg_loss_pct = (sum(abs(l.pnl_pct) for l in losses) / total_losses) if total_losses > 0 else 0.0
+        avg_loss_pct = (sum(abs(loss.pnl_pct) for loss in losses) / total_losses) if total_losses > 0 else 0.0
         
         gross_profit = sum(w.pnl_pct for w in wins)
-        gross_loss = sum(abs(l.pnl_pct) for l in losses)
+        gross_loss = sum(abs(loss.pnl_pct) for loss in losses)
         profit_factor = (gross_profit / gross_loss) if gross_loss > 0 else 99.0
 
         # 分組原型統計

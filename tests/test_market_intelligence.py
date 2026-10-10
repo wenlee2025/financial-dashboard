@@ -1,4 +1,3 @@
-import pytest
 from unittest.mock import MagicMock
 from src.analytics.market_intelligence import MarketIntelligence, MarketIntelligenceReport
 

@@ -1,6 +1,4 @@
-import pytest
 import pandas as pd
-import numpy as np
 from src.analytics.backtest_engine import BacktestEngine, BacktestResult
 
 def test_backtest_engine_run():
@@ -42,3 +40,40 @@ def test_backtest_engine_empty_df():
     assert result.total_trades == 0
     assert result.win_rate_pct == 0.0
     assert result.equity_curve == []
+
+def test_pipeline_run_backtest(monkeypatch, tmp_path):
+    """驗證 Pipeline 的 run_backtest 整合呼叫與 JSON 產出"""
+    from src.pipeline import FinancialDashboardPipeline
+    from src.config import Config
+
+    monkeypatch.setattr(Config, "data_dir", property(lambda self: tmp_path / "data"))
+    cfg = Config()
+
+    pipeline = FinancialDashboardPipeline(cfg=cfg)
+
+    # 模擬 mock yfinance Ticker history
+    dates = pd.date_range("2026-01-01", periods=45)
+    prices = [100.0 + i * 1.5 for i in range(45)]
+    mock_df = pd.DataFrame({
+        "Date": dates,
+        "Open": prices,
+        "High": [p + 2.0 for p in prices],
+        "Low": [p - 1.0 for p in prices],
+        "Close": prices,
+        "Volume": [10000] * 45
+    })
+
+    class MockTicker:
+        def __init__(self, sym):
+            self.sym = sym
+        def history(self, period="1y"):
+            return mock_df
+
+    import yfinance as yf
+    monkeypatch.setattr(yf, "Ticker", MockTicker)
+
+    results = pipeline.run_backtest(symbols=["2330", "NVDA"], period="6mo")
+    assert "2330" in results
+    assert "NVDA" in results
+    assert (cfg.data_dir / "backtest_results.json").exists()
+

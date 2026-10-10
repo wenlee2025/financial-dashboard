@@ -1,7 +1,6 @@
 import pytest
-from pathlib import Path
 import yaml
-from src.bridge.berkshire_bridge import BerkshireBridge, BerkshireAssetContract, SyncResult
+from src.bridge.berkshire_bridge import BerkshireBridge, BerkshireAssetContract
 
 def test_berkshire_contract_validation_success():
     """驗證合法防腐層契約"""

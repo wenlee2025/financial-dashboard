@@ -1,7 +1,6 @@
 import datetime
 import logging
 from typing import Any, Dict, List, Optional
-from pathlib import Path
 
 from .config import Config, config as default_config
 from .data_sources import TWMarketFetcher, USMarketFetcher, MacroSentimentFetcher, MarketScanner, MarketGateway
@@ -10,7 +9,7 @@ from .analytics import QuantScorer, PriceLevelCalculator, FlowAnalyzer, EquityEv
 from .analytics.data_validator import DataValidator
 from .analytics.supply_chain import SupplyChainMapper
 from .analytics.stock_universe_analyzer import StockUniverseAnalyzer
-from .ai_engine import LLMClient, PromptBuilder
+from .ai_engine import LLMClient
 from .generators import HTMLDashboardGenerator, MarkdownSummaryGenerator, EmailNewsletterGenerator
 from .notifiers import NotificationDispatcher
 
@@ -301,3 +300,46 @@ class FinancialDashboardPipeline:
                     stocks.append({**f, "market": "US"})
 
         return stocks
+
+    def run_backtest(self, symbols: List[str], period: str = "1y") -> Dict[str, Any]:
+        """
+        執行多標的走動量化回測 (BacktestEngine)
+        :param symbols: 欲回測之股票代碼列表 (例: ['2330', 'NVDA'])
+        :param period: 歷史資料期間 (預設 1y)
+        """
+        import yfinance as yf
+        import json
+        from .analytics.backtest_engine import BacktestEngine
+
+        results: Dict[str, Any] = {}
+        logger.info(f"啟動量化回測引擎，回測標的: {symbols}，期間: {period}...")
+
+        for sym in symbols:
+            raw_sym = sym.strip().upper()
+            if raw_sym.isdigit() or raw_sym in getattr(self.tw_fetcher, "OTC_SYMBOLS", set()):
+                query_sym = self.tw_fetcher._normalize_tw_symbol(raw_sym)
+            else:
+                query_sym = raw_sym
+
+            try:
+                t = yf.Ticker(query_sym)
+                df = t.history(period=period)
+                if df.empty or len(df) < 30:
+                    logger.warning(f"標的 {raw_sym} ({query_sym}) 歷史數據不足，無法執行回測")
+                    continue
+                res = BacktestEngine.run_backtest(symbol=raw_sym, df=df)
+                results[raw_sym] = res.to_dict()
+            except Exception as e:
+                logger.error(f"標的 {raw_sym} 回測執行失敗: {e}")
+
+        # 輸出結構化結果至 docs/data/backtest_results.json
+        out_file = self.cfg.data_dir / "backtest_results.json"
+        try:
+            with open(out_file, "w", encoding="utf-8") as f:
+                json.dump(results, f, ensure_ascii=False, indent=2)
+            logger.info(f"回測完成，結果已存至: {out_file}")
+        except Exception as e:
+            logger.warning(f"儲存回測結果檔案失敗: {e}")
+
+        return results
+

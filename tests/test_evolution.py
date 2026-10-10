@@ -8,11 +8,9 @@ Unit tests for WikiSkill Evolution Subsystem:
 
 import pytest
 import json
-from pathlib import Path
-from src.evolution.post_mortem_engine import PostMortemEngine, TradeOutcome, PostMortemReport
+from src.evolution.post_mortem_engine import PostMortemEngine, TradeOutcome
 from src.evolution.wiki_maintainer import WikiMaintainer
 from src.evolution.validation_gater import ValidationGater
-from src.evolution.historical_bootstrapper import HistoricalBootstrapper
 
 
 def test_post_mortem_engine_hit_tp_success():

@@ -1,0 +1,73 @@
+<!-- 1. 核心結論與市場定調 (Executive Verdict Banner) -->
+<section class="glass-card rounded-2xl p-6 glow-bull border border-emerald-500/20">
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
+    <div>
+      <div class="flex items-center space-x-2 mb-1">
+        <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+          <i class="fa-solid fa-bullseye mr-1"></i> 核心定調
+        </span>
+        <span class="text-sm font-semibold text-gray-300">
+          市場氛圍：<span class="text-emerald-400 font-bold">{{ ai_analysis.market_mood if ai_analysis and ai_analysis.market_mood else '中立震盪' }}</span>
+        </span>
+      </div>
+      <h2 class="text-xl font-bold text-white mt-2 leading-relaxed">
+        {{ ai_analysis.executive_summary if ai_analysis and ai_analysis.executive_summary else '暫無市場定調' }}
+      </h2>
+    </div>
+    
+    <div class="flex items-center space-x-4 bg-gray-900/80 px-4 py-3 rounded-xl border border-gray-800 shrink-0">
+      <div class="text-center">
+        <div class="text-xs text-gray-400">恐慌與貪婪指數</div>
+        <div class="text-2xl font-black text-emerald-400">{{ (macro_sentiment.fear_and_greed.score if macro_sentiment and macro_sentiment.fear_and_greed else 50) }}</div>
+        <div class="text-xs font-medium text-emerald-300">{{ (macro_sentiment.fear_and_greed.rating_zh if macro_sentiment and macro_sentiment.fear_and_greed else '中立') }}</div>
+      </div>
+      <div class="w-px h-10 bg-gray-800"></div>
+      <div class="text-center">
+        <div class="text-xs text-gray-400">美債 10 年期</div>
+        <div class="text-2xl font-black text-cyan-400">{% if macro_sentiment and macro_sentiment.macro and macro_sentiment.macro.us10y %}{{ macro_sentiment.macro.us10y.value }}%{% else %}-{% endif %}</div>
+        <div class="text-xs font-medium {% if macro_sentiment and macro_sentiment.macro and macro_sentiment.macro.us10y and (macro_sentiment.macro.us10y.pct_change or 0) >= 0 %}text-rose-400{% else %}text-emerald-400{% endif %}">
+          {% if macro_sentiment and macro_sentiment.macro and macro_sentiment.macro.us10y and macro_sentiment.macro.us10y.pct_change is not none %}{{ "{:+.2f}%".format(macro_sentiment.macro.us10y.pct_change|float) }}{% else %}-{% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 多空分流速覽 -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+    <div class="bg-emerald-950/20 border border-emerald-900/40 rounded-xl p-4">
+      <div class="flex items-center text-emerald-400 font-semibold text-sm mb-2">
+        <i class="fa-solid fa-arrow-trend-up mr-2"></i> 多方核心支撐
+      </div>
+      <ul class="space-y-1.5 text-xs text-gray-300">
+        {% if ai_analysis and ai_analysis.bullish_arguments %}
+          {% for item in ai_analysis.bullish_arguments %}
+          <li class="flex items-start">
+            <span class="text-emerald-400 mr-2 font-bold">•</span>
+            <span>{{ item }}</span>
+          </li>
+          {% endfor %}
+        {% else %}
+          <li class="text-gray-500">暫無多方支撐論據</li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <div class="bg-rose-950/20 border border-rose-900/40 rounded-xl p-4">
+      <div class="flex items-center text-rose-400 font-semibold text-sm mb-2">
+        <i class="fa-solid fa-shield-halved mr-2"></i> 空方風險防守
+      </div>
+      <ul class="space-y-1.5 text-xs text-gray-300">
+        {% if ai_analysis and ai_analysis.bearish_risks %}
+          {% for item in ai_analysis.bearish_risks %}
+          <li class="flex items-start">
+            <span class="text-rose-400 mr-2 font-bold">•</span>
+            <span>{{ item }}</span>
+          </li>
+          {% endfor %}
+        {% else %}
+          <li class="text-gray-500">暫無空方防守論據</li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</section>

@@ -217,7 +217,6 @@ class LLMClient:
         us10y = macro.get("macro", {}).get("us10y", {}).get("value", 0.0)
         stocks = context_data.get("stocks", [])
         adr_list = context_data.get("adr_premiums", [])
-        alerts = context_data.get("alerts", [])
 
         # 統計多空廣度
         if stocks:

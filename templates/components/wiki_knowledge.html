@@ -1,0 +1,151 @@
+<!-- 避坑知識庫模組 (Market Wiki & Failure Modes) -->
+<!-- 知識庫頂部橫幅 -->
+<section class="glass-card rounded-2xl p-6 glow-bull border border-cyan-500/20">
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
+    <div>
+      <div class="flex items-center space-x-2 mb-1">
+        <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+          <i class="fa-solid fa-book-bookmark mr-1"></i> WikiSkill 核心知識庫
+        </span>
+        <span class="text-sm font-semibold text-gray-300">
+          三層解耦架構：原始軌跡 (Raw) · 持久知識 (Wiki) · 可執行技能 (Skills)
+        </span>
+      </div>
+      <h2 class="text-xl font-bold text-white mt-2 leading-relaxed">
+        永久編譯歷史經驗，建立「永不重蹈覆轍」的金融長效記憶
+      </h2>
+      <p class="text-xs text-gray-400 mt-1">
+        遵循 arXiv:2608.27454 規範：即便量化參數或代碼經回測回滾（Rollback），此處沉澱之失敗教訓與成功範式亦永久累積。
+      </p>
+    </div>
+    <div class="shrink-0 flex items-center space-x-2">
+      <span class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-800 border border-gray-700 text-gray-300">
+        已編譯模式：<strong class="text-cyan-300">5</strong> 類
+      </span>
+    </div>
+  </div>
+
+  <!-- 失敗模式卡片網格 (Failure Modes) -->
+  <div class="mt-6 space-y-3">
+    <h3 class="text-sm font-bold text-rose-400 flex items-center">
+      <i class="fa-solid fa-triangle-exclamation mr-2"></i> 🚨 歷史失敗避坑模式庫 (Failure Modes)
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- FM-001 -->
+      <div class="bg-gray-900/90 rounded-xl p-4 border border-rose-500/30 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/40">FM-001</span>
+          <span class="text-[10px] text-rose-400 font-bold">🔴 極高風險</span>
+        </div>
+        <h4 class="text-sm font-bold text-white">高檔爆量假突破出貨</h4>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          量比 > 2.2x 暴增但日 K 收長上影黑 K 跌逾 2%，主力藉利多反向拔檔倒貨。
+        </p>
+        <div class="pt-2 border-t border-gray-800 text-[11px] text-emerald-400 font-medium">
+          🛡️ 防護對策：強制映射為「🚨 警戒撤退」，反彈減碼出清，破 SL 嚴格停損。
+        </div>
+      </div>
+
+      <!-- FM-002 -->
+      <div class="bg-gray-900/90 rounded-xl p-4 border border-amber-500/30 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">FM-002</span>
+          <span class="text-[10px] text-amber-400 font-bold">🟠 中高風險</span>
+        </div>
+        <h4 class="text-sm font-bold text-white">動能衰竭急追被套</h4>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          均線雖多頭但量比 < 0.8x 萎縮，量價嚴重背離。無腦市價急追易遭短線洗盤破位。
+        </p>
+        <div class="pt-2 border-t border-gray-800 text-[11px] text-amber-300 font-medium">
+          🛡️ 防護對策：強制映射為「⏳ 耐心等待」，切忌急追，等量縮回踩 S1 接單。
+        </div>
+      </div>
+
+      <!-- FM-003 -->
+      <div class="bg-gray-900/90 rounded-xl p-4 border border-rose-500/30 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/40">FM-003</span>
+          <span class="text-[10px] text-rose-400 font-bold">🔴 總經風險</span>
+        </div>
+        <h4 class="text-sm font-bold text-white">外資期貨巨額空單壓盤</h4>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          台指期外資淨空單超過 35,000 口時，現貨易遭壓盤結算，突破多為虛胖誘多。
+        </p>
+        <div class="pt-2 border-t border-gray-800 text-[11px] text-cyan-300 font-medium">
+          🛡️ 防護對策：全域啟動大盤防護扣分，下調權值股目標價並降低總持倉水位。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 成功範式卡片網格 (Success Archetypes) -->
+  <div class="mt-6 space-y-3">
+    <h3 class="text-sm font-bold text-emerald-400 flex items-center">
+      <i class="fa-solid fa-trophy mr-2"></i> 🚀 歷史成功主升範式庫 (Success Archetypes)
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- SA-001 -->
+      <div class="bg-gray-900/90 rounded-xl p-4 border border-emerald-500/30 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">SA-001</span>
+          <span class="text-[10px] text-emerald-400 font-bold">🟢 82%+ 勝率</span>
+        </div>
+        <h4 class="text-sm font-bold text-white">法人籌碼鎖碼共振突破</h4>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          外資＋投信連 3 日同步買超，成交總值溫和放大至 1.3x~2.0x 突破 5MA 與頸線。
+        </p>
+        <div class="pt-2 border-t border-gray-800 text-[11px] text-emerald-300 font-medium">
+          🎯 實戰執行：順勢進攻重倉，抱牢主升段，以 5MA 移動防守，未破線不輕易出清。
+        </div>
+      </div>
+
+      <!-- SA-002 -->
+      <div class="bg-gray-900/90 rounded-xl p-4 border border-cyan-500/30 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">SA-002</span>
+          <span class="text-[10px] text-cyan-400 font-bold">🟢 78%+ 勝率</span>
+        </div>
+        <h4 class="text-sm font-bold text-white">浮額沉澱量縮築底起漲</h4>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          連 5 日量比 < 0.8x 守穩季線/S1，首根紅 K 帶量突破 5MA，風報比達 2.5:1。
+        </p>
+        <div class="pt-2 border-t border-gray-800 text-[11px] text-cyan-300 font-medium">
+          🎯 實戰執行：於 S1 支撐上方逢低潛伏，停損極短，突破頸線後加碼至標準水位。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 策略衝擊追蹤表 (Skill Impact Tracker Table) -->
+  <div class="mt-6 space-y-3">
+    <h3 class="text-sm font-bold text-white flex items-center">
+      <i class="fa-solid fa-code-compare mr-2 text-cyan-400"></i> 策略衝擊追蹤與安全回退審計表 (Skill Impact Tracker)
+    </h3>
+    <div class="overflow-x-auto custom-scrollbar bg-gray-900/60 rounded-xl border border-gray-800">
+      <table class="w-full text-left text-xs border-collapse">
+        <thead>
+          <tr class="border-b border-gray-800 text-gray-400 font-semibold bg-gray-900/80">
+            <th class="p-3">提案編號</th>
+            <th class="p-3">評審日期</th>
+            <th class="p-3">目標設定檔</th>
+            <th class="p-3">驗證集得分</th>
+            <th class="p-3">最佳基準閥值</th>
+            <th class="p-3">驗證決策結果</th>
+            <th class="p-3">核心變更紀錄</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-800/60 text-gray-300">
+          <tr class="hover:bg-gray-800/40">
+            <td class="p-3 font-bold text-cyan-300">P-000</td>
+            <td class="p-3 font-mono text-gray-400">2026-09-14</td>
+            <td class="p-3 font-mono text-gray-400">config/rules.json</td>
+            <td class="p-3 font-bold text-emerald-400">74.5%</td>
+            <td class="p-3 text-gray-400">74.5%</td>
+            <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Accepted (基準確立)</span></td>
+            <td class="p-3 text-gray-300">初始化量化評分與二維決策矩陣基準配置</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

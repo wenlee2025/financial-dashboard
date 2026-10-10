@@ -320,7 +320,6 @@ class TWMarketFetcher:
                 data = resp.json().get("data", [])
                 if data:
                     latest = data[-1]
-                    prev_year = data[-2] if len(data) > 1 else latest
                     revenue = latest.get("revenue", 0)
                     rev_year = latest.get("revenue_year", 0)
                     rev_month = latest.get("revenue_month", 0)

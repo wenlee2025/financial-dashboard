@@ -1,4 +1,3 @@
-import pytest
 from pathlib import Path
 from src.analytics.supply_chain import SupplyChainMapper
 from src.analytics.quant_scoring import QuantScorer

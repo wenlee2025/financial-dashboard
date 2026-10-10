@@ -5,7 +5,9 @@
 """
 import logging
 from typing import Any, Dict, Optional
-from .equity_evaluator import EquityEvaluator, EquityEvaluationResult, _safe_float
+from .equity_evaluator import EquityEvaluator, _safe_float
+
+__all__ = ["QuantScorer", "_safe_float"]
 
 logger = logging.getLogger(__name__)
 

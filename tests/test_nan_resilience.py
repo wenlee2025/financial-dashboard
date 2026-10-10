@@ -1,7 +1,5 @@
-import pytest
 import math
 from pathlib import Path
-import numpy as np
 import pandas as pd
 from src.analytics.price_levels import PriceLevelCalculator, _safe_val
 from src.analytics.quant_scoring import QuantScorer, _safe_float

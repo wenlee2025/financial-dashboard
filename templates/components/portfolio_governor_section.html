@@ -1,0 +1,179 @@
+<!-- 4.8 投資組合資產治理與波克夏四宗師論文漂移審計 (Portfolio Governor & Thesis Drift Audit) -->
+{% set ps = (portfolio_summary if portfolio_summary else {}) %}
+{% set hard_count = (ps.hard_drift_count if ps.hard_drift_count is defined and ps.hard_drift_count is not none else 0) %}
+{% set soft_count = (ps.soft_drift_count if ps.soft_drift_count is defined and ps.soft_drift_count is not none else 0) %}
+{% set tot_cost = (ps.total_cost if ps.total_cost is defined and ps.total_cost is not none and ps.total_cost != '-' else 0) %}
+{% set mkt_val = (ps.total_market_value if ps.total_market_value is defined and ps.total_market_value is not none and ps.total_market_value != '-' else 0) %}
+{% set un_pnl = (ps.unrealized_pnl if ps.unrealized_pnl is defined and ps.unrealized_pnl is not none and ps.unrealized_pnl != '-' else 0) %}
+{% set ret_pct = (ps.overall_return_pct if ps.overall_return_pct is defined and ps.overall_return_pct is not none and ps.overall_return_pct != '-' else 0) %}
+{% set holdings_list = (ps.holdings if ps.holdings is defined and ps.holdings else []) %}
+
+<section id="portfolioGovernorSection" class="glass-card rounded-2xl p-6 glow-bull border border-indigo-500/20 space-y-5">
+  <!-- 頂部標題與核心摘要 -->
+  <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-gray-800">
+    <div>
+      <h3 class="text-base font-bold text-white flex items-center">
+        <i class="fa-solid fa-vault mr-2.5 text-indigo-400"></i>
+        投資組合資產治理與四宗師論文漂移審計
+        <span class="ml-2.5 px-2.5 py-0.5 text-xs font-bold rounded-full {% if hard_count > 0 %}bg-rose-500/20 text-rose-300 border border-rose-500/40{% elif soft_count > 0 %}bg-amber-500/20 text-amber-300 border border-amber-500/40{% else %}bg-emerald-500/20 text-emerald-300 border border-emerald-500/30{% endif %}">
+          {% if hard_count > 0 %}
+            🚨 {{ hard_count }} 檔觸發硬停損漂移
+          {% elif soft_count > 0 %}
+            ⚠️ {{ soft_count }} 檔動態論文預警
+          {% else %}
+            🛡️ 論文狀態全數健康
+          {% endif %}
+        </span>
+      </h3>
+      <p class="text-xs text-gray-400 mt-1">
+        立足巴菲特、芒格、段永平、李錄「好生意、好團隊、好價格」紀律體系；即時監控持倉、盯市重估與 20% 凱利部位上限。
+      </p>
+    </div>
+
+    <!-- 審計時間標籤 -->
+    <div class="flex items-center space-x-2 text-xs text-gray-400">
+      <span class="bg-gray-800/80 px-2.5 py-1 rounded-lg border border-gray-700">
+        <i class="fa-regular fa-clock mr-1 text-indigo-400"></i>審計日：{{ ps.audit_date if ps.audit_date is defined and ps.audit_date else date }}
+      </span>
+    </div>
+  </div>
+
+  <!-- 總資產與損益矩陣卡片 -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+    <div class="bg-gray-900/70 rounded-xl p-3.5 border border-gray-800">
+      <div class="text-[11px] text-gray-400 font-medium">總投入成本 (Cost Basis)</div>
+      <div class="text-lg font-bold text-white mt-1">
+        {% if tot_cost|float > 0 %}
+          ${{ "{:,.0f}".format(tot_cost|float) }}
+        {% else %}
+          -
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="bg-gray-900/70 rounded-xl p-3.5 border border-gray-800">
+      <div class="text-[11px] text-gray-400 font-medium">目前盯市總市值 (MTM Value)</div>
+      <div class="text-lg font-bold text-cyan-300 mt-1">
+        {% if mkt_val|float > 0 %}
+          ${{ "{:,.0f}".format(mkt_val|float) }}
+        {% else %}
+          -
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="bg-gray-900/70 rounded-xl p-3.5 border border-gray-800">
+      <div class="text-[11px] text-gray-400 font-medium">未實現損益 (Unrealized PnL)</div>
+      <div class="text-lg font-bold mt-1 {% if un_pnl|float > 0 %}text-emerald-400{% elif un_pnl|float < 0 %}text-rose-400{% else %}text-gray-300{% endif %}">
+        {% if tot_cost|float > 0 %}
+          {{ "{:+,.0f}".format(un_pnl|float) }}
+        {% else %}
+          -
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="bg-gray-900/70 rounded-xl p-3.5 border border-gray-800">
+      <div class="text-[11px] text-gray-400 font-medium">整體投組報酬率 (Total Return)</div>
+      <div class="text-lg font-black mt-1 {% if ret_pct|float > 0 %}text-emerald-400{% elif ret_pct|float < 0 %}text-rose-400{% else %}text-gray-300{% endif %}">
+        {% if tot_cost|float > 0 %}
+          {{ "{:+.2f}%".format(ret_pct|float) }}
+        {% else %}
+          -
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- 持倉明細與論文漂移審計清單 -->
+  {% if holdings_list and holdings_list|length > 0 %}
+  <div class="overflow-x-auto custom-scrollbar">
+    <table class="w-full text-left border-collapse text-xs">
+      <thead>
+        <tr class="border-b border-gray-800 text-gray-400 uppercase tracking-wider text-[11px] bg-gray-900/40">
+          <th class="p-3">持倉標的</th>
+          <th class="p-3">資產定位</th>
+          <th class="p-3">持股成本</th>
+          <th class="p-3">現價 / 市值</th>
+          <th class="p-3">未實現損益</th>
+          <th class="p-3">投資論文與漂移審計 (Thesis Drift Audit)</th>
+          <th class="p-3 text-right">風控決策</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-800/60 text-gray-200">
+        {% for h in holdings_list %}
+        {% set is_core = (h.tier == 'TIER_1_CORE') %}
+        {% set status_str = (h.alert_status or '') %}
+        {% set is_hard = ('停損' in status_str or '出清' in status_str) %}
+        {% set is_soft = ('預警' in status_str or '失速' in status_str) %}
+        {% set h_ret = (h.return_pct if h.return_pct is defined and h.return_pct is not none and h.return_pct != '-' else 0) %}
+        {% set h_unpnl = (h.unrealized_pnl if h.unrealized_pnl is defined and h.unrealized_pnl is not none and h.unrealized_pnl != '-' else 0) %}
+        {% set h_mktval = (h.market_value if h.market_value is defined and h.market_value is not none and h.market_value != '-' else 0) %}
+        <tr class="hover:bg-gray-800/30 transition">
+          <td class="p-3">
+            <div class="flex items-center space-x-2">
+              <span class="font-extrabold text-sm text-white">{{ h.symbol }}</span>
+              <span class="text-gray-300 font-medium">{{ h.company_name }}</span>
+            </div>
+            <div class="text-[10px] text-gray-400 mt-0.5">持倉: {{ h.shares }} 股 | 買進日: {{ h.buy_date }}</div>
+          </td>
+          <td class="p-3">
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold {{ 'bg-amber-500/20 text-amber-300 border border-amber-500/30' if is_core else 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' }}">
+              {{ '👑 特許核心' if is_core else '⚡ 戰術動量' }}
+            </span>
+          </td>
+          <td class="p-3">
+            <div class="font-semibold text-gray-200">${{ h.buy_price }}</div>
+            <div class="text-[10px] text-gray-400">停損: ${{ h.stop_loss if h.stop_loss is defined and h.stop_loss and h.stop_loss|float > 0 else '-' }}</div>
+          </td>
+          <td class="p-3">
+            <div class="font-bold text-white">${{ h.current_price }}</div>
+            <div class="text-[10px] text-cyan-400">${{ "{:,.0f}".format(h_mktval|float) }}</div>
+          </td>
+          <td class="p-3">
+            <div class="font-black {{ 'text-emerald-400' if h_ret|float >= 0 else 'text-rose-400' }}">
+              {{ "{:+.2f}%".format(h_ret|float) }}
+            </div>
+            <div class="text-[10px] {{ 'text-emerald-400' if h_unpnl|float >= 0 else 'text-rose-400' }}">
+              {{ "{:+,.0f}".format(h_unpnl|float) }}
+            </div>
+          </td>
+          <td class="p-3 max-w-xs">
+            <div class="text-gray-300 font-medium text-[11px] truncate">{{ h.thesis }}</div>
+            {% if h.drift_reasons and h.drift_reasons|length > 0 %}
+            <div class="flex flex-wrap gap-1 mt-1">
+              {% for r in h.drift_reasons %}
+              <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-semibold bg-rose-950/70 text-rose-300 border border-rose-800">
+                <i class="fa-solid fa-triangle-exclamation mr-1 text-[8px]"></i>{{ r }}
+              </span>
+              {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-[10px] text-emerald-400 mt-0.5">
+              <i class="fa-solid fa-check mr-1"></i>基本面成長與右側均線正常
+            </div>
+            {% endif %}
+          </td>
+          <td class="p-3 text-right">
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold {{ 'bg-rose-500/20 text-rose-300 border border-rose-500/40' if is_hard else ('bg-amber-500/20 text-amber-300 border border-amber-500/40' if is_soft else 'bg-gray-800 text-gray-300 border border-gray-700') }}">
+              {{ h.alert_status }}
+            </span>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <!-- 尚無持倉引導區塊 -->
+  <div class="p-6 text-center bg-gray-900/50 rounded-xl border border-dashed border-gray-800 space-y-2">
+    <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 mx-auto">
+      <i class="fa-solid fa-folder-open text-base"></i>
+    </div>
+    <h4 class="text-xs font-bold text-gray-300">目前投資組合無持倉部位</h4>
+    <p class="text-[11px] text-gray-500 max-w-md mx-auto">
+      可於 <code class="text-indigo-400 bg-gray-800 px-1 py-0.5 rounded">docs/data/portfolio.json</code> 設定持股部位與買進成本，系統將在每日流水線自動進行盯市損益重估、破線停損裁決與營收放緩漂移審計。
+    </p>
+  </div>
+  {% endif %}
+</section>

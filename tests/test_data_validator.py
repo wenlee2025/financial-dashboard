@@ -1,4 +1,3 @@
-import pytest
 from datetime import datetime, timedelta
 from src.analytics.data_validator import DataValidator
 from src.data_sources.news_feed import NewsFeedService

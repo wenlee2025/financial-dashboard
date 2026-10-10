@@ -3,7 +3,7 @@
   "market_mode": "full",
   "market_mode_text": "每日美台財經全覽",
   "date": "2026-10-10",
-  "updated_at": "2026-10-10 12:04:40",
+  "updated_at": "2026-10-10 12:28:03",
   "timezone": "Asia/Taipei",
   "dashboard_url": "",
   "indices": {
@@ -8067,7 +8067,7 @@
         "bb_lower": 409.87,
         "high_52w": 487.47,
         "low_52w": 358.75,
-        "pe_ratio": 33.28,
+        "pe_ratio": 32.94,
         "forward_pe": 20.68,
         "peg_ratio": 0.87,
         "target_mean_price": 555.01,
@@ -14459,7 +14459,7 @@
         "bb_lower": 483.62,
         "high_52w": 537.22,
         "low_52w": 348.54,
-        "pe_ratio": 29.81,
+        "pe_ratio": 29.11,
         "forward_pe": 22.6,
         "peg_ratio": 1.7,
         "target_mean_price": 587.63,
@@ -23242,28 +23242,31 @@
     }
   ],
   "ai_analysis": {
-    "executive_summary": "美股科技股回溫與 TSM ADR 高溢價 (+13.49%) 為台股提供下檔支撐，然外資台指期淨空單高達 3.82 萬口壓盤，加上川湖、信驊等高價 AI 股出現爆量派發訊號，市場整體呈現強弱分化、箱型震盪格局。",
-    "market_mood": "震盪整理",
+    "executive_summary": "大盤與焦點股維持偏多架構（平均評分 60.4 分），多頭標的佔 30/50 檔；資金輪動至 京元電子(88.5分)、健策(86.7分)、創意(86.0分)，拉回守穩支撐可分批佈局。",
+    "market_mood": "偏多震盪輪動",
     "bullish_arguments": [
-      "美股標普 500 (+0.59%) 與那斯達克 (+0.64%) 雙雙反彈，TSM ADR 相較台股現貨大幅溢價 +13.49%（換算台幣達 $2,893.93），為台積電 (2330) 提供次日跳空開高之補漲動能。",
-      "戰術動量強勢股續強：京元電子 (2449, 評分 88.5)、健策 (3653, 評分 86.7) 量比突破 5MA，呈現價量齊揚主升段，且具備合理 Forward PE 與高股息下檔保護。",
-      "產業催化劑支撐：10 月 15 日台積電法說會在即，加上 AMD 蘇姿丰重申台灣半導體產業重要性，AI 供應鏈中長線基本面趨勢維持明確。"
+      "主流領頭羊 京元電子 (2449) 量化評分達 88.5 分，✓ 成交總值突破5MA (金額量比 2.01x，價量齊揚)。",
+      "TSM ADR 對現貨維持溢價 +13.49% (換算每股 TWD $2893.93)，提供台股下檔堅實保護。",
+      "市場恐慌貪婪指數位於 45.0 分 (恐慌)，市場情緒維持在健康區間未現恐慌拋售。",
+      "AI 伺服器、散熱、先進封裝等主流族群法人籌碼進駐意願強烈，產業趨勢明確。"
     ],
     "bearish_risks": [
-      "外資台指期巨額淨空單高達 -38,200 口，觸及高風險警戒門檻 (-35,000 口)，大盤隨時面臨外資壓盤提款風險。",
-      "核心高價 AI 股爆量出貨：川湖 (2059) 重挫 9.97% 且成交量比達 2.18x，信驊 (5274)、廣達 (2382) 亦同步出現爆量下殺，籌碼鬆動跡象明顯。",
-      "宏觀壓抑：美國 10 年期公債殖利率上揚至 5.244%，美股費城半導體指數下跌 -0.41%，市場情緒指標 Fear & Greed 處於 45.0 (恐慌區)，資金追高意願受限。"
+      "美債 10 年期殖利率徘徊於 5.244% 高檔，對高估值科技股本益比形成一定壓制。",
+      "部分弱勢標的（如 廣達 2382）技術面破線，評分降至 14.0 分，防範補跌效應。",
+      "盤面高檔換手加劇，爆量不漲個股需提防主力短線獲利了結與假突破風險。",
+      "國際地緣政治與全球貿易政策不確定性，恐增添短線匯率與外資資金波動。"
     ],
     "catalysts": [
-      "2026/10/15 台積電季度法說會（營運展望與資本支出將決定大盤能否站穩關鍵整數關卡）",
-      "美股各大科技巨頭（NVDA、MSFT、AAPL 等）即將發布之最新季報與 AI 資本支出指引",
-      "美國最新 10 年期美債殖利率動向與聯準會 (Fed) 利率政策官員公開談話"
+      "【旺得富理財網】《美股》收盤速報：美俄達成柴油供應協議美股收高 光通訊急升- 國際 (2 小時前)",
+      "【Yahoo 財經】美股｜AI股反彈 C3.ai及Oracle急升 科技板塊收復失地 (3 小時前)",
+      "【CMoney投資網誌】半導體與AI供應鏈近期震盪，馬斯克自建晶圓廠惹議牽動台積電走勢-財經焦點情報站 (3 小時前)",
+      "【鉅亨網】美股重點新聞摘要2026年10月10日 (4 小時前)"
     ],
     "action_checklist": [
-      "總部位控管：建議整體持股水位維持在 50% - 60%，避免過度槓桿，並保留充沛現金因應台指期結算前之波動。",
-      "個股停損防守：針對戰術動量型標的 (Tier 2)，若觸及 ATR 停損價位或出現爆量派發訊號（如川湖、廣達）應無條件執行減碼防守。",
-      "核心資產左側佈局：對波克夏特許核心標的 (Tier 1如台積電 2330、鴻海 2317、大立光 3008)，採金字塔左側分批接刀策略 (-10% 入場 5%、-20% 入場 7%、-30% 入場 8%)。",
-      "選股策略優化：聚焦「成交總值突破 5MA、週日線共振且評分高於 75 分」之低 PEG 高成長標的（如京元電子 2449、創意 3443）。"
+      "【部位控管】總持股水位建議控制在 60%-75%，保留彈性現金",
+      "【停損紀律】單筆部位嚴格設定於關鍵停損防守點 (SL)，跌破立即停損出場",
+      "【進場原則】嚴禁急拉追高，優先選擇拉回回測第一支撐 (S1) 且量縮守穩之強勢股",
+      "【籌碼檢驗】進場前確認外資與投信未出現連續性大額調節或土洋對作失衡"
     ]
   },
   "verified_news": [
@@ -23272,8 +23275,8 @@
       "publisher": "旺得富理財網",
       "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9VRjFaUDVFVHZMSVJBYldfMU9lQk1aWTFrd1hHMzBiS25jNmRoaHAza1VIRk1hdTkyTFBGRE5JbVFlRURkbktkZEktdk8tTUVOZ2VWakdWVHhHQUZuQmFWY2FZcUQtWXlWRmc?oc=5",
       "published_at": "2026-10-10 02:05",
-      "age_hours": 2.0,
-      "age_text": "1 小時前",
+      "age_hours": 2.4,
+      "age_text": "2 小時前",
       "related_symbol": "大盤/產業",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
@@ -23283,8 +23286,8 @@
       "publisher": "Yahoo 財經",
       "url": "https://news.google.com/rss/articles/CBMiswJBVV95cUxPeGFWSkNObXFneHVOTmxSQkNwV3FiS0pBeGVGNzdLUmNVV0hXRGc0aFdQaEhpaUJjakx4WUwxWDFObEVYcmVPYkp5REphQzlqdEdrb055VVl2VUExMHpwOUJxZ0dTQXpoaG5fd2VrVFZBYTRfZ2JFTkl1VUlUYUVuN0xyZl9qTWZ4QnR3OVBRaEZoWFhraWhoSTFydlkwVU5LTGZubUNFM1B1WUpXcjZ2WThSUG1LOVZFZ3RNTUxmYUZDZUNQSGJZcU9CZllkUGhHZEludGEzeEllUzNkYVVDRmJTYTVfODFKS0lwajhIYnBOaDZqNG84UDU5NER6b3BKMHpHMGtVS0dRc0twbTFQTjRhY1FGTUx2RlNKaGZjSmI3TFVJb0tfNlR2M2pqMjdGZEdV?oc=5",
       "published_at": "2026-10-10 01:14",
-      "age_hours": 2.8,
-      "age_text": "2 小時前",
+      "age_hours": 3.2,
+      "age_text": "3 小時前",
       "related_symbol": "大盤/產業",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
@@ -23294,9 +23297,20 @@
       "publisher": "CMoney投資網誌",
       "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxON0ZHRjJXYVQ1Yl91WE45NkNvbWlVMkgwSk1wTDVZVU1yZWVpMzY3bjlhSXFDazd2c2liVmZ6WUNtNFlDSXhTcFNoUWJPRXhqMHVnRTF6NjY2d0p6OUNhREdEYUVsUDl0Y241ckRuRDZqVjRraTh3S3NQclB4YnBkRi1B?oc=5",
       "published_at": "2026-10-10 00:50",
-      "age_hours": 3.2,
+      "age_hours": 3.6,
       "age_text": "3 小時前",
       "related_symbol": "2330 台積電",
+      "is_verified": true,
+      "verification_tag": "🛡️ 24h 一手信源溯源"
+    },
+    {
+      "title": "美股重點新聞摘要2026年10月10日",
+      "publisher": "鉅亨網",
+      "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5Wa2xXZ0NUb2RDRjEwVkwwTC05TGJtdzNQbFlVSC1LalA2eFFnMlpmNXJrcG9pQU5qRVB2TS1XV0xzRnh5TWR3NkJYNEdxcG8?oc=5",
+      "published_at": "2026-10-10 00:20",
+      "age_hours": 4.1,
+      "age_text": "4 小時前",
+      "related_symbol": "大盤/產業",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
     },
@@ -23305,8 +23319,19 @@
       "publisher": "自由時報",
       "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1rRlE1RGJoajg2U2l6Yk9KMFRCdWJFRHVUNTYwVGZiVWg5ZC1xUkJIQW90anB1dDhBQm9QZVBpMFJVZXlXQUp0Q0xzVHJJS250a2NnbXNab0g?oc=5",
       "published_at": "2026-10-09 20:47",
-      "age_hours": 7.3,
+      "age_hours": 7.7,
       "age_text": "7 小時前",
+      "related_symbol": "大盤/產業",
+      "is_verified": true,
+      "verification_tag": "🛡️ 24h 一手信源溯源"
+    },
+    {
+      "title": "熱門股》外資大買 華航逆勢強漲",
+      "publisher": "自由時報",
+      "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE5yaUNWcGJIYjByWnVKa1RaQ1EweXFEWlM1ZzlYZTFwWWZpUWt6X3lpRHlvZ3pWVEJaSTRhOUU2ekYwTDFFVko1YmFOQ0RKU1NwS2UtME92QUY?oc=5",
+      "published_at": "2026-10-09 20:24",
+      "age_hours": 8.1,
+      "age_text": "8 小時前",
       "related_symbol": "大盤/產業",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
@@ -23316,7 +23341,7 @@
       "publisher": "工商時報",
       "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9ONUJ0VElOelZDRV9qNFQtcnljSjZQQnF1WHJIYkZRLVNobGhWdEpMdXFzUmlQLXRtbThEOEI5bkQxOFhvTEU4bEowTUhIbzFTUEpveC1nNTlaZWp1NThZ?oc=5",
       "published_at": "2026-10-09 19:00",
-      "age_hours": 9.1,
+      "age_hours": 9.5,
       "age_text": "9 小時前",
       "related_symbol": "2344 華邦電",
       "is_verified": true,
@@ -23327,30 +23352,8 @@
       "publisher": "經濟日報",
       "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE4wZGtpMGNCeThQMTJEN0VGbXloM1loNU90VTBsaVJ5TklhNzBMRVNwR2hSdnRKQXktbGVtZ2JvNDhNT3BndVZLUEg3bW9PYzN1NVFMUENjTlB0d9IBX0FVX3lxTE5qTFFSbktlU2ZMT1dMc2JoTW9tVmIwa1U3LXRwZzNyUkFpVzZkYi1IaUlPNzVob1FjVU4tMzQ4MFRtRmZnMU5ZX05NY2NJN2puMHVUa09nLTNTQTJBMWxr?oc=5",
       "published_at": "2026-10-09 18:45",
-      "age_hours": 9.3,
+      "age_hours": 9.7,
       "age_text": "9 小時前",
-      "related_symbol": "大盤/產業",
-      "is_verified": true,
-      "verification_tag": "🛡️ 24h 一手信源溯源"
-    },
-    {
-      "title": "要頒獎給黃仁勳了！川普帳戶買賣輝達紀錄也曝光",
-      "publisher": "鉅亨網",
-      "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1vQmloR2tQN0ZPX2pLUTJiV29oOUZEdEhMQWZKLS1qYTVyVEZ4WXhxNlZkY1BSaGxRVG5XbV9NcUtVRk9iWlkzQ2I2YUpVNWc?oc=5",
-      "published_at": "2026-10-09 18:03",
-      "age_hours": 10.0,
-      "age_text": "10 小時前",
-      "related_symbol": "NVDA 輝達",
-      "is_verified": true,
-      "verification_tag": "🛡️ 24h 一手信源溯源"
-    },
-    {
-      "title": "【1012台股盤前】連假前外資提款台股收黑失守5日線！OpenAI烏龍報導衝擊AI產業，被動元件與半導體測試逆勢走強，投本比排行鎖定世芯-KY、金像電、台塑化｜豐雲學堂2026 年 10 月",
-      "publisher": "永豐金證券",
-      "url": "https://news.google.com/rss/articles/CBMiwAZBVV95cUxPUzQwcFdfVnctcDQtZDlpTk82Xy1sRk1JOXdPMnNjXzdoNjJxX0tHOExGcUhSTVRqSXVOZkxMSFF5WTBhVEhFdzdTWDd3SmdYb21BamhBLThjN1NwMGh5MlJsUDB4b3NnWGRIMkhid2paYU9Ib2FjZ2dySG02YTVuWnVqUy1vQlBZRUNOYmpIUjlWLWZUdC10MjY3THlCQUZPYzJURjM1cVpINlo1bWljUU45NmUxRVQwb05nU1Q5cUtkbEU0d0hFUzdIOUMyT18xanJzSjNSTDUxSDhETDRnenN3SHVIMGhOVnpaSUV3T2I2alZURWQxMFBlX0Yta2huUFBwTEV6N0YzNVc2ajhJd3BuWHZaMEw2Y1JDeWdVSkVlTE5YWXRiUFVsVTlPTl9QaXRvR1RuNE84RVZTZWRfQTUwNDJ3T1FVU2t3LUV3bFBKWlBMUDdLVnFQelBvZEctenpXbFF3OUdaSHI2VXV0cElGcnVKelpWd2lFUmJPeV9GdmFJYXV6dTdTRXlIX0F5WHRtM25YWmFuVWcyQ2h5U3U2NUFOY2tMMjJyVl9GRTFFZHlsaktwbWx1akdpcUh1MUthcnM4UUJFb3Fud2tHckZDc05wdnlPRWdWcGE5bHZpMThpbjIwQ1ZpcFZHeUdPNjhtWmQ1WXpaQURGbVVwMElrbXU3YkZkOWU5M3l0Y201SmdsMTBxQXFKalpfbzI1eEwySUdBUDZ3TnpqaWpPcXlZY0szc1ZvbzlQOVZZb0NEc0NWZldYLVdMRmx3cHVkY083MDM3cmMxMnU4RHAxUUVvZU5MMzNIWHJfUUtKMDVIRkt1dFd0RlhQMmJobU1wdE8wM21tYi1yc0Z2TW5XR2JwMXB3cGstMUlqV3VnbnY2RlQwRHRZM2dKTFpyMmRLVUhrTnFVYm8yNnpycW1qa1V1dk1RMGhWZ252Z25LS2J2UWF5eG5sNHJQTFU4YUtGOWc1akY5dEVsVG5sNzB5OWRRRjhiNzdva1ZQV2ZmRFpZN1JWanpUU2Vyd1pNTTJyZ2ZHS1BJbC1CT005enpOY1ZsZ2dvRk9KT2hHMGJFYTM4OTZENU1zRkJxVW4tSzJv?oc=5",
-      "published_at": "2026-10-09 17:14",
-      "age_hours": 10.8,
-      "age_text": "10 小時前",
       "related_symbol": "大盤/產業",
       "is_verified": true,
       "verification_tag": "🛡️ 24h 一手信源溯源"
@@ -25300,7 +25303,7 @@
       "is_fallback": true
     }
   },
-  "markdown_summary": "📊 *【每日美台財經全覽】2026-10-10*\n━━━━━━━━━━━━━━━━━━\n🎯 *核心結論*：美股科技股回溫與 TSM ADR 高溢價 (+13.49%) 為台股提供下檔支撐，然外資台指期淨空單高達 3.82 萬口壓盤，加上川湖、信驊等高價 AI 股出現爆量派發訊號，市場整體呈現強弱分化、箱型震盪格局。\n📈 *市場氛圍*：`震盪整理` | 恐慌指數：`45.0 (恐慌)` | 美債10Y：`5.244%`\n\n🟢 *多方主線*：\n  • 美股標普 500 (+0.59%) 與那斯達克 (+0.64%) 雙雙反彈，TSM ADR 相較台股現貨大幅溢價 +13.49%（換算台幣達 $2,893.93），為台積電 (2330) 提供次日跳空開高之補漲動能。\n  • 戰術動量強勢股續強：京元電子 (2449, 評分 88.5)、健策 (3653, 評分 86.7) 量比突破 5MA，呈現價量齊揚主升段，且具備合理 Forward PE 與高股息下檔保護。\n\n🔴 *空方風險*：\n  • 外資台指期巨額淨空單高達 -38,200 口，觸及高風險警戒門檻 (-35,000 口)，大盤隨時面臨外資壓盤提款風險。\n  • 核心高價 AI 股爆量出貨：川湖 (2059) 重挫 9.97% 且成交量比達 2.18x，信驊 (5274)、廣達 (2382) 亦同步出現爆量下殺，籌碼鬆動跡象明顯。\n\n📌 *焦點標的多空評分與操作點位*：\n• *2449 京元電子* (TWD $304.5 | `+1.67%`)\n  評分: `88.5分 (強力做多)` | 資金動能: `強勢主升 🟢` (154.4億)\n  進場: `$287.55 - 304.5` | 防守 SL: `$283.24` | 目標 TP: `$325.04` (風報比 0.97:1)\n• *3653 健策* (TWD $7165.0 | `+5.29%`)\n  評分: `86.7分 (強力做多)` | 資金動能: `強勢主升 🟢` (111.2億)\n  進場: `$6694.85 - 7165.0` | 防守 SL: `$6594.43` | 目標 TP: `$7642.76` (風報比 0.84:1)\n• *3443 創意* (TWD $8360.0 | `-1.18%`)\n  評分: `86.0分 (強力做多)` | 資金動能: `強勢主升 🟢` (96.9億)\n  進場: `$7784.85 - 8360.0` | 防守 SL: `$7668.08` | 目標 TP: `$9078.93` (風報比 1.04:1)\n• *2344 華邦電* (TWD $177.0 | `-1.39%`)\n  評分: `82.5分 (強力做多)` | 資金動能: `量縮築底 🟡` (123.0億)\n  進場: `$174.43 - 177.0` | 防守 SL: `$168.65` | 目標 TP: `$187.41` (風報比 1.25:1)\n• *2376 技嘉* (TWD $363.0 | `-0.68%`)\n  評分: `82.5分 (強力做多)` | 資金動能: `量縮築底 🟡` (13.5億)\n  進場: `$359.37 - 364.54` | 防守 SL: `$347.27` | 目標 TP: `$382.67` (風報比 1.25:1)\n\n⚠️ *主力籌碼與市場警報*：\n  • *[ADR 溢價]* TSM 對台股溢價達 +13.49%\n  • *[動能衰竭]* 聯茂 (6213) 高檔成交總值萎縮 (量價背離)\n  • *[動能衰竭]* 00981A (00981A) 高檔成交總值萎縮 (量價背離)\n\n📋 *操作紀律檢查清單*：\n  ☑ 總部位控管：建議整體持股水位維持在 50% - 60%，避免過度槓桿，並保留充沛現金因應台指期結算前之波動。\n  ☑ 個股停損防守：針對戰術動量型標的 (Tier 2)，若觸及 ATR 停損價位或出現爆量派發訊號（如川湖、廣達）應無條件執行減碼防守。\n  ☑ 核心資產左側佈局：對波克夏特許核心標的 (Tier 1如台積電 2330、鴻海 2317、大立光 3008)，採金字塔左側分批接刀策略 (-10% 入場 5%、-20% 入場 7%、-30% 入場 8%)。\n",
+  "markdown_summary": "📊 *【每日美台財經全覽】2026-10-10*\n━━━━━━━━━━━━━━━━━━\n🎯 *核心結論*：大盤與焦點股維持偏多架構（平均評分 60.4 分），多頭標的佔 30/50 檔；資金輪動至 京元電子(88.5分)、健策(86.7分)、創意(86.0分)，拉回守穩支撐可分批佈局。\n📈 *市場氛圍*：`偏多震盪輪動` | 恐慌指數：`45.0 (恐慌)` | 美債10Y：`5.244%`\n\n🟢 *多方主線*：\n  • 主流領頭羊 京元電子 (2449) 量化評分達 88.5 分，✓ 成交總值突破5MA (金額量比 2.01x，價量齊揚)。\n  • TSM ADR 對現貨維持溢價 +13.49% (換算每股 TWD $2893.93)，提供台股下檔堅實保護。\n\n🔴 *空方風險*：\n  • 美債 10 年期殖利率徘徊於 5.244% 高檔，對高估值科技股本益比形成一定壓制。\n  • 部分弱勢標的（如 廣達 2382）技術面破線，評分降至 14.0 分，防範補跌效應。\n\n📌 *焦點標的多空評分與操作點位*：\n• *2449 京元電子* (TWD $304.5 | `+1.67%`)\n  評分: `88.5分 (強力做多)` | 資金動能: `強勢主升 🟢` (154.4億)\n  進場: `$287.55 - 304.5` | 防守 SL: `$283.24` | 目標 TP: `$325.04` (風報比 0.97:1)\n• *3653 健策* (TWD $7165.0 | `+5.29%`)\n  評分: `86.7分 (強力做多)` | 資金動能: `強勢主升 🟢` (111.2億)\n  進場: `$6694.85 - 7165.0` | 防守 SL: `$6594.43` | 目標 TP: `$7642.76` (風報比 0.84:1)\n• *3443 創意* (TWD $8360.0 | `-1.18%`)\n  評分: `86.0分 (強力做多)` | 資金動能: `強勢主升 🟢` (96.9億)\n  進場: `$7784.85 - 8360.0` | 防守 SL: `$7668.08` | 目標 TP: `$9078.93` (風報比 1.04:1)\n• *2344 華邦電* (TWD $177.0 | `-1.39%`)\n  評分: `82.5分 (強力做多)` | 資金動能: `量縮築底 🟡` (123.0億)\n  進場: `$174.43 - 177.0` | 防守 SL: `$168.65` | 目標 TP: `$187.41` (風報比 1.25:1)\n• *2376 技嘉* (TWD $363.0 | `-0.68%`)\n  評分: `82.5分 (強力做多)` | 資金動能: `量縮築底 🟡` (13.5億)\n  進場: `$359.37 - 364.54` | 防守 SL: `$347.27` | 目標 TP: `$382.67` (風報比 1.25:1)\n\n⚠️ *主力籌碼與市場警報*：\n  • *[ADR 溢價]* TSM 對台股溢價達 +13.49%\n  • *[動能衰竭]* 聯茂 (6213) 高檔成交總值萎縮 (量價背離)\n  • *[動能衰竭]* 00981A (00981A) 高檔成交總值萎縮 (量價背離)\n\n📋 *操作紀律檢查清單*：\n  ☑ 【部位控管】總持股水位建議控制在 60%-75%，保留彈性現金\n  ☑ 【停損紀律】單筆部位嚴格設定於關鍵停損防守點 (SL)，跌破立即停損出場\n  ☑ 【進場原則】嚴禁急拉追高，優先選擇拉回回測第一支撐 (S1) 且量縮守穩之強勢股\n",
   "post_mortem_report": {
     "total_evaluations": 920,
     "total_wins": 659,

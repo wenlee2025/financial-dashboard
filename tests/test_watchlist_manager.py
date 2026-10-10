@@ -1,5 +1,3 @@
-import pytest
-from pathlib import Path
 from src.watchlist_manager import WatchlistManager
 
 def test_watchlist_manager_add_and_remove(tmp_path):

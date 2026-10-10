@@ -139,1021 +139,123 @@
     <!-- ================= 1. 今日戰情視圖 (Daily Dashboard) ================= -->
     <div id="mainSectionDaily" class="space-y-6">
 
-    <!-- 1. 核心結論與市場定調 (Executive Verdict Banner) -->
-    <section class="glass-card rounded-2xl p-6 glow-bull border border-emerald-500/20">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
-        <div>
-          <div class="flex items-center space-x-2 mb-1">
-            <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-              <i class="fa-solid fa-bullseye mr-1"></i> 核心定調
-            </span>
-            <span class="text-sm font-semibold text-gray-300">
-              市場氛圍：<span class="text-emerald-400 font-bold">{{ ai_analysis.market_mood }}</span>
-            </span>
-          </div>
-          <h2 class="text-xl font-bold text-white mt-2 leading-relaxed">
-            {{ ai_analysis.executive_summary }}
-          </h2>
-        </div>
-        
-        <div class="flex items-center space-x-4 bg-gray-900/80 px-4 py-3 rounded-xl border border-gray-800 shrink-0">
-          <div class="text-center">
-            <div class="text-xs text-gray-400">恐慌與貪婪指數</div>
-            <div class="text-2xl font-black text-emerald-400">{{ (macro_sentiment.fear_and_greed.score if macro_sentiment and macro_sentiment.fear_and_greed else 50) }}</div>
-            <div class="text-xs font-medium text-emerald-300">{{ (macro_sentiment.fear_and_greed.rating_zh if macro_sentiment and macro_sentiment.fear_and_greed else '中立') }}</div>
-          </div>
-          <div class="w-px h-10 bg-gray-800"></div>
-          <div class="text-center">
-            <div class="text-xs text-gray-400">美債 10 年期</div>
-            <div class="text-2xl font-black text-cyan-400">{% if macro_sentiment and macro_sentiment.macro and macro_sentiment.macro.us10y %}{{ macro_sentiment.macro.us10y.value }}%{% else %}-{% endif %}</div>
-            <div class="text-xs font-medium {% if macro_sentiment and macro_sentiment.macro and macro_sentiment.macro.us10y and (macro_sentiment.macro.us10y.pct_change or 0) >= 0 %}text-rose-400{% else %}text-emerald-400{% endif %}">
-              {% if macro_sentiment and macro_sentiment.macro and macro_sentiment.macro.us10y %}{{ "{:+.2f}%".format(macro_sentiment.macro.us10y.pct_change or 0) }}{% else %}-{% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- 1. 核心結論與市場定調 (Executive Verdict Banner) -->
+      {% include "components/verdict_banner.html" %}
 
-      <!-- 多空分流速覽 -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-        <div class="bg-emerald-950/20 border border-emerald-900/40 rounded-xl p-4">
-          <div class="flex items-center text-emerald-400 font-semibold text-sm mb-2">
-            <i class="fa-solid fa-arrow-trend-up mr-2"></i> 多方核心支撐
-          </div>
-          <ul class="space-y-1.5 text-xs text-gray-300">
-            {% for item in ai_analysis.bullish_arguments %}
-            <li class="flex items-start">
-              <span class="text-emerald-400 mr-2 font-bold">•</span>
-              <span>{{ item }}</span>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
+      <!-- 2. 全球主要指數與 ADR 溢價 (Indices & ADR Matrix) -->
+      {% include "components/indices_matrix.html" %}
 
-        <div class="bg-rose-950/20 border border-rose-900/40 rounded-xl p-4">
-          <div class="flex items-center text-rose-400 font-semibold text-sm mb-2">
-            <i class="fa-solid fa-shield-halved mr-2"></i> 空方風險防守
-          </div>
-          <ul class="space-y-1.5 text-xs text-gray-300">
-            {% for item in ai_analysis.bearish_risks %}
-            <li class="flex items-start">
-              <span class="text-rose-400 mr-2 font-bold">•</span>
-              <span>{{ item }}</span>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-    </section>
+      <!-- 3. 風險警報與籌碼主力流向 (Risk Alerts) -->
+      {% include "components/alerts_section.html" %}
 
-    <!-- 2. 全球主要指數與 ADR 溢價 (Indices & ADR Matrix) -->
-    <section class="space-y-4">
-      <div class="flex items-center justify-between">
-        <h3 class="text-base font-bold text-white flex items-center">
-          <i class="fa-solid fa-globe mr-2 text-indigo-400"></i> 主要大盤與跨市場 ADR 快照
-        </h3>
-        <span class="text-xs text-gray-400">即時/盤後收盤序列</span>
-      </div>
-
-      <!-- 指數卡片 -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        {% for idx in indices.tw %}
-        <div class="glass-card rounded-xl p-3.5 border border-gray-800">
-          <div class="text-xs text-gray-400 font-medium truncate">{{ idx.name }}</div>
-          <div class="text-lg font-bold text-white mt-1">{% if idx.price is not none and idx.price != '-' %}{{ "{:,.2f}".format(idx.price|float) }}{% else %}-{% endif %}</div>
-          <div class="text-xs font-semibold mt-0.5 flex items-center {% if idx.change is not none and idx.change != '-' and idx.change >= 0 %}text-rose-400{% else %}text-emerald-400{% endif %}">
-            {% if idx.change is not none and idx.change != '-' %}
-            <i class="fa-solid {% if idx.change >= 0 %}fa-caret-up{% else %}fa-caret-down{% endif %} mr-1"></i>
-            {{ "{:+.2f}".format(idx.change|float) }} ({{ "{:+.2f}%".format(idx.pct_change|float) if idx.pct_change is not none and idx.pct_change != '-' else '-' }})
-            {% else %}
-            -
-            {% endif %}
-          </div>
-        </div>
-        {% endfor %}
-
-        {% for idx in indices.us %}
-        <div class="glass-card rounded-xl p-3.5 border border-gray-800">
-          <div class="text-xs text-gray-400 font-medium truncate">{{ idx.name }}</div>
-          <div class="text-lg font-bold text-white mt-1">{% if idx.price is not none and idx.price != '-' %}{{ "{:,.2f}".format(idx.price|float) }}{% else %}-{% endif %}</div>
-          <div class="text-xs font-semibold mt-0.5 flex items-center {% if idx.change is not none and idx.change != '-' and idx.change >= 0 %}text-emerald-400{% else %}text-rose-400{% endif %}">
-            {% if idx.change is not none and idx.change != '-' %}
-            <i class="fa-solid {% if idx.change >= 0 %}fa-caret-up{% else %}fa-caret-down{% endif %} mr-1"></i>
-            {{ "{:+.2f}".format(idx.change|float) }} ({{ "{:+.2f}%".format(idx.pct_change|float) if idx.pct_change is not none and idx.pct_change != '-' else '-' }})
-            {% else %}
-            -
-            {% endif %}
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-
-      <!-- ADR 溢價率對照卡 -->
-      {% if adr_premiums %}
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {% for adr in adr_premiums %}
-        <div class="glass-card rounded-xl p-4 border border-indigo-500/20 flex items-center justify-between">
-          <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-sm">
-              ADR
-            </div>
-            <div>
-              <div class="text-sm font-bold text-white">{{ adr.adr_symbol }} (ADR) ⟷ {{ adr.tw_symbol }} (現貨)</div>
-              <div class="text-xs text-gray-400">換股比 1:{{ adr.ratio }} | 匯率 {{ adr.usdtwd_rate }}</div>
-            </div>
-          </div>
-          <div class="text-right">
-            <div class="text-xs text-gray-400">折溢價率</div>
-            <div class="text-base font-extrabold {% if adr.premium_pct is not none and adr.premium_pct != '-' and adr.premium_pct >= 0 %}text-emerald-400{% else %}text-rose-400{% endif %}">
-              {% if adr.premium_pct is not none and adr.premium_pct != '-' %}{{ "{:+.2f}%".format(adr.premium_pct|float) }}{% else %}-{% endif %} ({{ adr.status }})
-            </div>
-            <div class="text-xs text-gray-400">換算每股 TWD {% if adr.adr_parity_twd is not none and adr.adr_parity_twd != '-' %}${{ adr.adr_parity_twd }}{% else %}-{% endif %}</div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      {% endif %}
-
-      <!-- 台指期外資未平倉巨量空單防護橫條 -->
-      {% if macro_sentiment and macro_sentiment.tx_futures %}
-      <div class="glass-card rounded-xl p-3.5 border {% if macro_sentiment.tx_futures.is_high_risk %}border-rose-500/40 bg-rose-950/20{% else %}border-emerald-500/30 bg-emerald-950/20{% endif %} flex flex-wrap items-center justify-between gap-2 mt-3">
-        <div class="flex items-center space-x-3">
-          <div class="w-8 h-8 rounded-lg {% if macro_sentiment.tx_futures.is_high_risk %}bg-rose-500/20 text-rose-400{% else %}bg-emerald-500/20 text-emerald-400{% endif %} flex items-center justify-center font-bold text-sm">
-            <i class="fa-solid fa-shield-halved"></i>
-          </div>
+      <!-- 4. 個股多空量化矩陣與關鍵點位 (Stock Scoring & Key Levels) -->
+      <section class="space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div class="text-sm font-bold text-white flex items-center space-x-2">
-              <span>台指期外資未平倉淨部位 (TX Futures Guard)</span>
-              <span class="px-2 py-0.5 text-xs font-extrabold rounded-full {% if macro_sentiment.tx_futures.is_high_risk %}bg-rose-500/30 text-rose-300 border border-rose-500/50{% else %}bg-emerald-500/30 text-emerald-300 border border-emerald-500/50{% endif %}">
-                {{ "{:+,d}".format(macro_sentiment.tx_futures.foreign_net_oi|int) if macro_sentiment.tx_futures.foreign_net_oi is not none and macro_sentiment.tx_futures.foreign_net_oi != '-' else '-' }} 口
+            <h3 class="text-base font-bold text-white flex items-center">
+              <i class="fa-solid fa-cubes-stacked mr-2 text-emerald-400"></i> 監控標的多空評分與操作點位儀表
+              <span id="stockCountBadge" class="ml-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-gray-800 text-gray-300 border border-gray-700">
+                共 {{ stocks|length }} 檔
               </span>
-            </div>
-            <div class="text-xs text-gray-400 mt-0.5">{{ macro_sentiment.tx_futures.status_label }} (警戒門檻: -35,000 口)</div>
-          </div>
-        </div>
-        <div class="text-xs font-semibold {% if macro_sentiment.tx_futures.is_high_risk %}text-rose-400{% else %}text-emerald-400{% endif %}">
-          {% if macro_sentiment.tx_futures.is_high_risk %}⚠️ 啟動權值股壓盤防護 (扣10分){% else %}✅ 期現貨平衡無異常壓盤{% endif %}
-        </div>
-      </div>
-      {% endif %}
-    </section>
-
-    <!-- 3. 風險警報與籌碼主力流向 (Risk Alerts) -->
-    {% if alerts %}
-    <section class="space-y-3">
-      <h3 class="text-base font-bold text-white flex items-center">
-        <i class="fa-solid fa-triangle-exclamation mr-2 text-amber-400"></i> 風險警報與主力異常流向
-      </h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {% for alert in alerts %}
-        <div class="glass-card rounded-xl p-4 border {% if alert.level == 'danger' %}border-rose-500/40 bg-rose-950/10{% elif alert.level == 'warning' %}border-amber-500/40 bg-amber-950/10{% else %}border-blue-500/30 bg-blue-950/10{% endif %}">
-          <div class="flex items-center space-x-2 mb-1">
-            <span class="px-2 py-0.5 text-xs font-bold rounded {% if alert.level == 'danger' %}bg-rose-500/20 text-rose-300{% elif alert.level == 'warning' %}bg-amber-500/20 text-amber-300{% else %}bg-blue-500/20 text-blue-300{% endif %}">
-              {{ alert.badge }}
-            </span>
-            <span class="text-sm font-bold text-white">{{ alert.title }}</span>
-          </div>
-          <p class="text-xs text-gray-300 mt-1 leading-relaxed">{{ alert.desc }}</p>
-        </div>
-        {% endfor %}
-      </div>
-    </section>
-    {% endif %}
-
-    <!-- 4. 個股多空量化矩陣與關鍵點位 (Stock Scoring & Key Levels) -->
-    <section class="space-y-4">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h3 class="text-base font-bold text-white flex items-center">
-            <i class="fa-solid fa-cubes-stacked mr-2 text-emerald-400"></i> 監控標的多空評分與操作點位儀表
-            <span id="stockCountBadge" class="ml-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-gray-800 text-gray-300 border border-gray-700">
-              共 {{ stocks|length }} 檔
-            </span>
-          </h3>
-          <p class="text-xs text-gray-400 mt-0.5">即時多空評分、S1/S2、R1/R2、停損停利 (TP/SL) 與風險報酬比</p>
-        </div>
-
-        <!-- 視圖切換與搜尋列 -->
-        <div class="flex flex-wrap items-center gap-2">
-          <!-- 搜尋框 -->
-          <div class="relative">
-            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-gray-400"></i>
-            <input type="text" id="stockSearchInput" oninput="applyFilters()" placeholder="搜尋代碼、股名、產業..." class="bg-gray-800/90 border border-gray-700 text-gray-200 text-xs rounded-lg pl-8 pr-3 py-1.5 focus:ring-emerald-500 focus:border-emerald-500 w-44 sm:w-56">
+            </h3>
+            <p class="text-xs text-gray-400 mt-0.5">即時多空評分、S1/S2、R1/R2、停損停利 (TP/SL) 與風險報酬比</p>
           </div>
 
-          <!-- 市場篩選 -->
-          <select id="marketFilter" onchange="applyFilters()" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-2.5 py-1.5 focus:ring-emerald-500">
-            <option value="ALL">全部市場</option>
-            <option value="TW">台股 (TW)</option>
-            <option value="US">美股 (US)</option>
-          </select>
+          <!-- 視圖切換與搜尋列 -->
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- 搜尋框 -->
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-gray-400"></i>
+              <input type="text" id="stockSearchInput" oninput="applyFilters()" placeholder="搜尋代碼、股名、產業..." class="bg-gray-800/90 border border-gray-700 text-gray-200 text-xs rounded-lg pl-8 pr-3 py-1.5 focus:ring-emerald-500 focus:border-emerald-500 w-44 sm:w-56">
+            </div>
 
-          <!-- 評級篩選 -->
-          <select id="ratingFilter" onchange="applyFilters()" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-2.5 py-1.5 focus:ring-emerald-500">
-            <option value="ALL">全部評級</option>
-            <option value="strong_bull">🟢🟢 強力做多</option>
-            <option value="lean_bull">🟢 偏多震盪</option>
-            <option value="neutral">🟡 中立觀望</option>
-            <option value="lean_bear">🟠 偏空防守</option>
-            <option value="strong_bear">🔴 避險做空</option>
-          </select>
+            <!-- 市場篩選 -->
+            <select id="marketFilter" onchange="applyFilters()" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-2.5 py-1.5 focus:ring-emerald-500">
+              <option value="ALL">全部市場</option>
+              <option value="TW">台股 (TW)</option>
+              <option value="US">美股 (US)</option>
+            </select>
 
-          <!-- 排序 -->
-          <select id="sortSelect" onchange="applySorting()" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-2.5 py-1.5 focus:ring-emerald-500">
-            <option value="score_desc">評分 (高至低)</option>
-            <option value="score_asc">評分 (低至高)</option>
-            <option value="matrix_desc">決策 (進攻優先)</option>
-            <option value="pct_desc">漲跌幅 (高至低)</option>
-            <option value="pct_asc">漲跌幅 (低至高)</option>
-            <option value="symbol_asc">代碼排序</option>
-          </select>
+            <!-- 評級篩選 -->
+            <select id="ratingFilter" onchange="applyFilters()" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-2.5 py-1.5 focus:ring-emerald-500">
+              <option value="ALL">全部評級</option>
+              <option value="strong_bull">🟢🟢 強力做多</option>
+              <option value="lean_bull">🟢 偏多震盪</option>
+              <option value="neutral">🟡 中立觀望</option>
+              <option value="lean_bear">🟠 偏空防守</option>
+              <option value="strong_bear">🔴 避險做空</option>
+            </select>
 
-          <!-- 視圖切換按鈕 (卡片 / 表格) -->
-          <div class="flex items-center bg-gray-800 rounded-lg p-0.5 border border-gray-700">
-            <button id="btnCardView" onclick="setViewMode('card')" class="px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition">
-              <i class="fa-solid fa-table-cells-large mr-1"></i> 卡片
-            </button>
-            <button id="btnTableView" onclick="setViewMode('table')" class="px-2.5 py-1 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition">
-              <i class="fa-solid fa-table-list mr-1"></i> 清單表
-            </button>
+            <!-- 排序 -->
+            <select id="sortSelect" onchange="applySorting()" class="bg-gray-800 border border-gray-700 text-gray-200 text-xs rounded-lg px-2.5 py-1.5 focus:ring-emerald-500">
+              <option value="score_desc">評分 (高至低)</option>
+              <option value="score_asc">評分 (低至高)</option>
+              <option value="matrix_desc">決策 (進攻優先)</option>
+              <option value="pct_desc">漲跌幅 (高至低)</option>
+              <option value="pct_asc">漲跌幅 (低至高)</option>
+              <option value="symbol_asc">代碼排序</option>
+            </select>
+
+            <!-- 視圖切換按鈕 (卡片 / 表格) -->
+            <div class="flex items-center bg-gray-800 rounded-lg p-0.5 border border-gray-700">
+              <button id="btnCardView" onclick="setViewMode('card')" class="px-2.5 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition">
+                <i class="fa-solid fa-table-cells-large mr-1"></i> 卡片
+              </button>
+              <button id="btnTableView" onclick="setViewMode('table')" class="px-2.5 py-1 text-xs font-semibold rounded-md text-gray-400 hover:text-white transition">
+                <i class="fa-solid fa-table-list mr-1"></i> 清單表
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- 產業板塊與標籤快速過濾列 (Industry Sector Tabs) -->
-      <div class="flex flex-wrap items-center gap-2 pb-2">
-        <button onclick="setSectorFilter('all')" id="tab-sec-all" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 text-white border border-emerald-500 shadow-sm transition">
-          🌐 全部 ({{ stocks|length }})
-        </button>
-        <button onclick="setSectorFilter('focus')" id="tab-sec-focus" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
-          🔥 主力焦點
-        </button>
-        <button onclick="setSectorFilter('ai_server')" id="tab-sec-ai_server" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
-          🤖 AI 伺服器與散熱
-        </button>
-        <button onclick="setSectorFilter('semiconductor')" id="tab-sec-semiconductor" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
-          ⚡ 半導體與IC設計
-        </button>
-        <button onclick="setSectorFilter('pcb_substrate')" id="tab-sec-pcb_substrate" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
-          📦 PCB與載板
-        </button>
-        <button onclick="setSectorFilter('us_tech')" id="tab-sec-us_tech" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
-          🇺🇸 美股科技巨頭
-        </button>
-      </div>
-
-      <!-- 視圖 A: 卡片矩陣視圖 (Cards Grid) -->
-      <div id="stockCardsContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {% for item in stocks %}
-        {% set ts = (item.score_info.turnover_strategy if item.score_info and item.score_info.turnover_strategy else {}) %}
-        {% set sc = (item.supply_chain if item.supply_chain else {}) %}
-        {% set dm = (item.decision_matrix if item.decision_matrix else (item.score_info.decision_matrix if item.score_info and item.score_info.decision_matrix else {})) %}
-        <div class="stock-card glass-card rounded-2xl p-5 border border-gray-800 hover:border-gray-700 transition space-y-4"
-             data-symbol="{{ item.symbol }}"
-             data-name="{{ item.name }}"
-             data-market="{{ item.stock_data.market }}"
-             data-sector="{{ sc.sector_key or 'all' }}"
-             data-sector-tags="{{ sc.sector_tags or '' }}"
-             data-rating="{{ item.score_info.rating_code }}"
-             data-rating-rank="{% if item.score_info.rating_code == 'strong_bull' %}5{% elif item.score_info.rating_code == 'lean_bull' %}4{% elif item.score_info.rating_code == 'neutral' %}3{% elif item.score_info.rating_code == 'lean_bear' %}2{% else %}1{% endif %}"
-             data-matrix-rank="{{ dm.sort_rank or 2 }}"
-             data-price="{{ item.stock_data.price }}"
-             data-pct="{{ item.stock_data.pct_change }}"
-             data-score="{{ item.score_info.score }}"
-             data-turnover="{{ item.stock_data.turnover or 0 }}"
-             data-turnover-ma5="{{ item.stock_data.turnover_ma5 or 0 }}"
-             data-turnover-ratio="{{ item.stock_data.turnover_ratio or 1.0 }}"
-             data-turnover-strat="{% if ts.strategy_code == 'strong_bull' %}5{% elif ts.strategy_code == 'consolidation_bottom' %}4{% elif ts.strategy_code == 'normal' %}3{% elif ts.strategy_code == 'momentum_decay' %}2{% else %}1{% endif %}"
-             data-entry="{{ item.price_levels.entry_low }}"
-             data-s1="{{ item.price_levels.s1 }}"
-             data-sl="{{ item.price_levels.stop_loss }}"
-             data-tp="{{ item.price_levels.target_price }}"
-             data-rr="{{ item.price_levels.risk_reward_ratio }}"
-             data-lots="{% if item.institutional %}{{ item.institutional.total_lots }}{% else %}0{% endif %}">
-          
-          <!-- 頂部代碼、評分與產業鏈標籤 -->
-          <div class="flex items-start justify-between">
-            <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 flex flex-col items-center justify-center shrink-0">
-                <span class="text-[10px] font-bold text-gray-400">{{ item.stock_data.market }}</span>
-                <span class="text-sm font-extrabold text-white">{{ item.symbol }}</span>
-              </div>
-              <div>
-                <div class="flex items-center space-x-2 flex-wrap gap-y-1">
-                  <h4 class="text-base font-bold text-white">{{ item.name }}</h4>
-                  <span class="px-2 py-0.5 text-xs font-bold rounded-full {% if item.score_info.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif item.score_info.badge_color == 'green' %}bg-green-500/20 text-green-400 border border-green-500/30{% elif item.score_info.badge_color == 'yellow' %}bg-yellow-500/20 text-yellow-400 border border-yellow-500/30{% else %}bg-rose-500/20 text-rose-400 border border-rose-500/30{% endif %}">
-                    {{ item.score_info.rating }}
-                  </span>
-                  {% if dm and dm.action_badge %}
-                  <span class="px-2 py-0.5 text-xs font-bold rounded-md {% if dm.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif dm.badge_color == 'amber' %}bg-amber-500/20 text-amber-300 border border-amber-500/30{% elif dm.badge_color == 'cyan' %}bg-cyan-500/20 text-cyan-300 border border-cyan-500/30{% elif dm.badge_color == 'rose' %}bg-rose-500/20 text-rose-300 border border-rose-500/30{% else %}bg-gray-800 text-gray-300 border border-gray-700{% endif %}" title="{{ dm.guidance }}">
-                    {{ dm.action_badge }}
-                  </span>
-                  {% endif %}
-                  {% if item.tier == 'TIER_1_CORE' %}
-                  <span class="px-2 py-0.5 text-xs font-extrabold rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm shadow-amber-500/10">
-                    👑 波克夏核心
-                  </span>
-                  {% elif item.tier == 'TIER_2_MOMENTUM' %}
-                  <span class="px-1.5 py-0.5 text-[10px] font-medium rounded-full bg-blue-500/15 text-blue-300 border border-blue-500/30">
-                    ⚡ 戰術動量
-                  </span>
-                  {% endif %}
-                  {% if sc.sector_badge %}
-                  <span class="px-2 py-0.5 text-[10px] font-medium rounded-md bg-cyan-950/40 text-cyan-300 border border-cyan-800/60">
-                    {{ sc.sector_badge }}
-                  </span>
-                  {% endif %}
-                </div>
-                <div class="text-xs text-gray-400 mt-0.5 flex flex-wrap items-center gap-x-2">
-                  {% if item.stock_data and item.stock_data.price and item.stock_data.price != '-' and (item.stock_data.price|float > 0) %}
-                  <span>現價: <strong class="text-white">{{ item.stock_data.currency }} {{ item.stock_data.price }}</strong></span>
-                  <span class="font-semibold {% if item.stock_data.change is not none and item.stock_data.change != '-' and (item.stock_data.change|float >= 0) %}text-rose-400{% else %}text-emerald-400{% endif %}">
-                    {{ "{:+.2f}".format(item.stock_data.change|float) if item.stock_data.change is not none and item.stock_data.change != '-' else '-' }} ({{ "{:+.2f}%".format(item.stock_data.pct_change|float) if item.stock_data.pct_change is not none and item.stock_data.pct_change != '-' else '-' }})
-                  </span>
-                  {% else %}
-                  <span>現價: <strong class="text-gray-400">-</strong></span>
-                  {% endif %}
-                  {% if item.note %}
-                  <span class="text-[11px] text-gray-400 bg-gray-800/80 px-1.5 py-0.5 rounded border border-gray-700/60">{{ item.note }}</span>
-                  {% endif %}
-                </div>
-              </div>
-            </div>
-
-            <!-- 量化評分環/方塊 -->
-            <div class="text-right shrink-0">
-              <div class="text-xs text-gray-400">多空評分</div>
-              <div class="text-2xl font-black {% if item.score_info and item.score_info.score is not none and item.score_info.score != '-' and item.score_info.score|float >= 70 %}text-emerald-400{% elif item.score_info and item.score_info.score is not none and item.score_info.score != '-' and item.score_info.score|float >= 50 %}text-yellow-400{% else %}text-rose-400{% endif %}">
-                {{ item.score_info.score if item.score_info and item.score_info.score is not none and item.score_info.score != '-' else '-' }}<span class="text-xs font-normal text-gray-400">/100</span>
-              </div>
-              <div class="text-[10px] text-gray-400">
-                技:{{ (item.score_info.tech_score if item.score_info and item.score_info.tech_score is not none and item.score_info.tech_score != '-' else '-') }} 籌:{{ (item.score_info.flow_score if item.score_info and item.score_info.flow_score is not none and item.score_info.flow_score != '-' else '-') }} 基:{{ (item.score_info.fund_score if item.score_info and item.score_info.fund_score is not none and item.score_info.fund_score != '-' else '-') }}
-              </div>
-            </div>
-          </div>
-
-          <!-- 產業鏈角色與連動美股母鏈橫條 -->
-          {% if sc.chain %}
-          <div class="bg-gray-900/80 rounded-xl px-3 py-2 border border-gray-800 flex flex-wrap items-center justify-between gap-1 text-[11px]">
-            <div class="flex items-center space-x-1.5 text-cyan-300 font-medium">
-              <i class="fa-solid fa-network-wired text-cyan-400"></i>
-              <span><strong>{{ sc.chain }}</strong>：{{ sc.role }}</span>
-            </div>
-            {% if sc.related_us %}
-            <div class="text-gray-400">
-              連動母鏈：<span class="text-amber-300 font-semibold">{{ sc.related_us|join(', ') }}</span>
-            </div>
-            {% endif %}
-          </div>
-          {% endif %}
-
-          <!-- 成交總值 5MA 資金動能策略橫條 -->
-          <div class="bg-gray-900/60 rounded-xl p-3 border border-gray-800 flex flex-wrap items-center justify-between gap-2 text-xs">
-            <div class="flex items-center space-x-2">
-              <span class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-xs">
-                <i class="fa-solid fa-coins"></i>
-              </span>
-              <div>
-                <span class="text-gray-400">成交總值：</span>
-                <span class="font-bold text-white">{{ item.stock_data.turnover_display or '-' }}</span>
-              </div>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="px-2 py-0.5 font-bold rounded-md {% if ts.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif ts.badge_color == 'amber' %}bg-amber-500/20 text-amber-300 border border-amber-500/30{% elif ts.badge_color == 'yellow' %}bg-yellow-500/20 text-yellow-300 border border-yellow-500/30{% elif ts.badge_color == 'rose' %}bg-rose-500/20 text-rose-300 border border-rose-500/30{% else %}bg-gray-800 text-gray-300 border border-gray-700{% endif %}">
-                {{ ts.strategy_name or '常態整理 ⚪' }}
-              </span>
-            </div>
-          </div>
-
-          <!-- 買賣點位可視化 (Levels Bar) -->
-          <div class="bg-gray-900/90 rounded-xl p-3.5 border border-gray-800 space-y-2">
-            <div class="flex items-center justify-between text-xs">
-              <span class="text-gray-400 font-medium">🎯 操作規劃與關鍵點位</span>
-              <span class="text-emerald-400 font-bold">風報比 R:R = {{ item.price_levels.risk_reward_ratio if item.price_levels and item.price_levels.risk_reward_ratio and item.price_levels.risk_reward_ratio != '-' else '-' }}{% if item.price_levels and item.price_levels.risk_reward_ratio and item.price_levels.risk_reward_ratio != '-' %}:1{% endif %}</span>
-            </div>
-
-            <!-- 點位網格 -->
-            <div class="grid grid-cols-4 gap-2 text-center text-xs pt-1">
-              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
-                <div class="text-gray-400 text-[10px]">停損防守 (SL)</div>
-                <div class="font-bold text-rose-400 mt-0.5 text-[11px] truncate">{% if item.price_levels.stop_loss_display %}{{ item.price_levels.stop_loss_display }}{% elif item.price_levels.stop_loss and item.price_levels.stop_loss != '-' and item.price_levels.stop_loss|float > 0 %}${{ item.price_levels.stop_loss }}{% else %}-{% endif %}</div>
-              </div>
-              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
-                <div class="text-gray-400 text-[10px]">第一支撐 (S1)</div>
-                <div class="font-bold text-emerald-300 mt-0.5">{% if item.price_levels.s1 and item.price_levels.s1 != '-' and item.price_levels.s1|float > 0 %}${{ item.price_levels.s1 }}{% else %}-{% endif %}</div>
-              </div>
-              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
-                <div class="text-gray-400 text-[10px]">進場建議區</div>
-                <div class="font-bold text-cyan-300 mt-0.5">{% if item.price_levels.entry_zone and item.price_levels.entry_zone != '-' and item.price_levels.entry_zone != 'N/A' and 'nan' not in item.price_levels.entry_zone|string and '0.0 - 0.0' not in item.price_levels.entry_zone|string %}${{ item.price_levels.entry_zone }}{% else %}-{% endif %}</div>
-              </div>
-              <div class="bg-gray-800/80 rounded-lg p-2 border border-gray-700">
-                <div class="text-gray-400 text-[10px]">停利目標 (TP)</div>
-                <div class="font-bold text-amber-300 mt-0.5">{% if item.price_levels.target_price and item.price_levels.target_price != '-' and item.price_levels.target_price|float > 0 %}${{ item.price_levels.target_price }}{% else %}-{% endif %}</div>
-              </div>
-            </div>
-
-            <!-- 策略指引 -->
-            <div class="text-xs text-gray-300 bg-gray-950/60 p-2.5 rounded-lg border border-gray-800/80 flex items-center space-x-2">
-              <i class="fa-solid fa-lightbulb text-amber-400 shrink-0"></i>
-              <span>{{ item.price_levels.strategy_tip or '暫無策略建議' }}</span>
-            </div>
-          </div>
-
-          <!-- 籌碼與技術信號標籤 -->
-          <div class="flex flex-wrap gap-1.5">
-            {% for sig in item.score_info.signals %}
-            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md bg-gray-800 text-gray-300 border border-gray-700">
-              ✓ {{ sig }}
-            </span>
-            {% endfor %}
-            {% if item.institutional and item.institutional.total_lots %}
-            <span class="px-2 py-0.5 text-[11px] font-medium rounded-md {% if item.institutional.total_lots and item.institutional.total_lots != '-' and item.institutional.total_lots|float > 0 %}bg-emerald-950/40 text-emerald-300 border border-emerald-800{% else %}bg-rose-950/40 text-rose-300 border border-rose-800{% endif %}">
-              法人淨買賣: {{ item.institutional.total_lots }} 張
-            </span>
-            {% endif %}
-          </div>
-
+        <!-- 產業板塊與標籤快速過濾列 (Industry Sector Tabs) -->
+        <div class="flex flex-wrap items-center gap-2 pb-2">
+          <button onclick="setSectorFilter('all')" id="tab-sec-all" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 text-white border border-emerald-500 shadow-sm transition">
+            🌐 全部 ({{ stocks|length }})
+          </button>
+          <button onclick="setSectorFilter('focus')" id="tab-sec-focus" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
+            🔥 主力焦點
+          </button>
+          <button onclick="setSectorFilter('ai_server')" id="tab-sec-ai_server" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
+            🤖 AI 伺服器與散熱
+          </button>
+          <button onclick="setSectorFilter('semiconductor')" id="tab-sec-semiconductor" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
+            ⚡ 半導體與IC設計
+          </button>
+          <button onclick="setSectorFilter('pcb_substrate')" id="tab-sec-pcb_substrate" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
+            📦 PCB與載板
+          </button>
+          <button onclick="setSectorFilter('us_tech')" id="tab-sec-us_tech" class="sector-tab-btn px-3 py-1.5 text-xs font-bold rounded-xl bg-gray-800/80 text-gray-300 border border-gray-700 hover:text-white hover:border-gray-600 transition">
+            🇺🇸 美股科技巨頭
+          </button>
         </div>
-        {% endfor %}
-      </div>
 
-      <!-- 視圖 B: 高密度清單表格視圖 (Table View) -->
-      <div id="stockTableContainer" class="hidden glass-card rounded-2xl border border-gray-800 overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
-            <thead class="bg-gray-900/90 text-gray-400 font-semibold border-b border-gray-800 select-none">
-              <tr>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('symbol')">
-                  標的代碼 / 名稱 <i id="sort-icon-symbol" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('pct')">
-                  現價 / 漲跌幅 <i id="sort-icon-pct" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('score')">
-                  多空評分 <i id="sort-icon-score" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('turnover')">
-                  成交總值 (5MA) <i id="sort-icon-turnover" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('turnover_strat')">
-                  資金動能策略 <i id="sort-icon-turnover_strat" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('rating')">
-                  評級 <i id="sort-icon-rating" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('matrix')">
-                  決策矩陣 <i id="sort-icon-matrix" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('entry')">
-                  建議進場區 <i id="sort-icon-entry" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('s1')">
-                  第一支撐 (S1) <i id="sort-icon-s1" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('sl')">
-                  停損防守 (SL) <i id="sort-icon-sl" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('tp')">
-                  停利目標 (TP) <i id="sort-icon-tp" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('rr')">
-                  風報比 <i id="sort-icon-rr" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-                <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('lots')">
-                  法人淨買超 <i id="sort-icon-lots" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
-                </th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-800/60">
-              {% for item in stocks %}
-              {% set ts = (item.score_info.turnover_strategy if item.score_info and item.score_info.turnover_strategy else {}) %}
-              {% set sc = (item.supply_chain if item.supply_chain else {}) %}
-              {% set dm = (item.decision_matrix if item.decision_matrix else (item.score_info.decision_matrix if item.score_info and item.score_info.decision_matrix else {})) %}
-              <tr class="stock-table-row hover:bg-gray-800/40 transition"
-                  data-symbol="{{ item.symbol }}"
-                  data-name="{{ item.name }}"
-                  data-market="{{ item.stock_data.market }}"
-                  data-sector="{{ sc.sector_key or 'all' }}"
-                  data-sector-tags="{{ sc.sector_tags or '' }}"
-                  data-rating="{{ item.score_info.rating_code }}"
-                  data-rating-rank="{% if item.score_info.rating_code == 'strong_bull' %}5{% elif item.score_info.rating_code == 'lean_bull' %}4{% elif item.score_info.rating_code == 'neutral' %}3{% elif item.score_info.rating_code == 'lean_bear' %}2{% else %}1{% endif %}"
-                  data-matrix-rank="{{ dm.sort_rank or 2 }}"
-                  data-price="{{ item.stock_data.price }}"
-                  data-pct="{{ item.stock_data.pct_change }}"
-                  data-score="{{ item.score_info.score }}"
-                  data-turnover="{{ item.stock_data.turnover or 0 }}"
-                  data-turnover-ma5="{{ item.stock_data.turnover_ma5 or 0 }}"
-                  data-turnover-ratio="{{ item.stock_data.turnover_ratio or 1.0 }}"
-                  data-turnover-strat="{% if ts.strategy_code == 'strong_bull' %}5{% elif ts.strategy_code == 'consolidation_bottom' %}4{% elif ts.strategy_code == 'normal' %}3{% elif ts.strategy_code == 'momentum_decay' %}2{% else %}1{% endif %}"
-                  data-entry="{{ item.price_levels.entry_low }}"
-                  data-s1="{{ item.price_levels.s1 }}"
-                  data-sl="{{ item.price_levels.stop_loss }}"
-                  data-tp="{{ item.price_levels.target_price }}"
-                  data-rr="{{ item.price_levels.risk_reward_ratio }}"
-                  data-lots="{% if item.institutional %}{{ item.institutional.total_lots }}{% else %}0{% endif %}">
-                <td class="p-3.5 font-bold text-white flex flex-col space-y-0.5">
-                  <div class="flex items-center space-x-2">
-                    <span class="px-1.5 py-0.5 text-[10px] bg-gray-800 text-gray-400 rounded border border-gray-700">{{ item.stock_data.market }}</span>
-                    <span>{{ item.symbol }}</span>
-                    <span class="font-normal text-gray-300">{{ item.name }}</span>
-                    {% if item.tier == 'TIER_1_CORE' %}
-                    <span class="px-1.5 py-0.2 text-[9px] font-bold bg-amber-500/20 text-amber-300 rounded border border-amber-500/30">
-                      👑 核心
-                    </span>
-                    {% endif %}
-                    {% if sc.sector_badge %}
-                    <span class="px-1.5 py-0.2 text-[9px] font-normal bg-cyan-950/50 text-cyan-300 rounded border border-cyan-800/40">
-                      {{ sc.sector_badge }}
-                    </span>
-                    {% endif %}
-                  </div>
-                  {% if sc.role %}
-                  <div class="text-[10px] text-gray-400 font-normal truncate max-w-xs">
-                    {{ sc.chain }} · {{ sc.role }}
-                  </div>
-                  {% endif %}
-                </td>
-                <td class="p-3.5">
-                  {% if item.stock_data and item.stock_data.price and item.stock_data.price != '-' and item.stock_data.price|float > 0 %}
-                  <div class="font-semibold text-white">${{ item.stock_data.price }}</div>
-                  <div class="text-[11px] font-medium {% if item.stock_data.change is not none and item.stock_data.change != '-' and item.stock_data.change|float >= 0 %}text-rose-400{% else %}text-emerald-400{% endif %}">
-                    {{ "{:+.2f}%".format(item.stock_data.pct_change|float) if item.stock_data.pct_change is not none and item.stock_data.pct_change != '-' else '-' }}
-                  </div>
-                  {% else %}
-                  <div class="font-semibold text-gray-400">-</div>
-                  {% endif %}
-                </td>
-                <td class="p-3.5">
-                  <span class="font-black text-sm {% if item.score_info and item.score_info.score is not none and item.score_info.score != '-' and item.score_info.score|float >= 70 %}text-emerald-400{% elif item.score_info and item.score_info.score is not none and item.score_info.score != '-' and item.score_info.score|float >= 50 %}text-yellow-400{% else %}text-rose-400{% endif %}">
-                    {{ item.score_info.score if item.score_info and item.score_info.score is not none and item.score_info.score != '-' else '-' }}
-                  </span>
-                </td>
-                <td class="p-3.5">
-                  <div class="font-bold text-white">{{ item.stock_data.turnover_short or '-' }}</div>
-                  <div class="text-[11px] text-gray-400">5MA: {{ item.stock_data.turnover_ma5_short or '-' }}</div>
-                </td>
-                <td class="p-3.5 whitespace-nowrap">
-                  <span class="inline-block whitespace-nowrap px-2 py-0.5 text-[11px] font-bold rounded-md {% if ts.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif ts.badge_color == 'amber' %}bg-amber-500/20 text-amber-300 border border-amber-500/30{% elif ts.badge_color == 'yellow' %}bg-yellow-500/20 text-yellow-300 border border-yellow-500/30{% elif ts.badge_color == 'rose' %}bg-rose-500/20 text-rose-300 border border-rose-500/30{% else %}bg-gray-800 text-gray-300 border border-gray-700{% endif %}">
-                    {{ ts.strategy_name or '常態整理 ⚪' }}
-                  </span>
-                  <div class="text-[10px] text-gray-400 mt-0.5 whitespace-nowrap">量比 {{ item.stock_data.turnover_ratio or 1.0 }}x</div>
-                </td>
-                <td class="p-3.5 whitespace-nowrap">
-                  <span class="inline-block whitespace-nowrap px-2 py-0.5 text-[11px] font-bold rounded-full {% if item.score_info.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif item.score_info.badge_color == 'green' %}bg-green-500/20 text-green-400 border border-green-500/30{% elif item.score_info.badge_color == 'yellow' %}bg-yellow-500/20 text-yellow-400 border border-yellow-500/30{% else %}bg-rose-500/20 text-rose-400 border border-rose-500/30{% endif %}">
-                    {{ item.score_info.rating }}
-                  </span>
-                </td>
-                <td class="p-3.5 whitespace-nowrap">
-                  {% if dm and dm.action_badge %}
-                  <span class="inline-block whitespace-nowrap px-2 py-0.5 text-[11px] font-bold rounded-md {% if dm.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif dm.badge_color == 'amber' %}bg-amber-500/20 text-amber-300 border border-amber-500/30{% elif dm.badge_color == 'cyan' %}bg-cyan-500/20 text-cyan-300 border border-cyan-500/30{% elif dm.badge_color == 'rose' %}bg-rose-500/20 text-rose-300 border border-rose-500/30{% else %}bg-gray-800 text-gray-300 border border-gray-700{% endif %}">
-                    {{ dm.action_badge }}
-                  </span>
-                  <div class="text-[10px] text-gray-400 mt-0.5 whitespace-nowrap">{{ dm.guidance }}</div>
-                  {% else %}
-                  <span class="text-gray-400 text-[11px]">-</span>
-                  {% endif %}
-                </td>
-                <td class="p-3.5 text-cyan-300 font-medium">{% if item.price_levels.entry_zone and item.price_levels.entry_zone != '-' and item.price_levels.entry_zone != 'N/A' and 'nan' not in item.price_levels.entry_zone|string and '0.0 - 0.0' not in item.price_levels.entry_zone|string %}${{ item.price_levels.entry_zone }}{% else %}-{% endif %}</td>
-                <td class="p-3.5 text-emerald-300 font-medium">{% if item.price_levels.s1 and item.price_levels.s1 != '-' and item.price_levels.s1|float > 0 %}${{ item.price_levels.s1 }}{% else %}-{% endif %}</td>
-                <td class="p-3.5 text-rose-400 font-bold text-xs truncate max-w-[100px]">{% if item.price_levels.stop_loss_display %}{{ item.price_levels.stop_loss_display }}{% elif item.price_levels.stop_loss and item.price_levels.stop_loss != '-' and item.price_levels.stop_loss|float > 0 %}${{ item.price_levels.stop_loss }}{% else %}-{% endif %}</td>
-                <td class="p-3.5 text-amber-300 font-bold">{% if item.price_levels.target_price and item.price_levels.target_price != '-' and item.price_levels.target_price|float > 0 %}${{ item.price_levels.target_price }}{% else %}-{% endif %}</td>
-                <td class="p-3.5 text-gray-300 font-semibold">{{ item.price_levels.risk_reward_ratio if item.price_levels.risk_reward_ratio and item.price_levels.risk_reward_ratio != '-' else '-' }}{% if item.price_levels.risk_reward_ratio and item.price_levels.risk_reward_ratio != '-' %}:1{% endif %}</td>
-                <td class="p-3.5">
-                  {% if item.institutional and item.institutional.total_lots and item.institutional.total_lots != '-' %}
-                  <span class="font-semibold {% if item.institutional.total_lots|float > 0 %}text-emerald-400{% else %}text-rose-400{% endif %}">
-                    {{ "{:+,d}".format(item.institutional.total_lots|int) }} 張
-                  </span>
-                  {% else %}
-                  <span class="text-gray-400">-</span>
-                  {% endif %}
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+        <!-- 視圖 A: 卡片矩陣視圖 (Cards Grid) -->
+        {% include "components/stock_cards.html" %}
 
-    <!-- 4.5 多股多維度量化雷達圖橫向對比 (Multi-Stock Radar Comparison) -->
-    {% include "components/radar_section.html" %}
+        <!-- 視圖 B: 高密度清單表格視圖 (Table View) -->
+        {% include "components/stock_table.html" %}
+      </section>
 
-    <!-- 5. 催化事件與操作紀律檢查清單 (Catalysts & Checklist) -->
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- 催化事件與一手新聞溯源日曆 -->
-      <div class="glass-card rounded-2xl p-5 border border-gray-800 space-y-3">
-        <div class="flex items-center justify-between">
-          <h4 class="text-sm font-bold text-white flex items-center">
-            <i class="fa-regular fa-newspaper mr-2 text-indigo-400"></i> 近期重大催化劑與一手新聞溯源
-          </h4>
-          <span class="text-[10px] text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">
-            <i class="fa-solid fa-clock-rotate-left mr-1"></i>24h 時效窗
-          </span>
-        </div>
-        
-        <ul class="space-y-2.5">
-          {% if verified_news %}
-            {% for n in verified_news %}
-            <li class="flex flex-col text-xs text-gray-300 bg-gray-900/70 p-3 rounded-xl border border-gray-800 hover:border-gray-700 transition space-y-1.5">
-              <div class="flex items-center justify-between text-[10px]">
-                <div class="flex items-center space-x-1.5">
-                  <span class="px-1.5 py-0.5 font-bold rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                    {{ n.publisher }}
-                  </span>
-                  <span class="text-gray-400 font-medium">{{ n.related_symbol }}</span>
-                </div>
-                <span class="text-gray-400 flex items-center">
-                  <i class="fa-regular fa-clock mr-1 text-gray-400"></i> {{ n.age_text }} ({{ n.published_at }})
-                </span>
-              </div>
-              <a href="{{ n.url }}" target="_blank" rel="noopener noreferrer" class="font-semibold text-white hover:text-emerald-400 transition leading-snug flex items-start justify-between group">
-                <span>{{ n.title }}</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-emerald-400 ml-2 mt-1 shrink-0"></i>
-              </a>
-            </li>
-            {% endfor %}
-          {% else %}
-            {% for cat in ai_analysis.catalysts %}
-            <li class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800">
-              <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-[10px] mr-2 shrink-0">
-                {{ loop.index }}
-              </span>
-              <span class="leading-relaxed">{{ cat }}</span>
-            </li>
-            {% endfor %}
-          {% endif %}
-        </ul>
-      </div>
+      <!-- 4.5 多股多維度量化雷達圖橫向對比 (Multi-Stock Radar Comparison) -->
+      {% include "components/radar_section.html" %}
 
-      <!-- 操作檢查清單 -->
-      <div class="glass-card rounded-2xl p-5 border border-gray-800 space-y-3">
-        <h4 class="text-sm font-bold text-white flex items-center">
-          <i class="fa-solid fa-list-check mr-2 text-emerald-400"></i> 交易執行前操作檢查清單
-        </h4>
-        <div class="space-y-2">
-          {% for check in ai_analysis.action_checklist %}
-          <label class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:bg-gray-800/80 transition">
-            <input type="checkbox" class="mt-0.5 rounded text-emerald-500 focus:ring-emerald-400 bg-gray-700 border-gray-600 mr-2.5">
-            <span class="leading-relaxed">{{ check }}</span>
-          </label>
-          {% endfor %}
-        </div>
-      </div>
-    </section>
+      <!-- 4.8 投資組合資產治理與四宗師論文漂移審計 (Portfolio Governor & Thesis Drift Audit) -->
+      {% include "components/portfolio_governor_section.html" %}
+
+      <!-- 5. 催化事件與操作紀律檢查清單 (Catalysts & Checklist) -->
+      {% include "components/news_catalysts.html" %}
+
     </div> <!-- end mainSectionDaily -->
 
     <!-- ================= 2. 實戰勝率榜視圖 (Performance & Win Rates) ================= -->
     <div id="mainSectionPerf" class="space-y-6 hidden">
-      <!-- 頂部總覽橫幅 -->
-      <section class="glass-card rounded-2xl p-6 glow-bull border border-amber-500/20">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
-          <div>
-            <div class="flex items-center space-x-2 mb-1">
-              <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                <i class="fa-solid fa-bullseye mr-1"></i> WikiSkill 復盤評判
-              </span>
-              <span class="text-sm font-semibold text-gray-300">
-                點位評判機制：T+5 ~ T+20 週期目標價 (TP) 先觸及 vs 停損價 (SL) 先跌破
-              </span>
-            </div>
-            <h2 class="text-xl font-bold text-white mt-2 leading-relaxed">
-              實盤歷史追蹤累計勝率：<span class="text-amber-400 font-extrabold">{{ post_mortem_report.overall_win_rate or 59.7 }}%</span>
-              （盈虧比 {{ post_mortem_report.profit_factor or 3.05 }}:1）
-            </h2>
-          </div>
-          <div class="flex items-center space-x-3 text-xs text-gray-400">
-            <span class="px-3 py-1.5 rounded-lg bg-gray-800 border border-gray-700">
-              總檢驗樣本：<strong class="text-white">{{ post_mortem_report.total_evaluations or 434 }}</strong> 筆
-            </span>
-            <span class="px-3 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-300 border border-emerald-800/60">
-              達標 TP：<strong class="text-emerald-400">{{ post_mortem_report.total_wins or 259 }}</strong> 筆
-            </span>
-          </div>
-        </div>
-
-        <!-- 4 欄核心量化 KPI 卡片 -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5">
-          <div class="bg-gray-900/90 p-4 rounded-xl border border-gray-800">
-            <span class="text-xs text-gray-400">總檢驗推薦數</span>
-            <div class="text-2xl font-black text-white mt-1">{{ post_mortem_report.total_evaluations or 434 }}</div>
-            <span class="text-[11px] text-gray-500">跨市場 50 檔連續追蹤</span>
-          </div>
-          <div class="bg-gray-900/90 p-4 rounded-xl border border-gray-800">
-            <span class="text-xs text-gray-400">總體點位勝率</span>
-            <div class="text-2xl font-black text-amber-400 mt-1">{{ post_mortem_report.overall_win_rate or 59.7 }}%</div>
-            <span class="text-[11px] text-emerald-400">先觸及 TP 目標價比例</span>
-          </div>
-          <div class="bg-gray-900/90 p-4 rounded-xl border border-gray-800">
-            <span class="text-xs text-gray-400">獲利因子 (Profit Factor)</span>
-            <div class="text-2xl font-black text-emerald-400 mt-1">{{ post_mortem_report.profit_factor or 3.05 }}</div>
-            <span class="text-[11px] text-gray-400">總盈額 / 總虧額比率</span>
-          </div>
-          <div class="bg-gray-900/90 p-4 rounded-xl border border-gray-800">
-            <span class="text-xs text-gray-400">平均盈虧幅度</span>
-            <div class="text-2xl font-black text-cyan-400 mt-1">+{{ post_mortem_report.avg_win_pct or 5.4 }}% <span class="text-xs text-rose-400">/ -{{ post_mortem_report.avg_loss_pct or 2.6 }}%</span></div>
-            <span class="text-[11px] text-gray-400">平均達標 vs 停損幅度</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- 5 大決策原型實戰戰績卡片 -->
-      <section class="space-y-3">
-        <h3 class="text-base font-bold text-white flex items-center">
-          <i class="fa-solid fa-layer-group mr-2 text-amber-400"></i> 5 大實戰決策原型歷史表現矩陣
-        </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {% set arch_data = post_mortem_report.archetype_stats or {} %}
-          
-          <!-- 1. 順勢進攻 -->
-          {% set att = arch_data.get('attack', {}) %}
-          <div class="glass-card rounded-xl p-4 border border-emerald-500/30 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 text-xs font-bold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                🚀 順勢進攻
-              </span>
-              <span class="text-xs text-gray-400">{{ att.total or 0 }} 筆</span>
-            </div>
-            <div class="text-2xl font-extrabold text-emerald-400">{{ att.win_rate or 72.2 }}%</div>
-            <div class="text-[11px] text-gray-300">均收益：<strong class="text-emerald-400">+{{ att.avg_pnl_pct or 3.0 }}%</strong></div>
-            <div class="text-[10px] text-gray-400">平均達標天數：{{ att.avg_days or 2.3 }} 天</div>
-          </div>
-
-          <!-- 2. 耐心等待 -->
-          {% set wp = arch_data.get('wait_pullback', {}) %}
-          <div class="glass-card rounded-xl p-4 border border-amber-500/30 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 text-xs font-bold rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                ⏳ 耐心等待
-              </span>
-              <span class="text-xs text-gray-400">{{ wp.total or 0 }} 筆</span>
-            </div>
-            <div class="text-2xl font-extrabold text-amber-400">{{ wp.win_rate or 77.2 }}%</div>
-            <div class="text-[11px] text-gray-300">均收益：<strong class="text-emerald-400">+{{ wp.avg_pnl_pct or 3.3 }}%</strong></div>
-            <div class="text-[10px] text-gray-400">等回踩 S1 接單勝率高</div>
-          </div>
-
-          <!-- 3. 逢低潛伏 -->
-          {% set lurk = arch_data.get('lurk_accumulate', {}) %}
-          <div class="glass-card rounded-xl p-4 border border-cyan-500/30 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 text-xs font-bold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                ☕ 逢低潛伏
-              </span>
-              <span class="text-xs text-gray-400">{{ lurk.total or 0 }} 筆</span>
-            </div>
-            <div class="text-2xl font-extrabold text-cyan-400">{{ lurk.win_rate or 45.9 }}%</div>
-            <div class="text-[11px] text-gray-300">均收益：<strong class="text-cyan-300">+{{ lurk.avg_pnl_pct or 0.8 }}%</strong></div>
-            <div class="text-[10px] text-gray-400">浮額沉澱、防守空間大</div>
-          </div>
-
-          <!-- 4. 嚴禁進場 -->
-          {% set def = arch_data.get('defense', {}) %}
-          <div class="glass-card rounded-xl p-4 border border-rose-500/30 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 text-xs font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
-                🛡️ 嚴禁進場
-              </span>
-              <span class="text-xs text-gray-400">{{ def.total or 0 }} 筆</span>
-            </div>
-            <div class="text-sm font-bold text-rose-300 mt-2">防守避險成功率</div>
-            <div class="text-xs text-gray-300">有效規避陰跌套牢風險</div>
-            <div class="text-[10px] text-gray-400">弱勢股嚴禁伸手接刀</div>
-          </div>
-
-          <!-- 5. 警戒撤退 -->
-          {% set al = arch_data.get('alert_exit', {}) %}
-          <div class="glass-card rounded-xl p-4 border border-rose-500/30 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 text-xs font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
-                🚨 警戒撤退
-              </span>
-              <span class="text-xs text-gray-400">即時逃命</span>
-            </div>
-            <div class="text-sm font-bold text-rose-400 mt-2">爆量出貨識別</div>
-            <div class="text-xs text-gray-300">反彈減碼防守出清</div>
-            <div class="text-[10px] text-gray-400">規避主力大單出貨重傷</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 最近復盤實戰撮合清單 -->
-      <section class="glass-card rounded-2xl p-5 border border-gray-800 space-y-4">
-        <div class="flex items-center justify-between">
-          <h4 class="text-sm font-bold text-white flex items-center">
-            <i class="fa-solid fa-clock-rotate-left mr-2 text-amber-400"></i> 最近復盤結算交易明細 (T+5 ~ T+20 點位驗證)
-          </h4>
-          <span class="text-xs text-gray-400">顯示最近結算標的</span>
-        </div>
-        <div class="overflow-x-auto custom-scrollbar">
-          <table class="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr class="border-b border-gray-800 text-gray-400 font-semibold bg-gray-900/50">
-                <th class="p-3">標的代碼</th>
-                <th class="p-3">推薦日期</th>
-                <th class="p-3">決策動作</th>
-                <th class="p-3">進場價</th>
-                <th class="p-3">目標價 (TP)</th>
-                <th class="p-3">停損價 (SL)</th>
-                <th class="p-3">結算結果</th>
-                <th class="p-3">持股天數</th>
-                <th class="p-3">損益百分比</th>
-                <th class="p-3">失效模式歸因</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-800/60 text-gray-300">
-              {% for tr in (post_mortem_report.recent_outcomes or [])[:30] %}
-              <tr class="hover:bg-gray-800/40 transition">
-                <td class="p-3 font-bold text-white">{{ tr.symbol }} <span class="font-normal text-gray-400">{{ tr.name }}</span></td>
-                <td class="p-3 font-mono text-gray-400">{{ tr.eval_date }}</td>
-                <td class="p-3">
-                  <span class="px-2 py-0.5 rounded text-[11px] font-bold {% if tr.action_code == 'attack' %}bg-emerald-500/20 text-emerald-300{% elif tr.action_code == 'wait_pullback' %}bg-amber-500/20 text-amber-300{% elif tr.action_code == 'lurk_accumulate' %}bg-cyan-500/20 text-cyan-300{% else %}bg-gray-800 text-gray-300{% endif %}">
-                    {{ tr.action_badge }}
-                  </span>
-                </td>
-                <td class="p-3 text-cyan-300">${{ tr.entry_price }}</td>
-                <td class="p-3 text-emerald-300">${{ tr.target_price }}</td>
-                <td class="p-3 text-rose-400">${{ tr.stop_loss }}</td>
-                <td class="p-3">
-                  {% if tr.status == 'HIT_TP' %}
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                    🎯 達標 TP
-                  </span>
-                  {% elif tr.status == 'HIT_SL' %}
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500/20 text-rose-300 border border-rose-500/40">
-                    🛑 觸及 SL
-                  </span>
-                  {% else %}
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-gray-800 text-gray-400 border border-gray-700">
-                    ⏱️ 滿期超時
-                  </span>
-                  {% endif %}
-                </td>
-                <td class="p-3">{{ tr.days_held }} 天</td>
-                <td class="p-3 font-bold {% if tr.pnl_pct is not none and tr.pnl_pct != '-' and tr.pnl_pct|float > 0 %}text-emerald-400{% elif tr.pnl_pct is not none and tr.pnl_pct != '-' and tr.pnl_pct|float < 0 %}text-rose-400{% else %}text-gray-400{% endif %}">
-                  {{ "{:+.2f}%".format(tr.pnl_pct|float) if tr.pnl_pct is not none and tr.pnl_pct != '-' else '-' }}
-                </td>
-                <td class="p-3 text-[11px] text-gray-400">
-                  {{ tr.failure_pattern or '-' }}
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </section>
+      {% include "components/performance_retro.html" %}
     </div>
 
     <!-- ================= 3. 避坑知識庫視圖 (Market Wiki) ================= -->
     <div id="mainSectionWiki" class="space-y-6 hidden">
-      <!-- 知識庫頂部橫幅 -->
-      <section class="glass-card rounded-2xl p-6 glow-bull border border-cyan-500/20">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
-          <div>
-            <div class="flex items-center space-x-2 mb-1">
-              <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                <i class="fa-solid fa-book-bookmark mr-1"></i> WikiSkill 核心知識庫
-              </span>
-              <span class="text-sm font-semibold text-gray-300">
-                三層解耦架構：原始軌跡 (Raw) · 持久知識 (Wiki) · 可執行技能 (Skills)
-              </span>
-            </div>
-            <h2 class="text-xl font-bold text-white mt-2 leading-relaxed">
-              永久編譯歷史經驗，建立「永不重蹈覆轍」的金融長效記憶
-            </h2>
-            <p class="text-xs text-gray-400 mt-1">
-              遵循 arXiv:2608.27454 規範：即便量化參數或代碼經回測回滾（Rollback），此處沉澱之失敗教訓與成功範式亦永久累積。
-            </p>
-          </div>
-          <div class="shrink-0 flex items-center space-x-2">
-            <span class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-800 border border-gray-700 text-gray-300">
-              已編譯模式：<strong class="text-cyan-300">5</strong> 類
-            </span>
-          </div>
-        </div>
-
-        <!-- 失敗模式卡片網格 (Failure Modes) -->
-        <div class="mt-6 space-y-3">
-          <h3 class="text-sm font-bold text-rose-400 flex items-center">
-            <i class="fa-solid fa-triangle-exclamation mr-2"></i> 🚨 歷史失敗避坑模式庫 (Failure Modes)
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <!-- FM-001 -->
-            <div class="bg-gray-900/90 rounded-xl p-4 border border-rose-500/30 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/40">FM-001</span>
-                <span class="text-[10px] text-rose-400 font-bold">🔴 極高風險</span>
-              </div>
-              <h4 class="text-sm font-bold text-white">高檔爆量假突破出貨</h4>
-              <p class="text-xs text-gray-400 leading-relaxed">
-                量比 > 2.2x 暴增但日 K 收長上影黑 K 跌逾 2%，主力藉利多反向拔檔倒貨。
-              </p>
-              <div class="pt-2 border-t border-gray-800 text-[11px] text-emerald-400 font-medium">
-                🛡️ 防護對策：強制映射為「🚨 警戒撤退」，反彈減碼出清，破 SL 嚴格停損。
-              </div>
-            </div>
-
-            <!-- FM-002 -->
-            <div class="bg-gray-900/90 rounded-xl p-4 border border-amber-500/30 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">FM-002</span>
-                <span class="text-[10px] text-amber-400 font-bold">🟠 中高風險</span>
-              </div>
-              <h4 class="text-sm font-bold text-white">動能衰竭急追被套</h4>
-              <p class="text-xs text-gray-400 leading-relaxed">
-                均線雖多頭但量比 < 0.8x 萎縮，量價嚴重背離。無腦市價急追易遭短線洗盤破位。
-              </p>
-              <div class="pt-2 border-t border-gray-800 text-[11px] text-amber-300 font-medium">
-                🛡️ 防護對策：強制映射為「⏳ 耐心等待」，切忌急追，等量縮回踩 S1 接單。
-              </div>
-            </div>
-
-            <!-- FM-003 -->
-            <div class="bg-gray-900/90 rounded-xl p-4 border border-rose-500/30 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/40">FM-003</span>
-                <span class="text-[10px] text-rose-400 font-bold">🔴 總經風險</span>
-              </div>
-              <h4 class="text-sm font-bold text-white">外資期貨巨額空單壓盤</h4>
-              <p class="text-xs text-gray-400 leading-relaxed">
-                台指期外資淨空單超過 35,000 口時，現貨易遭壓盤結算，突破多為虛胖誘多。
-              </p>
-              <div class="pt-2 border-t border-gray-800 text-[11px] text-cyan-300 font-medium">
-                🛡️ 防護對策：全域啟動大盤防護扣分，下調權值股目標價並降低總持倉水位。
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 成功範式卡片網格 (Success Archetypes) -->
-        <div class="mt-6 space-y-3">
-          <h3 class="text-sm font-bold text-emerald-400 flex items-center">
-            <i class="fa-solid fa-trophy mr-2"></i> 🚀 歷史成功主升範式庫 (Success Archetypes)
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- SA-001 -->
-            <div class="bg-gray-900/90 rounded-xl p-4 border border-emerald-500/30 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">SA-001</span>
-                <span class="text-[10px] text-emerald-400 font-bold">🟢 82%+ 勝率</span>
-              </div>
-              <h4 class="text-sm font-bold text-white">法人籌碼鎖碼共振突破</h4>
-              <p class="text-xs text-gray-400 leading-relaxed">
-                外資＋投信連 3 日同步買超，成交總值溫和放大至 1.3x~2.0x 突破 5MA 與頸線。
-              </p>
-              <div class="pt-2 border-t border-gray-800 text-[11px] text-emerald-300 font-medium">
-                🎯 實戰執行：順勢進攻重倉，抱牢主升段，以 5MA 移動防守，未破線不輕易出清。
-              </div>
-            </div>
-
-            <!-- SA-002 -->
-            <div class="bg-gray-900/90 rounded-xl p-4 border border-cyan-500/30 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">SA-002</span>
-                <span class="text-[10px] text-cyan-400 font-bold">🟢 78%+ 勝率</span>
-              </div>
-              <h4 class="text-sm font-bold text-white">浮額沉澱量縮築底起漲</h4>
-              <p class="text-xs text-gray-400 leading-relaxed">
-                連 5 日量比 < 0.8x 守穩季線/S1，首根紅 K 帶量突破 5MA，風報比達 2.5:1。
-              </p>
-              <div class="pt-2 border-t border-gray-800 text-[11px] text-cyan-300 font-medium">
-                🎯 實戰執行：於 S1 支撐上方逢低潛伏，停損極短，突破頸線後加碼至標準水位。
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 策略衝擊追蹤表 (Skill Impact Tracker Table) -->
-        <div class="mt-6 space-y-3">
-          <h3 class="text-sm font-bold text-white flex items-center">
-            <i class="fa-solid fa-code-compare mr-2 text-cyan-400"></i> 策略衝擊追蹤與安全回退審計表 (Skill Impact Tracker)
-          </h3>
-          <div class="overflow-x-auto custom-scrollbar bg-gray-900/60 rounded-xl border border-gray-800">
-            <table class="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr class="border-b border-gray-800 text-gray-400 font-semibold bg-gray-900/80">
-                  <th class="p-3">提案編號</th>
-                  <th class="p-3">評審日期</th>
-                  <th class="p-3">目標設定檔</th>
-                  <th class="p-3">驗證集得分</th>
-                  <th class="p-3">最佳基準閥值</th>
-                  <th class="p-3">驗證決策結果</th>
-                  <th class="p-3">核心變更紀錄</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-800/60 text-gray-300">
-                <tr class="hover:bg-gray-800/40">
-                  <td class="p-3 font-bold text-cyan-300">P-000</td>
-                  <td class="p-3 font-mono text-gray-400">2026-09-14</td>
-                  <td class="p-3 font-mono text-gray-400">config/rules.json</td>
-                  <td class="p-3 font-bold text-emerald-400">74.5%</td>
-                  <td class="p-3 text-gray-400">74.5%</td>
-                  <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Accepted (基準確立)</span></td>
-                  <td class="p-3 text-gray-300">初始化量化評分與二維決策矩陣基準配置</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+      {% include "components/wiki_knowledge.html" %}
     </div>
 
   </main>

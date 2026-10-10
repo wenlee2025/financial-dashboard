@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 
 class MarkdownSummaryGenerator:
     """通訊軟體 (Telegram / Discord / LINE / Slack) Markdown 摘要卡片產生器"""
@@ -18,7 +18,7 @@ class MarkdownSummaryGenerator:
 
         lines = [
             f"📊 *【{mode_text}】{date_str}*",
-            f"━━━━━━━━━━━━━━━━━━",
+            "━━━━━━━━━━━━━━━━━━",
             f"🎯 *核心結論*：{ai_data.get('executive_summary', '市場維持區間震盪')}",
             f"📈 *市場氛圍*：`{ai_data.get('market_mood', '觀望')}` | 恐慌指數：`{fg_score} ({fg_zh})` | 美債10Y：`{us10y}%`",
             ""

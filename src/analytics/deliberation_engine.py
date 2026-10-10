@@ -1,16 +1,15 @@
+import importlib.util
 import logging
 from dataclasses import dataclass, asdict
 from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
-# 軟依賴：嘗試導入 LangGraph 與 LangChain，未安裝時零阻礙降級
-try:
-    from langgraph.graph import StateGraph
-    from langchain_core.messages import HumanMessage, SystemMessage
-    LANGGRAPH_AVAILABLE = True
-except ImportError:
-    LANGGRAPH_AVAILABLE = False
+# 軟依賴：嘗試探測 LangGraph 與 LangChain，未安裝時零阻礙降級
+LANGGRAPH_AVAILABLE = (
+    importlib.util.find_spec("langgraph") is not None and
+    importlib.util.find_spec("langchain_core") is not None
+)
 
 @dataclass
 class DeliberationVerdict:
@@ -126,7 +125,7 @@ class DeliberationEngine:
         elif quant_score >= 60.0:
             action = "☕ 逢低潛伏"
             risk_summary = "【風控委員會結論：防守性放行】偏多震盪格局，建議不追高，等待拉回量縮測試支撐時低接。"
-            trader_reasoning = f"趨勢偏多但波動加劇，設定回檔支撐區間建倉，避免追高被套。"
+            trader_reasoning = "趨勢偏多但波動加劇，設定回檔支撐區間建倉，避免追高被套。"
         elif quant_score >= 42.0:
             action = "⏳ 耐心等待"
             risk_summary = "【風控委員會結論：觀望暫停】多空力道膠著，方向未明朗，建議維持現金水位耐心等待方向確立。"

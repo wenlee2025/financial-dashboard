@@ -6,7 +6,6 @@
 """
 
 import sys
-from pathlib import Path
 
 # 在 Windows 控制台確保 UTF-8 編碼支援
 if sys.platform.startswith("win"):

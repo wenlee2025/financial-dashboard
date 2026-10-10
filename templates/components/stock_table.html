@@ -1,0 +1,156 @@
+<!-- 視圖 B: 高密度清單表格視圖 (Table View) -->
+<div id="stockTableContainer" class="hidden glass-card rounded-2xl border border-gray-800 overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left text-xs border-collapse">
+      <thead class="bg-gray-900/90 text-gray-400 font-semibold border-b border-gray-800 select-none">
+        <tr>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('symbol')">
+            標的代碼 / 名稱 <i id="sort-icon-symbol" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('pct')">
+            現價 / 漲跌幅 <i id="sort-icon-pct" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('score')">
+            多空評分 <i id="sort-icon-score" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('turnover')">
+            成交總值 (5MA) <i id="sort-icon-turnover" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('turnover_strat')">
+            資金動能策略 <i id="sort-icon-turnover_strat" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('rating')">
+            評級 <i id="sort-icon-rating" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('matrix')">
+            決策矩陣 <i id="sort-icon-matrix" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('entry')">
+            建議進場區 <i id="sort-icon-entry" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('s1')">
+            第一支撐 (S1) <i id="sort-icon-s1" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('sl')">
+            停損防守 (SL) <i id="sort-icon-sl" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('tp')">
+            停利目標 (TP) <i id="sort-icon-tp" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('rr')">
+            風報比 <i id="sort-icon-rr" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+          <th class="p-3.5 whitespace-nowrap cursor-pointer hover:text-emerald-400 transition" onclick="sortTable('lots')">
+            法人淨買超 <i id="sort-icon-lots" class="fa-solid fa-sort text-[10px] ml-1 text-gray-500"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-800/60">
+        {% for item in stocks %}
+        {% set ts = (item.score_info.turnover_strategy if item.score_info and item.score_info.turnover_strategy else {}) %}
+        {% set sc = (item.supply_chain if item.supply_chain else {}) %}
+        {% set dm = (item.decision_matrix if item.decision_matrix else (item.score_info.decision_matrix if item.score_info and item.score_info.decision_matrix else {})) %}
+        <tr class="stock-table-row hover:bg-gray-800/40 transition"
+            data-symbol="{{ item.symbol }}"
+            data-name="{{ item.name }}"
+            data-market="{{ item.stock_data.market if item.stock_data else '' }}"
+            data-sector="{{ sc.sector_key or 'all' }}"
+            data-sector-tags="{{ sc.sector_tags or '' }}"
+            data-rating="{{ item.score_info.rating_code if item.score_info else '' }}"
+            data-rating-rank="{% if item.score_info and item.score_info.rating_code == 'strong_bull' %}5{% elif item.score_info and item.score_info.rating_code == 'lean_bull' %}4{% elif item.score_info and item.score_info.rating_code == 'neutral' %}3{% elif item.score_info and item.score_info.rating_code == 'lean_bear' %}2{% else %}1{% endif %}"
+            data-matrix-rank="{{ dm.sort_rank or 2 }}"
+            data-price="{{ item.stock_data.price if item.stock_data else '' }}"
+            data-pct="{{ item.stock_data.pct_change if item.stock_data else '' }}"
+            data-score="{{ item.score_info.score if item.score_info else '' }}"
+            data-turnover="{{ (item.stock_data.turnover if item.stock_data and item.stock_data.turnover else 0) }}"
+            data-turnover-ma5="{{ (item.stock_data.turnover_ma5 if item.stock_data and item.stock_data.turnover_ma5 else 0) }}"
+            data-turnover-ratio="{{ (item.stock_data.turnover_ratio if item.stock_data and item.stock_data.turnover_ratio else 1.0) }}"
+            data-turnover-strat="{% if ts.strategy_code == 'strong_bull' %}5{% elif ts.strategy_code == 'consolidation_bottom' %}4{% elif ts.strategy_code == 'normal' %}3{% elif ts.strategy_code == 'momentum_decay' %}2{% else %}1{% endif %}"
+            data-entry="{{ item.price_levels.entry_low if item.price_levels else '' }}"
+            data-s1="{{ item.price_levels.s1 if item.price_levels else '' }}"
+            data-sl="{{ item.price_levels.stop_loss if item.price_levels else '' }}"
+            data-tp="{{ item.price_levels.target_price if item.price_levels else '' }}"
+            data-rr="{{ item.price_levels.risk_reward_ratio if item.price_levels else '' }}"
+            data-lots="{% if item.institutional and item.institutional.total_lots %}{{ item.institutional.total_lots }}{% else %}0{% endif %}">
+          <td class="p-3.5 font-bold text-white flex flex-col space-y-0.5">
+            <div class="flex items-center space-x-2">
+              <span class="px-1.5 py-0.5 text-[10px] bg-gray-800 text-gray-400 rounded border border-gray-700">{{ item.stock_data.market if item.stock_data else '' }}</span>
+              <span>{{ item.symbol }}</span>
+              <span class="font-normal text-gray-300">{{ item.name }}</span>
+              {% if item.tier == 'TIER_1_CORE' %}
+              <span class="px-1.5 py-0.2 text-[9px] font-bold bg-amber-500/20 text-amber-300 rounded border border-amber-500/30">
+                👑 核心
+              </span>
+              {% endif %}
+              {% if sc.sector_badge %}
+              <span class="px-1.5 py-0.2 text-[9px] font-normal bg-cyan-950/50 text-cyan-300 rounded border border-cyan-800/40">
+                {{ sc.sector_badge }}
+              </span>
+              {% endif %}
+            </div>
+            {% if sc.role %}
+            <div class="text-[10px] text-gray-400 font-normal truncate max-w-xs">
+              {{ sc.chain }} · {{ sc.role }}
+            </div>
+            {% endif %}
+          </td>
+          <td class="p-3.5">
+            {% if item.stock_data and item.stock_data.price and item.stock_data.price != '-' and item.stock_data.price|string != 'nan' and item.stock_data.price|float > 0 %}
+            <div class="font-semibold text-white">${{ item.stock_data.price }}</div>
+            <div class="text-[11px] font-medium {% if item.stock_data.change is not none and item.stock_data.change != '-' and item.stock_data.change|string != 'nan' and item.stock_data.change|float >= 0 %}text-rose-400{% else %}text-emerald-400{% endif %}">
+              {{ "{:+.2f}%".format(item.stock_data.pct_change|float) if item.stock_data.pct_change is not none and item.stock_data.pct_change != '-' and item.stock_data.pct_change|string != 'nan' else '-' }}
+            </div>
+            {% else %}
+            <div class="font-semibold text-gray-400">-</div>
+            {% endif %}
+          </td>
+          <td class="p-3.5">
+            <span class="font-black text-sm {% if item.score_info and item.score_info.score is not none and item.score_info.score != '-' and item.score_info.score|string != 'nan' and item.score_info.score|float >= 70 %}text-emerald-400{% elif item.score_info and item.score_info.score is not none and item.score_info.score != '-' and item.score_info.score|string != 'nan' and item.score_info.score|float >= 50 %}text-yellow-400{% else %}text-rose-400{% endif %}">
+              {{ item.score_info.score if item.score_info and item.score_info.score is not none and item.score_info.score != '-' and item.score_info.score|string != 'nan' else '-' }}
+            </span>
+          </td>
+          <td class="p-3.5">
+            <div class="font-bold text-white">{{ item.stock_data.turnover_short if item.stock_data and item.stock_data.turnover_short else '-' }}</div>
+            <div class="text-[11px] text-gray-400">5MA: {{ item.stock_data.turnover_ma5_short if item.stock_data and item.stock_data.turnover_ma5_short else '-' }}</div>
+          </td>
+          <td class="p-3.5 whitespace-nowrap">
+            <span class="inline-block whitespace-nowrap px-2 py-0.5 text-[11px] font-bold rounded-md {% if ts.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif ts.badge_color == 'amber' %}bg-amber-500/20 text-amber-300 border border-amber-500/30{% elif ts.badge_color == 'yellow' %}bg-yellow-500/20 text-yellow-300 border border-yellow-500/30{% elif ts.badge_color == 'rose' %}bg-rose-500/20 text-rose-300 border border-rose-500/30{% else %}bg-gray-800 text-gray-300 border border-gray-700{% endif %}">
+              {{ ts.strategy_name or '常態整理 ⚪' }}
+            </span>
+            <div class="text-[10px] text-gray-400 mt-0.5 whitespace-nowrap">量比 {{ (item.stock_data.turnover_ratio if item.stock_data and item.stock_data.turnover_ratio else 1.0) }}x</div>
+          </td>
+          <td class="p-3.5 whitespace-nowrap">
+            <span class="inline-block whitespace-nowrap px-2 py-0.5 text-[11px] font-bold rounded-full {% if item.score_info and item.score_info.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif item.score_info and item.score_info.badge_color == 'green' %}bg-green-500/20 text-green-400 border border-green-500/30{% elif item.score_info and item.score_info.badge_color == 'yellow' %}bg-yellow-500/20 text-yellow-400 border border-yellow-500/30{% else %}bg-rose-500/20 text-rose-400 border border-rose-500/30{% endif %}">
+              {{ item.score_info.rating if item.score_info else '-' }}
+            </span>
+          </td>
+          <td class="p-3.5 whitespace-nowrap">
+            {% if dm and dm.action_badge %}
+            <span class="inline-block whitespace-nowrap px-2 py-0.5 text-[11px] font-bold rounded-md {% if dm.badge_color == 'emerald' %}bg-emerald-500/20 text-emerald-400 border border-emerald-500/30{% elif dm.badge_color == 'amber' %}bg-amber-500/20 text-amber-300 border border-amber-500/30{% elif dm.badge_color == 'cyan' %}bg-cyan-500/20 text-cyan-300 border border-cyan-500/30{% elif dm.badge_color == 'rose' %}bg-rose-500/20 text-rose-300 border border-rose-500/30{% else %}bg-gray-800 text-gray-300 border border-gray-700{% endif %}">
+              {{ dm.action_badge }}
+            </span>
+            <div class="text-[10px] text-gray-400 mt-0.5 whitespace-nowrap">{{ dm.guidance }}</div>
+            {% else %}
+            <span class="text-gray-400 text-[11px]">-</span>
+            {% endif %}
+          </td>
+          <td class="p-3.5 text-cyan-300 font-medium">{% if item.price_levels and item.price_levels.entry_zone and item.price_levels.entry_zone != '-' and item.price_levels.entry_zone != 'N/A' and 'nan' not in item.price_levels.entry_zone|string and '0.0 - 0.0' not in item.price_levels.entry_zone|string %}${{ item.price_levels.entry_zone }}{% else %}-{% endif %}</td>
+          <td class="p-3.5 text-emerald-300 font-medium">{% if item.price_levels and item.price_levels.s1 and item.price_levels.s1 != '-' and item.price_levels.s1|string != 'nan' and item.price_levels.s1|float > 0 %}${{ item.price_levels.s1 }}{% else %}-{% endif %}</td>
+          <td class="p-3.5 text-rose-400 font-bold text-xs truncate max-w-[100px]">{% if item.price_levels and item.price_levels.stop_loss_display %}{{ item.price_levels.stop_loss_display }}{% elif item.price_levels and item.price_levels.stop_loss and item.price_levels.stop_loss != '-' and item.price_levels.stop_loss|string != 'nan' and item.price_levels.stop_loss|float > 0 %}${{ item.price_levels.stop_loss }}{% else %}-{% endif %}</td>
+          <td class="p-3.5 text-amber-300 font-bold">{% if item.price_levels and item.price_levels.target_price and item.price_levels.target_price != '-' and item.price_levels.target_price|string != 'nan' and item.price_levels.target_price|float > 0 %}${{ item.price_levels.target_price }}{% else %}-{% endif %}</td>
+          <td class="p-3.5 text-gray-300 font-semibold">{{ item.price_levels.risk_reward_ratio if item.price_levels and item.price_levels.risk_reward_ratio and item.price_levels.risk_reward_ratio != '-' and item.price_levels.risk_reward_ratio|string != 'nan' else '-' }}{% if item.price_levels and item.price_levels.risk_reward_ratio and item.price_levels.risk_reward_ratio != '-' and item.price_levels.risk_reward_ratio|string != 'nan' %}:1{% endif %}</td>
+          <td class="p-3.5">
+            {% if item.institutional and item.institutional.total_lots and item.institutional.total_lots != '-' and item.institutional.total_lots|string != 'nan' %}
+            <span class="font-semibold {% if item.institutional.total_lots|float > 0 %}text-emerald-400{% else %}text-rose-400{% endif %}">
+              {{ "{:+,d}".format(item.institutional.total_lots|int) }} 張
+            </span>
+            {% else %}
+            <span class="text-gray-400">-</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

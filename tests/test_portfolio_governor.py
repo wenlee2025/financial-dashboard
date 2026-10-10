@@ -1,6 +1,4 @@
-import pytest
-from pathlib import Path
-from src.analytics.portfolio_governor import PortfolioGovernor, HoldingRecord, PortfolioAuditResult
+from src.analytics.portfolio_governor import PortfolioGovernor, PortfolioAuditResult
 
 def test_portfolio_governor_add_and_audit(tmp_path):
     test_json = tmp_path / "portfolio.json"

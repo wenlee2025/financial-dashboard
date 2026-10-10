@@ -1,0 +1,68 @@
+<!-- 5. 催化事件與操作紀律檢查清單 (Catalysts & Checklist) -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <!-- 催化事件與一手新聞溯源日曆 -->
+  <div class="glass-card rounded-2xl p-5 border border-gray-800 space-y-3">
+    <div class="flex items-center justify-between">
+      <h4 class="text-sm font-bold text-white flex items-center">
+        <i class="fa-regular fa-newspaper mr-2 text-indigo-400"></i> 近期重大催化劑與一手新聞溯源
+      </h4>
+      <span class="text-[10px] text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">
+        <i class="fa-solid fa-clock-rotate-left mr-1"></i>24h 時效窗
+      </span>
+    </div>
+    
+    <ul class="space-y-2.5">
+      {% if verified_news %}
+        {% for n in verified_news %}
+        <li class="flex flex-col text-xs text-gray-300 bg-gray-900/70 p-3 rounded-xl border border-gray-800 hover:border-gray-700 transition space-y-1.5">
+          <div class="flex items-center justify-between text-[10px]">
+            <div class="flex items-center space-x-1.5">
+              <span class="px-1.5 py-0.5 font-bold rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                {{ n.publisher }}
+              </span>
+              <span class="text-gray-400 font-medium">{{ n.related_symbol }}</span>
+            </div>
+            <span class="text-gray-400 flex items-center">
+              <i class="fa-regular fa-clock mr-1 text-gray-400"></i> {{ n.age_text }} ({{ n.published_at }})
+            </span>
+          </div>
+          <a href="{{ n.url }}" target="_blank" rel="noopener noreferrer" class="font-semibold text-white hover:text-emerald-400 transition leading-snug flex items-start justify-between group">
+            <span>{{ n.title }}</span>
+            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-emerald-400 ml-2 mt-1 shrink-0"></i>
+          </a>
+        </li>
+        {% endfor %}
+      {% elif ai_analysis and ai_analysis.catalysts %}
+        {% for cat in ai_analysis.catalysts %}
+        <li class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800">
+          <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-[10px] mr-2 shrink-0">
+            {{ loop.index }}
+          </span>
+          <span class="leading-relaxed">{{ cat }}</span>
+        </li>
+        {% endfor %}
+      {% else %}
+        <li class="text-xs text-gray-500 p-2">暫無重大催化劑與新聞事件</li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <!-- 操作檢查清單 -->
+  <div class="glass-card rounded-2xl p-5 border border-gray-800 space-y-3">
+    <h4 class="text-sm font-bold text-white flex items-center">
+      <i class="fa-solid fa-list-check mr-2 text-emerald-400"></i> 交易執行前操作檢查清單
+    </h4>
+    <div class="space-y-2">
+      {% if ai_analysis and ai_analysis.action_checklist %}
+        {% for check in ai_analysis.action_checklist %}
+        <label class="flex items-start text-xs text-gray-300 bg-gray-900/60 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:bg-gray-800/80 transition">
+          <input type="checkbox" class="mt-0.5 rounded text-emerald-500 focus:ring-emerald-400 bg-gray-700 border-gray-600 mr-2.5">
+          <span class="leading-relaxed">{{ check }}</span>
+        </label>
+        {% endfor %}
+      {% else %}
+        <div class="text-xs text-gray-500 p-2">暫無待辦檢查事項</div>
+      {% endif %}
+    </div>
+  </div>
+</section>

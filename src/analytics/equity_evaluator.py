@@ -719,7 +719,6 @@ class EquityEvaluator:
         }
 
     def _build_empty_evaluation(self, stock_data: Dict[str, Any]) -> EquityEvaluationResult:
-        sym = stock_data.get("symbol", "")
         empty_score_info = {
             "score": 50.0,
             "regime_label": "常態平衡體制",

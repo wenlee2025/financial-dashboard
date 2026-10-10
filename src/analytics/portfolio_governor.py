@@ -249,7 +249,7 @@ class PortfolioGovernor:
 
             # 3. 外資期貨大盤空單壓盤審查
             if foreign_net_oi < -35000 and tier == "TIER_1_CORE":
-                drift_reasons.append(f"⚠️ 外資台指期空單超過 35,000 口，權值核心資產承受期貨結算壓盤")
+                drift_reasons.append("⚠️ 外資台指期空單超過 35,000 口，權值核心資產承受期貨結算壓盤")
                 soft_drift_count += 1
 
             item["drift_reasons"] = drift_reasons

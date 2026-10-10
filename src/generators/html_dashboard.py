@@ -1,7 +1,7 @@
 import json
 import logging
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 from jinja2 import Environment, FileSystemLoader
 
 logger = logging.getLogger(__name__)

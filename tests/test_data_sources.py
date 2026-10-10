@@ -1,6 +1,5 @@
 from src.data_sources.tw_market import TWMarketFetcher
 from src.data_sources.us_market import USMarketFetcher
-from src.data_sources.macro_sentiment import MacroSentimentFetcher
 from src.data_sources.scanner import MarketScanner
 
 def test_symbol_normalization():
@@ -10,10 +9,6 @@ def test_symbol_normalization():
     assert fetcher._normalize_tw_symbol("^TWII") == "^TWII"
 
 def test_adr_premium_formula():
-    macro = MacroSentimentFetcher()
-    adr_mappings = [
-        {"adr_symbol": "TSM", "tw_symbol": "2330", "ratio": 5.0}
-    ]
     # Mocking manual formula test
     adr_price_usd = 200.0
     usdtwd_rate = 32.0

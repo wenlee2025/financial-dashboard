@@ -1,0 +1,800 @@
+{
+  "2330": {
+    "symbol": "2330",
+    "start_date": "2026-04-08",
+    "end_date": "2026-10-08",
+    "total_trades": 8,
+    "win_rate_pct": 25.0,
+    "total_return_pct": -2.98,
+    "benchmark_return_pct": 31.5,
+    "alpha_pct": -34.48,
+    "max_drawdown_pct": 17.26,
+    "sharpe_ratio": -0.15,
+    "trades": [
+      {
+        "entry_date": "2026-04-14",
+        "exit_date": "2026-05-19",
+        "entry_price": 2043.516845703125,
+        "exit_price": 2192.6787109375,
+        "pnl_pct": 7.3,
+        "is_win": true,
+        "exit_reason": "跌破MA20轉弱平倉"
+      },
+      {
+        "entry_date": "2026-05-27",
+        "exit_date": "2026-06-10",
+        "entry_price": 2287.14794921875,
+        "exit_price": 2242.399169921875,
+        "pnl_pct": -1.96,
+        "is_win": false,
+        "exit_reason": "跌破MA20轉弱平倉"
+      },
+      {
+        "entry_date": "2026-06-18",
+        "exit_date": "2026-06-26",
+        "entry_price": 2402.9267578125,
+        "exit_price": 2333.132080078125,
+        "pnl_pct": -2.9,
+        "is_win": false,
+        "exit_reason": "跌破MA20轉弱平倉"
+      },
+      {
+        "entry_date": "2026-06-30",
+        "exit_date": "2026-07-14",
+        "entry_price": 2402.9267578125,
+        "exit_price": 2412.897216796875,
+        "pnl_pct": 0.41,
+        "is_win": true,
+        "exit_reason": "跌破MA20轉弱平倉"
+      },
+      {
+        "entry_date": "2026-07-31",
+        "exit_date": "2026-08-03",
+        "entry_price": 2417.882568359375,
+        "exit_price": 2363.044189453125,
+        "pnl_pct": -2.27,
+        "is_win": false,
+        "exit_reason": "跌破MA20轉弱平倉"
+      },
+      {
+        "entry_date": "2026-08-13",
+        "exit_date": "2026-08-19",
+        "entry_price": 2427.853271484375,
+        "exit_price": 2343.102783203125,
+        "pnl_pct": -3.49,
+        "is_win": false,
+        "exit_reason": "跌破MA20轉弱平倉"
+      },
+      {
+        "entry_date": "2026-08-26",
+        "exit_date": "2026-09-02",
+        "entry_price": 2407.912109375,
+        "exit_price": 2378.0,
+        "pnl_pct": -1.24,
+        "is_win": false,
+        "exit_reason": "跌破MA20轉弱平倉"
+      },
+      {
+        "entry_date": "2026-09-07",
+        "exit_date": "2026-09-11",
+        "entry_price": 2452.780029296875,
+        "exit_price": 2402.9267578125,
+        "pnl_pct": -2.03,
+        "is_win": false,
+        "exit_reason": "跌破MA20轉弱平倉"
+      }
+    ],
+    "equity_curve": [
+      {
+        "date": "2026-04-08",
+        "equity": 1000000.0,
+        "benchmark": 1000000.0
+      },
+      {
+        "date": "2026-04-10",
+        "equity": 1000000.0,
+        "benchmark": 1025641.0
+      },
+      {
+        "date": "2026-04-14",
+        "equity": 1000000.0,
+        "benchmark": 1053846.2
+      },
+      {
+        "date": "2026-04-16",
+        "equity": 1014598.5,
+        "benchmark": 1069230.8
+      },
+      {
+        "date": "2026-04-20",
+        "equity": 985401.4,
+        "benchmark": 1038461.6
+      },
+      {
+        "date": "2026-04-22",
+        "equity": 997566.9,
+        "benchmark": 1051282.0
+      },
+      {
+        "date": "2026-04-24",
+        "equity": 1063260.3,
+        "benchmark": 1120512.8
+      },
+      {
+        "date": "2026-04-28",
+        "equity": 1077858.9,
+        "benchmark": 1135897.5
+      },
+      {
+        "date": "2026-04-30",
+        "equity": 1038929.4,
+        "benchmark": 1094871.8
+      },
+      {
+        "date": "2026-05-05",
+        "equity": 1094890.5,
+        "benchmark": 1153846.2
+      },
+      {
+        "date": "2026-05-07",
+        "equity": 1124087.6,
+        "benchmark": 1184615.5
+      },
+      {
+        "date": "2026-05-11",
+        "equity": 1087591.2,
+        "benchmark": 1146153.9
+      },
+      {
+        "date": "2026-05-13",
+        "equity": 1080291.9,
+        "benchmark": 1138461.5
+      },
+      {
+        "date": "2026-05-15",
+        "equity": 1102189.7,
+        "benchmark": 1161538.4
+      },
+      {
+        "date": "2026-05-19",
+        "equity": 1072992.7,
+        "benchmark": 1130769.3
+      },
+      {
+        "date": "2026-05-21",
+        "equity": 1072992.7,
+        "benchmark": 1143589.7
+      },
+      {
+        "date": "2026-05-25",
+        "equity": 1072992.7,
+        "benchmark": 1184615.5
+      },
+      {
+        "date": "2026-05-27",
+        "equity": 1072992.7,
+        "benchmark": 1179487.3
+      },
+      {
+        "date": "2026-05-29",
+        "equity": 1098651.1,
+        "benchmark": 1207692.3
+      },
+      {
+        "date": "2026-06-02",
+        "equity": 1110314.1,
+        "benchmark": 1220512.8
+      },
+      {
+        "date": "2026-06-04",
+        "equity": 1112646.6,
+        "benchmark": 1223076.8
+      },
+      {
+        "date": "2026-06-08",
+        "equity": 1070660.1,
+        "benchmark": 1176923.1
+      },
+      {
+        "date": "2026-06-10",
+        "equity": 1051999.3,
+        "benchmark": 1156410.2
+      },
+      {
+        "date": "2026-06-12",
+        "equity": 1051999.3,
+        "benchmark": 1187775.8
+      },
+      {
+        "date": "2026-06-16",
+        "equity": 1051999.3,
+        "benchmark": 1234052.8
+      },
+      {
+        "date": "2026-06-18",
+        "equity": 1051999.3,
+        "benchmark": 1239194.7
+      },
+      {
+        "date": "2026-06-23",
+        "equity": 1086920.4,
+        "benchmark": 1280329.7
+      },
+      {
+        "date": "2026-06-25",
+        "equity": 1043269.0,
+        "benchmark": 1228910.9
+      },
+      {
+        "date": "2026-06-29",
+        "equity": 1021443.2,
+        "benchmark": 1218627.1
+      },
+      {
+        "date": "2026-07-01",
+        "equity": 1061707.6,
+        "benchmark": 1288042.6
+      },
+      {
+        "date": "2026-07-03",
+        "equity": 1036277.4,
+        "benchmark": 1257191.3
+      },
+      {
+        "date": "2026-07-07",
+        "equity": 1034158.3,
+        "benchmark": 1254620.3
+      },
+      {
+        "date": "2026-07-09",
+        "equity": 1023562.4,
+        "benchmark": 1241765.6
+      },
+      {
+        "date": "2026-07-14",
+        "equity": 1025681.5,
+        "benchmark": 1244336.5
+      },
+      {
+        "date": "2026-07-16",
+        "equity": 1025681.5,
+        "benchmark": 1270045.9
+      },
+      {
+        "date": "2026-07-20",
+        "equity": 1025681.5,
+        "benchmark": 1192917.7
+      },
+      {
+        "date": "2026-07-22",
+        "equity": 1025681.5,
+        "benchmark": 1234052.8
+      },
+      {
+        "date": "2026-07-24",
+        "equity": 1025681.5,
+        "benchmark": 1208343.3
+      },
+      {
+        "date": "2026-07-28",
+        "equity": 1025681.5,
+        "benchmark": 1172350.1
+      },
+      {
+        "date": "2026-07-30",
+        "equity": 1025681.5,
+        "benchmark": 1133785.9
+      },
+      {
+        "date": "2026-08-03",
+        "equity": 1002418.7,
+        "benchmark": 1218627.1
+      },
+      {
+        "date": "2026-08-05",
+        "equity": 1002418.7,
+        "benchmark": 1236623.7
+      },
+      {
+        "date": "2026-08-07",
+        "equity": 1002418.7,
+        "benchmark": 1218627.1
+      },
+      {
+        "date": "2026-08-11",
+        "equity": 1002418.7,
+        "benchmark": 1231481.8
+      },
+      {
+        "date": "2026-08-13",
+        "equity": 1002418.7,
+        "benchmark": 1252049.3
+      },
+      {
+        "date": "2026-08-17",
+        "equity": 988010.2,
+        "benchmark": 1234052.8
+      },
+      {
+        "date": "2026-08-19",
+        "equity": 967426.7,
+        "benchmark": 1208343.3
+      },
+      {
+        "date": "2026-08-21",
+        "equity": 967426.7,
+        "benchmark": 1239194.7
+      },
+      {
+        "date": "2026-08-25",
+        "equity": 967426.7,
+        "benchmark": 1234052.8
+      },
+      {
+        "date": "2026-08-27",
+        "equity": 965423.7,
+        "benchmark": 1239194.7
+      },
+      {
+        "date": "2026-08-31",
+        "equity": 963420.8,
+        "benchmark": 1236623.7
+      },
+      {
+        "date": "2026-09-02",
+        "equity": 955408.9,
+        "benchmark": 1226339.9
+      },
+      {
+        "date": "2026-09-04",
+        "equity": 955408.9,
+        "benchmark": 1239194.7
+      },
+      {
+        "date": "2026-09-08",
+        "equity": 959292.6,
+        "benchmark": 1270045.9
+      },
+      {
+        "date": "2026-09-10",
+        "equity": 951525.1,
+        "benchmark": 1259762.2
+      },
+      {
+        "date": "2026-09-14",
+        "equity": 935990.0,
+        "benchmark": 1223768.9
+      },
+      {
+        "date": "2026-09-16",
+        "equity": 935990.0,
+        "benchmark": 1227371.3
+      },
+      {
+        "date": "2026-09-18",
+        "equity": 935990.0,
+        "benchmark": 1268627.5
+      },
+      {
+        "date": "2026-09-22",
+        "equity": 935990.0,
+        "benchmark": 1268627.5
+      },
+      {
+        "date": "2026-09-24",
+        "equity": 941697.3,
+        "benchmark": 1276363.0
+      },
+      {
+        "date": "2026-09-30",
+        "equity": 943599.7,
+        "benchmark": 1278941.5
+      },
+      {
+        "date": "2026-10-02",
+        "equity": 951209.4,
+        "benchmark": 1289255.6
+      },
+      {
+        "date": "2026-10-06",
+        "equity": 983550.5,
+        "benchmark": 1333090.3
+      },
+      {
+        "date": "2026-10-08",
+        "equity": 970233.6,
+        "benchmark": 1315040.7
+      }
+    ]
+  },
+  "NVDA": {
+    "symbol": "NVDA",
+    "start_date": "2026-04-10",
+    "end_date": "2026-10-09",
+    "total_trades": 6,
+    "win_rate_pct": 33.33,
+    "total_return_pct": -10.38,
+    "benchmark_return_pct": 21.83,
+    "alpha_pct": -32.21,
+    "max_drawdown_pct": 24.58,
+    "sharpe_ratio": -0.72,
+    "trades": [
+      {
+        "entry_date": "2026-04-14",
+        "exit_date": "2026-04-30",
+        "entry_price": 196.0618438720703,
+        "exit_price": 199.1148681640625,
+        "pnl_pct": 1.56,
+        "is_win": true,
+        "exit_reason": "跌破MA20轉弱平倉"
+      },
+      {
+        "entry_date": "2026-05-06",
+        "exit_date": "2026-05-27",
+        "entry_price": 207.3560333251953,
+        "exit_price": 212.1151580810547,
+        "pnl_pct": 2.3,
+        "is_win": true,
+        "exit_reason": "跌破MA20轉弱平倉"
+      },
+      {
+        "entry_date": "2026-06-01",
+        "exit_date": "2026-06-03",
+        "entry_price": 223.8483428955078,
+        "exit_price": 214.26025390625,
+        "pnl_pct": -4.28,
+        "is_win": false,
+        "exit_reason": "跌破MA20轉弱平倉"
+      },
+      {
+        "entry_date": "2026-07-08",
+        "exit_date": "2026-07-27",
+        "entry_price": 203.891845703125,
+        "exit_price": 196.2903594970703,
+        "pnl_pct": -3.73,
+        "is_win": false,
+        "exit_reason": "跌破MA20轉弱平倉"
+      },
+      {
+        "entry_date": "2026-08-05",
+        "exit_date": "2026-08-24",
+        "entry_price": 218.9749755859375,
+        "exit_price": 208.24697875976562,
+        "pnl_pct": -4.9,
+        "is_win": false,
+        "exit_reason": "跌破MA20轉弱平倉"
+      },
+      {
+        "entry_date": "2026-08-27",
+        "exit_date": "2026-08-28",
+        "entry_price": 227.7251739501953,
+        "exit_price": 217.3068389892578,
+        "pnl_pct": -4.57,
+        "is_win": false,
+        "exit_reason": "跌破MA20轉弱平倉"
+      }
+    ],
+    "equity_curve": [
+      {
+        "date": "2026-04-10",
+        "equity": 1000000.0,
+        "benchmark": 1000000.0
+      },
+      {
+        "date": "2026-04-14",
+        "equity": 1000000.0,
+        "benchmark": 1041774.8
+      },
+      {
+        "date": "2026-04-16",
+        "equity": 1009363.5,
+        "benchmark": 1051529.4
+      },
+      {
+        "date": "2026-04-20",
+        "equity": 1028242.8,
+        "benchmark": 1071197.5
+      },
+      {
+        "date": "2026-04-22",
+        "equity": 1030482.0,
+        "benchmark": 1073530.2
+      },
+      {
+        "date": "2026-04-24",
+        "equity": 1059844.3,
+        "benchmark": 1104119.1
+      },
+      {
+        "date": "2026-04-28",
+        "equity": 1084779.4,
+        "benchmark": 1130095.9
+      },
+      {
+        "date": "2026-04-30",
+        "equity": 1015571.7,
+        "benchmark": 1057997.1
+      },
+      {
+        "date": "2026-05-04",
+        "equity": 1015571.7,
+        "benchmark": 1052218.5
+      },
+      {
+        "date": "2026-05-06",
+        "equity": 1015571.7,
+        "benchmark": 1101786.5
+      },
+      {
+        "date": "2026-05-08",
+        "equity": 1051585.6,
+        "benchmark": 1140857.7
+      },
+      {
+        "date": "2026-05-12",
+        "equity": 1078852.6,
+        "benchmark": 1170439.5
+      },
+      {
+        "date": "2026-05-14",
+        "equity": 1151955.4,
+        "benchmark": 1249748.2
+      },
+      {
+        "date": "2026-05-18",
+        "equity": 1086377.9,
+        "benchmark": 1178603.6
+      },
+      {
+        "date": "2026-05-20",
+        "equity": 1091997.4,
+        "benchmark": 1184700.2
+      },
+      {
+        "date": "2026-05-22",
+        "equity": 1052220.9,
+        "benchmark": 1141546.9
+      },
+      {
+        "date": "2026-05-27",
+        "equity": 1038880.6,
+        "benchmark": 1127074.1
+      },
+      {
+        "date": "2026-05-29",
+        "equity": 1038880.6,
+        "benchmark": 1119334.1
+      },
+      {
+        "date": "2026-06-02",
+        "equity": 1031749.7,
+        "benchmark": 1181254.2
+      },
+      {
+        "date": "2026-06-04",
+        "equity": 994382.3,
+        "benchmark": 1160551.6
+      },
+      {
+        "date": "2026-06-08",
+        "equity": 994382.3,
+        "benchmark": 1107369.8
+      },
+      {
+        "date": "2026-06-10",
+        "equity": 994382.3,
+        "benchmark": 1063741.6
+      },
+      {
+        "date": "2026-06-12",
+        "equity": 994382.3,
+        "benchmark": 1089058.7
+      },
+      {
+        "date": "2026-06-16",
+        "equity": 994382.3,
+        "benchmark": 1100841.5
+      },
+      {
+        "date": "2026-06-18",
+        "equity": 994382.3,
+        "benchmark": 1118250.3
+      },
+      {
+        "date": "2026-06-23",
+        "equity": 994382.3,
+        "benchmark": 1061724.7
+      },
+      {
+        "date": "2026-06-25",
+        "equity": 994382.3,
+        "benchmark": 1038902.2
+      },
+      {
+        "date": "2026-06-29",
+        "equity": 994382.3,
+        "benchmark": 1034815.4
+      },
+      {
+        "date": "2026-07-01",
+        "equity": 994382.3,
+        "benchmark": 1048668.1
+      },
+      {
+        "date": "2026-07-06",
+        "equity": 994382.3,
+        "benchmark": 1037893.8
+      },
+      {
+        "date": "2026-07-08",
+        "equity": 994382.3,
+        "benchmark": 1083379.5
+      },
+      {
+        "date": "2026-07-10",
+        "equity": 1027703.8,
+        "benchmark": 1119683.3
+      },
+      {
+        "date": "2026-07-14",
+        "equity": 1031795.9,
+        "benchmark": 1124141.7
+      },
+      {
+        "date": "2026-07-16",
+        "equity": 1010361.0,
+        "benchmark": 1100788.4
+      },
+      {
+        "date": "2026-07-20",
+        "equity": 990290.2,
+        "benchmark": 1078921.3
+      },
+      {
+        "date": "2026-07-22",
+        "equity": 1033062.5,
+        "benchmark": 1125521.7
+      },
+      {
+        "date": "2026-07-24",
+        "equity": 1007632.9,
+        "benchmark": 1097816.1
+      },
+      {
+        "date": "2026-07-28",
+        "equity": 957309.7,
+        "benchmark": 1045642.8
+      },
+      {
+        "date": "2026-07-30",
+        "equity": 957309.7,
+        "benchmark": 1035186.9
+      },
+      {
+        "date": "2026-08-03",
+        "equity": 957309.7,
+        "benchmark": 1096754.7
+      },
+      {
+        "date": "2026-08-05",
+        "equity": 957309.7,
+        "benchmark": 1163523.8
+      },
+      {
+        "date": "2026-08-07",
+        "equity": 978008.8,
+        "benchmark": 1188681.7
+      },
+      {
+        "date": "2026-08-11",
+        "equity": 949798.7,
+        "benchmark": 1154394.8
+      },
+      {
+        "date": "2026-08-13",
+        "equity": 983860.5,
+        "benchmark": 1195793.8
+      },
+      {
+        "date": "2026-08-17",
+        "equity": 982594.0,
+        "benchmark": 1194254.5
+      },
+      {
+        "date": "2026-08-19",
+        "equity": 950060.7,
+        "benchmark": 1154713.2
+      },
+      {
+        "date": "2026-08-21",
+        "equity": 937658.8,
+        "benchmark": 1139639.8
+      },
+      {
+        "date": "2026-08-25",
+        "equity": 910409.3,
+        "benchmark": 1130776.1
+      },
+      {
+        "date": "2026-08-27",
+        "equity": 910409.3,
+        "benchmark": 1210018.0
+      },
+      {
+        "date": "2026-08-31",
+        "equity": 868758.5,
+        "benchmark": 1171803.6
+      },
+      {
+        "date": "2026-09-02",
+        "equity": 868758.5,
+        "benchmark": 1191070.0
+      },
+      {
+        "date": "2026-09-04",
+        "equity": 868758.5,
+        "benchmark": 1222650.0
+      },
+      {
+        "date": "2026-09-09",
+        "equity": 868758.5,
+        "benchmark": 1187142.4
+      },
+      {
+        "date": "2026-09-11",
+        "equity": 868758.5,
+        "benchmark": 1159884.1
+      },
+      {
+        "date": "2026-09-15",
+        "equity": 868758.5,
+        "benchmark": 1127365.5
+      },
+      {
+        "date": "2026-09-17",
+        "equity": 868758.5,
+        "benchmark": 1165463.3
+      },
+      {
+        "date": "2026-09-21",
+        "equity": 888731.3,
+        "benchmark": 1208183.9
+      },
+      {
+        "date": "2026-09-23",
+        "equity": 881422.2,
+        "benchmark": 1198247.6
+      },
+      {
+        "date": "2026-09-25",
+        "equity": 879702.5,
+        "benchmark": 1195909.7
+      },
+      {
+        "date": "2026-09-29",
+        "equity": 888066.8,
+        "benchmark": 1207280.6
+      },
+      {
+        "date": "2026-10-01",
+        "equity": 902333.1,
+        "benchmark": 1226674.9
+      },
+      {
+        "date": "2026-10-05",
+        "equity": 933758.0,
+        "benchmark": 1269395.4
+      },
+      {
+        "date": "2026-10-07",
+        "equity": 928168.8,
+        "benchmark": 1261797.1
+      },
+      {
+        "date": "2026-10-09",
+        "equity": 896157.6,
+        "benchmark": 1218279.5
+      }
+    ]
+  }
+}

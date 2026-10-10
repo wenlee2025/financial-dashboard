@@ -2,15 +2,14 @@ import logging
 from typing import Any, Dict, List, Optional, Tuple
 
 from ..data_sources import TWMarketFetcher, USMarketFetcher
+from ..data_sources.market_gateway import MarketGateway
 from .quant_scoring import QuantScorer
 from .price_levels import PriceLevelCalculator
 from .supply_chain import SupplyChainMapper
 from .data_validator import DataValidator
+from .equity_evaluator import EquityEvaluator
 
 logger = logging.getLogger(__name__)
-
-from ..data_sources.market_gateway import MarketGateway, StockMarketBundle
-from .equity_evaluator import EquityEvaluator
 
 class StockUniverseAnalyzer:
     """

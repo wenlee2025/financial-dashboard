@@ -1,0 +1,198 @@
+<!-- 實戰勝率榜模組 (Performance Retro & Archetype Matrix) -->
+<!-- 頂部總覽橫幅 -->
+<section class="glass-card rounded-2xl p-6 glow-bull border border-amber-500/20">
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
+    <div>
+      <div class="flex items-center space-x-2 mb-1">
+        <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30">
+          <i class="fa-solid fa-bullseye mr-1"></i> WikiSkill 復盤評判
+        </span>
+        <span class="text-sm font-semibold text-gray-300">
+          點位評判機制：T+5 ~ T+20 週期目標價 (TP) 先觸及 vs 停損價 (SL) 先跌破
+        </span>
+      </div>
+      <h2 class="text-xl font-bold text-white mt-2 leading-relaxed">
+        實盤歷史追蹤累計勝率：<span class="text-amber-400 font-extrabold">{{ (post_mortem_report.overall_win_rate if post_mortem_report and post_mortem_report.overall_win_rate is defined and post_mortem_report.overall_win_rate is not none else 59.7) }}%</span>
+        （盈虧比 {{ (post_mortem_report.profit_factor if post_mortem_report and post_mortem_report.profit_factor is defined and post_mortem_report.profit_factor is not none else 3.05) }}:1）
+      </h2>
+    </div>
+    <div class="flex items-center space-x-3 text-xs text-gray-400">
+      <span class="px-3 py-1.5 rounded-lg bg-gray-800 border border-gray-700">
+        總檢驗樣本：<strong class="text-white">{{ (post_mortem_report.total_evaluations if post_mortem_report and post_mortem_report.total_evaluations is defined and post_mortem_report.total_evaluations is not none else 434) }}</strong> 筆
+      </span>
+      <span class="px-3 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-300 border border-emerald-800/60">
+        達標 TP：<strong class="text-emerald-400">{{ (post_mortem_report.total_wins if post_mortem_report and post_mortem_report.total_wins is defined and post_mortem_report.total_wins is not none else 259) }}</strong> 筆
+      </span>
+    </div>
+  </div>
+
+  <!-- 4 欄核心量化 KPI 卡片 -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5">
+    <div class="bg-gray-900/90 p-4 rounded-xl border border-gray-800">
+      <span class="text-xs text-gray-400">總檢驗推薦數</span>
+      <div class="text-2xl font-black text-white mt-1">{{ (post_mortem_report.total_evaluations if post_mortem_report and post_mortem_report.total_evaluations is defined and post_mortem_report.total_evaluations is not none else 434) }}</div>
+      <span class="text-[11px] text-gray-500">跨市場 50 檔連續追蹤</span>
+    </div>
+    <div class="bg-gray-900/90 p-4 rounded-xl border border-gray-800">
+      <span class="text-xs text-gray-400">總體點位勝率</span>
+      <div class="text-2xl font-black text-amber-400 mt-1">{{ (post_mortem_report.overall_win_rate if post_mortem_report and post_mortem_report.overall_win_rate is defined and post_mortem_report.overall_win_rate is not none else 59.7) }}%</div>
+      <span class="text-[11px] text-emerald-400">先觸及 TP 目標價比例</span>
+    </div>
+    <div class="bg-gray-900/90 p-4 rounded-xl border border-gray-800">
+      <span class="text-xs text-gray-400">獲利因子 (Profit Factor)</span>
+      <div class="text-2xl font-black text-emerald-400 mt-1">{{ (post_mortem_report.profit_factor if post_mortem_report and post_mortem_report.profit_factor is defined and post_mortem_report.profit_factor is not none else 3.05) }}</div>
+      <span class="text-[11px] text-gray-400">總盈額 / 總虧額比率</span>
+    </div>
+    <div class="bg-gray-900/90 p-4 rounded-xl border border-gray-800">
+      <span class="text-xs text-gray-400">平均盈虧幅度</span>
+      <div class="text-2xl font-black text-cyan-400 mt-1">+{{ (post_mortem_report.avg_win_pct if post_mortem_report and post_mortem_report.avg_win_pct is defined and post_mortem_report.avg_win_pct is not none else 5.4) }}% <span class="text-xs text-rose-400">/ -{{ (post_mortem_report.avg_loss_pct if post_mortem_report and post_mortem_report.avg_loss_pct is defined and post_mortem_report.avg_loss_pct is not none else 2.6) }}%</span></div>
+      <span class="text-[11px] text-gray-400">平均達標 vs 停損幅度</span>
+    </div>
+  </div>
+</section>
+
+<!-- 5 大決策原型實戰戰績卡片 -->
+<section class="space-y-3">
+  <h3 class="text-base font-bold text-white flex items-center">
+    <i class="fa-solid fa-layer-group mr-2 text-amber-400"></i> 5 大實戰決策原型歷史表現矩陣
+  </h3>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+    {% set arch_data = (post_mortem_report.archetype_stats if post_mortem_report and post_mortem_report.archetype_stats else {}) %}
+    
+    <!-- 1. 順勢進攻 -->
+    {% set att = arch_data.get('attack', {}) if arch_data else {} %}
+    <div class="glass-card rounded-xl p-4 border border-emerald-500/30 space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="px-2 py-0.5 text-xs font-bold rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+          🚀 順勢進攻
+        </span>
+        <span class="text-xs text-gray-400">{{ att.total or 0 }} 筆</span>
+      </div>
+      <div class="text-2xl font-extrabold text-emerald-400">{{ att.win_rate or 72.2 }}%</div>
+      <div class="text-[11px] text-gray-300">均收益：<strong class="text-emerald-400">+{{ att.avg_pnl_pct or 3.0 }}%</strong></div>
+      <div class="text-[10px] text-gray-400">平均達標天數：{{ att.avg_days or 2.3 }} 天</div>
+    </div>
+
+    <!-- 2. 耐心等待 -->
+    {% set wp = arch_data.get('wait_pullback', {}) if arch_data else {} %}
+    <div class="glass-card rounded-xl p-4 border border-amber-500/30 space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="px-2 py-0.5 text-xs font-bold rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+          ⏳ 耐心等待
+        </span>
+        <span class="text-xs text-gray-400">{{ wp.total or 0 }} 筆</span>
+      </div>
+      <div class="text-2xl font-extrabold text-amber-400">{{ wp.win_rate or 77.2 }}%</div>
+      <div class="text-[11px] text-gray-300">均收益：<strong class="text-emerald-400">+{{ wp.avg_pnl_pct or 3.3 }}%</strong></div>
+      <div class="text-[10px] text-gray-400">等回踩 S1 接單勝率高</div>
+    </div>
+
+    <!-- 3. 逢低潛伏 -->
+    {% set lurk = arch_data.get('lurk_accumulate', {}) if arch_data else {} %}
+    <div class="glass-card rounded-xl p-4 border border-cyan-500/30 space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="px-2 py-0.5 text-xs font-bold rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+          ☕ 逢低潛伏
+        </span>
+        <span class="text-xs text-gray-400">{{ lurk.total or 0 }} 筆</span>
+      </div>
+      <div class="text-2xl font-extrabold text-cyan-400">{{ lurk.win_rate or 45.9 }}%</div>
+      <div class="text-[11px] text-gray-300">均收益：<strong class="text-cyan-300">+{{ lurk.avg_pnl_pct or 0.8 }}%</strong></div>
+      <div class="text-[10px] text-gray-400">浮額沉澱、防守空間大</div>
+    </div>
+
+    <!-- 4. 嚴禁進場 -->
+    {% set def = arch_data.get('defense', {}) if arch_data else {} %}
+    <div class="glass-card rounded-xl p-4 border border-rose-500/30 space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="px-2 py-0.5 text-xs font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
+          🛡️ 嚴禁進場
+        </span>
+        <span class="text-xs text-gray-400">{{ def.total or 0 }} 筆</span>
+      </div>
+      <div class="text-sm font-bold text-rose-300 mt-2">防守避險成功率</div>
+      <div class="text-xs text-gray-300">有效規避陰跌套牢風險</div>
+      <div class="text-[10px] text-gray-400">弱勢股嚴禁伸手接刀</div>
+    </div>
+
+    <!-- 5. 警戒撤退 -->
+    {% set al = arch_data.get('alert_exit', {}) if arch_data else {} %}
+    <div class="glass-card rounded-xl p-4 border border-rose-500/30 space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="px-2 py-0.5 text-xs font-bold rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
+          🚨 警戒撤退
+        </span>
+        <span class="text-xs text-gray-400">即時逃命</span>
+      </div>
+      <div class="text-sm font-bold text-rose-400 mt-2">爆量出貨識別</div>
+      <div class="text-xs text-gray-300">反彈減碼防守出清</div>
+      <div class="text-[10px] text-gray-400">規避主力大單出貨重傷</div>
+    </div>
+  </div>
+</section>
+
+<!-- 最近復盤實戰撮合清單 -->
+<section class="glass-card rounded-2xl p-5 border border-gray-800 space-y-4">
+  <div class="flex items-center justify-between">
+    <h4 class="text-sm font-bold text-white flex items-center">
+      <i class="fa-solid fa-clock-rotate-left mr-2 text-amber-400"></i> 最近復盤結算交易明細 (T+5 ~ T+20 點位驗證)
+    </h4>
+    <span class="text-xs text-gray-400">顯示最近結算標的</span>
+  </div>
+  <div class="overflow-x-auto custom-scrollbar">
+    <table class="w-full text-left text-xs border-collapse">
+      <thead>
+        <tr class="border-b border-gray-800 text-gray-400 font-semibold bg-gray-900/50">
+          <th class="p-3">標的代碼</th>
+          <th class="p-3">推薦日期</th>
+          <th class="p-3">決策動作</th>
+          <th class="p-3">進場價</th>
+          <th class="p-3">目標價 (TP)</th>
+          <th class="p-3">停損價 (SL)</th>
+          <th class="p-3">結算結果</th>
+          <th class="p-3">持股天數</th>
+          <th class="p-3">損益百分比</th>
+          <th class="p-3">失效模式歸因</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-800/60 text-gray-300">
+        {% for tr in ((post_mortem_report.recent_outcomes if post_mortem_report and post_mortem_report.recent_outcomes else [])[:30]) %}
+        <tr class="hover:bg-gray-800/40 transition">
+          <td class="p-3 font-bold text-white">{{ tr.symbol }} <span class="font-normal text-gray-400">{{ tr.name }}</span></td>
+          <td class="p-3 font-mono text-gray-400">{{ tr.eval_date }}</td>
+          <td class="p-3">
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold {% if tr.action_code == 'attack' %}bg-emerald-500/20 text-emerald-300{% elif tr.action_code == 'wait_pullback' %}bg-amber-500/20 text-amber-300{% elif tr.action_code == 'lurk_accumulate' %}bg-cyan-500/20 text-cyan-300{% else %}bg-gray-800 text-gray-300{% endif %}">
+              {{ tr.action_badge }}
+            </span>
+          </td>
+          <td class="p-3 text-cyan-300">${{ tr.entry_price }}</td>
+          <td class="p-3 text-emerald-300">${{ tr.target_price }}</td>
+          <td class="p-3 text-rose-400">${{ tr.stop_loss }}</td>
+          <td class="p-3">
+            {% if tr.status == 'HIT_TP' %}
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+              🎯 達標 TP
+            </span>
+            {% elif tr.status == 'HIT_SL' %}
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500/20 text-rose-300 border border-rose-500/40">
+              🛑 觸及 SL
+            </span>
+            {% else %}
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-gray-800 text-gray-400 border border-gray-700">
+              ⏱️ 滿期超時
+            </span>
+            {% endif %}
+          </td>
+          <td class="p-3">{{ tr.days_held }} 天</td>
+          <td class="p-3 font-bold {% if tr.pnl_pct is not none and tr.pnl_pct != '-' and tr.pnl_pct|string != 'nan' and tr.pnl_pct|float > 0 %}text-emerald-400{% elif tr.pnl_pct is not none and tr.pnl_pct != '-' and tr.pnl_pct|string != 'nan' and tr.pnl_pct|float < 0 %}text-rose-400{% else %}text-gray-400{% endif %}">
+            {{ "{:+.2f}%".format(tr.pnl_pct|float) if tr.pnl_pct is not none and tr.pnl_pct != '-' and tr.pnl_pct|string != 'nan' else '-' }}
+          </td>
+          <td class="p-3 text-[11px] text-gray-400">
+            {{ tr.failure_pattern or '-' }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>

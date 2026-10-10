@@ -1,4 +1,4 @@
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from src.notifiers.dispatcher import NotificationDispatcher
 from src.notifiers.telegram import TelegramNotifier
 from src.notifiers.discord import DiscordNotifier

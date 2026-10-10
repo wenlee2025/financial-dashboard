@@ -1,7 +1,6 @@
 import argparse
 import logging
 import sys
-from pathlib import Path
 
 # 在 Windows 控制台確保 UTF-8 編碼支援 Emoji 與繁體中文
 if sys.platform.startswith("win"):
@@ -57,6 +56,18 @@ def main():
         "--log-level",
         default="INFO",
         help="日誌級別 (DEBUG, INFO, WARNING, ERROR)"
+    )
+    parser.add_argument(
+        "--backtest",
+        type=str,
+        default="",
+        help="執行指定標的走動量化回測（逗號分隔，例如: '2330' 或 '2330,NVDA'）"
+    )
+    parser.add_argument(
+        "--backtest-period",
+        type=str,
+        default="1y",
+        help="回測歷史資料期間 (例如: 6mo, 1y, 2y，預設: 1y)"
     )
 
     # 自選股清單管理參數
@@ -148,6 +159,34 @@ def main():
     if args.batch_remove:
         removed = wm.batch_remove(args.batch_remove)
         print(f"✅ 成功批次移除 {len(removed)} 檔標的！")
+        return
+
+    # 回測模式判斷
+    if args.backtest:
+        bt_symbols = [s.strip().upper() for s in args.backtest.split(",") if s.strip()]
+        if not bt_symbols:
+            print("❌ 請指定欲回測之股票代碼，例如: python main.py --backtest 2330,NVDA")
+            return
+        pipeline = FinancialDashboardPipeline(cfg=config)
+        results = pipeline.run_backtest(symbols=bt_symbols, period=args.backtest_period)
+        print("\n==========================================================================================")
+        print("  📊 體制自適應走動回測報告 (Regime-Adaptive Walk-Forward Backtest)")
+        print(f"  回測標的: {bt_symbols} | 歷史區間: {args.backtest_period}")
+        print("==========================================================================================")
+        header = f"{'標的':<8} {'總交易':<8} {'勝率':<10} {'總報酬率':<12} {'基準報酬':<12} {'Alpha':<10} {'MDD':<10} {'Sharpe':<8}"
+        print(header)
+        print("-" * 90)
+        for sym, r in results.items():
+            trades = str(r.get('total_trades', 0))
+            win_rate = f"{r.get('win_rate_pct', 0.0):.1f}%"
+            ret = f"{r.get('total_return_pct', 0.0):+.2f}%"
+            bench = f"{r.get('benchmark_return_pct', 0.0):+.2f}%"
+            alpha = f"{r.get('alpha_pct', 0.0):+.2f}%"
+            mdd = f"{r.get('max_drawdown_pct', 0.0):.1f}%"
+            sharpe = f"{r.get('sharpe_ratio', 0.0):.2f}"
+            print(f"{sym:<8} {trades:<8} {win_rate:<10} {ret:<12} {bench:<12} {alpha:<10} {mdd:<10} {sharpe:<8}")
+        print("=" * 90)
+        print("詳細回測交易明細與淨值數據已存至: docs/data/backtest_results.json\n")
         return
 
     custom_symbols = [s.strip() for s in args.symbols.split(",") if s.strip()] if args.symbols else None
