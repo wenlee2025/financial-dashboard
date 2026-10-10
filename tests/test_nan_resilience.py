@@ -162,3 +162,15 @@ def test_html_dashboard_zero_nan_rendering(tmp_path):
     assert "+nan%" not in html
     assert "nan億" not in html
     assert "$nan - nan" not in html
+
+def test_production_index_html_zero_nan():
+    """自動化回歸防護：檢查專案 docs/index.html 是否遵守零 NaN 準則。"""
+    index_path = Path("docs/index.html")
+    if not index_path.exists():
+        return
+    content = index_path.read_text(encoding="utf-8")
+    assert "$nan" not in content, "docs/index.html 含有 $nan 違規字串"
+    assert "+nan%" not in content, "docs/index.html 含有 +nan% 違規字串"
+    assert "-nan%" not in content, "docs/index.html 含有 -nan% 違規字串"
+    assert "NaN%" not in content, "docs/index.html 含有 NaN% 違規字串"
+

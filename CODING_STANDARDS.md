@@ -31,3 +31,9 @@
 ## 4. 跨平台與運行效能 (Runtime Performance & Windows Compatibility)
 - **Windows 編碼相容**：終端標準輸出避免未轉義之 Emoji 造成 CP950 崩潰；所有檔案讀寫強制指定 `encoding="utf-8"`。
 - **多執行緒與快取防護**：行情數據採集必須透過 `ThreadPoolExecutor` 並行執行；歷史新聞與靜態財報實施時效性快取（Freshness Cache），防止無謂耗盡 API 額度。
+
+## 5. 行動優先與人體工學規範 (Mobile-First & Touch Ergonomics)
+- **觸控目標尺寸 (Touch Target Size)**：所有手機端可點擊元件（按鈕、`<summary>` 抽屜、Chips）有效熱區高度必須 $\ge 44\text{px}$（符合 Apple HIG 標準）。
+- **手勢防衝突保護 (Gesture Passthrough)**：ECharts 等畫布型互動元件，外層容器必須聲明 `touch-action: pan-y;`，杜絕 iOS 垂直滾動被截獲卡住的痛點。
+- **浮動元件安全留白 (Fixed Overlap Clearance)**：頁面底端若存在固定定位浮動導航（Fixed Bottom Bar），主內容與頁尾必須配置足夠下留白（如 `pb-20 sm:pb-6`），避免遮蔽核心資訊。
+- **視圖降級保護**：高密度多欄清單表在手機端（寬度 $< 640\text{px}$）預設強制降級為 2×2 大字卡片模式，禁止橫向破版。
