@@ -41,6 +41,12 @@ class HTMLDashboardGenerator:
         else:
             context["post_mortem_report"] = {}
 
+        # 預先序列化雷達與激辯 JSON 供前端模板安全消費
+        safe_ctx = self._make_json_safe(context)
+        context["radar_comparison_json"] = json.dumps(safe_ctx.get("radar_comparison", {}), ensure_ascii=False)
+        context["deliberation_verdicts_json"] = json.dumps(safe_ctx.get("deliberation_verdicts", {}), ensure_ascii=False)
+        context["portfolio_summary_json"] = json.dumps(safe_ctx.get("portfolio_summary", {}), ensure_ascii=False)
+
         # 2. 渲染模板
         template = self.env.get_template("dashboard_template.html")
         html_content = template.render(**context)

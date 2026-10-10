@@ -7,6 +7,7 @@
 
 ## Navigation Pointers
 - **Domain Model**: [CONTEXT.md](file:///d:/WenKuo/專案/財經儀表板/CONTEXT.md) for official terminology, zero-NaN rules, dual-source cross-validation.
+- **Coding Standards**: [CODING_STANDARDS.md](file:///d:/WenKuo/專案/財經儀表板/CODING_STANDARDS.md) for anti-hallucination, position limits, and deep-module rules.
 - **Architectural Decisions**: [docs/adr/](file:///d:/WenKuo/專案/財經儀表板/docs/adr/) for ADR-0001 through ADR-0013.
 - **Pipeline Coordinator**: [src/pipeline.py](file:///d:/WenKuo/專案/財經儀表板/src/pipeline.py) orchestrating market ingestion, analytics, and HTML/JSON generation.
 - **Market Ingestion**: [src/data_sources/tw_market.py](file:///d:/WenKuo/專案/財經儀表板/src/data_sources/tw_market.py) (TWSE/TPEx parallel fetch), [src/data_sources/us_market.py](file:///d:/WenKuo/專案/財經儀表板/src/data_sources/us_market.py), [src/data_sources/scanner.py](file:///d:/WenKuo/專案/財經儀表板/src/data_sources/scanner.py).

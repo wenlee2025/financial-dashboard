@@ -147,6 +147,53 @@ class FinancialDashboardPipeline:
         alerts = intel_report.alerts
         ai_analysis = intel_report.ai_analysis
 
+        # Step 5: 計算六大維度多股雷達指標 (Radar Metrics)
+        try:
+            from src.analytics.radar_metrics import RadarMetricsCalculator
+            radar_comparison = RadarMetricsCalculator.compute_universe_radar(
+                analyzed_stocks=analyzed_stocks,
+                macro_sentiment=macro_sentiment
+            )
+        except Exception as e:
+            logger.warning(f"六大維度雷達指標計算略過: {e}")
+            radar_comparison = {"dimensions": [], "stocks": [], "series": []}
+
+        # Step 6: 投資組合資產管家盯市重估與四大大師論文漂移審計 (Portfolio Governor)
+        try:
+            from src.analytics.portfolio_governor import PortfolioGovernor
+            governor = PortfolioGovernor(portfolio_path=self.cfg.data_dir / "portfolio.json")
+            portfolio_audit = governor.audit_and_rebalance(
+                analyzed_stocks=analyzed_stocks,
+                macro_sentiment=macro_sentiment,
+                audit_date=date_str
+            )
+            portfolio_summary = portfolio_audit.to_dict()
+        except Exception as e:
+            logger.warning(f"投資組合資產管家審計略過: {e}")
+            portfolio_summary = {
+                "audit_date": date_str,
+                "total_cost": 0.0,
+                "total_market_value": 0.0,
+                "unrealized_pnl": 0.0,
+                "overall_return_pct": 0.0,
+                "holdings": [],
+                "drift_items": [],
+                "hard_drift_count": 0,
+                "soft_drift_count": 0
+            }
+
+        # Step 6.5: 焦點標的多智能體激辯與風控委員會裁決 (Deliberation Engine)
+        deliberation_verdicts = {}
+        try:
+            from src.analytics.deliberation_engine import DeliberationEngine
+            for s in analyzed_stocks[:12]:
+                sym = str(s.get("symbol", ""))
+                if sym:
+                    verdict = DeliberationEngine.deliberate(s, eval_date=date_str)
+                    deliberation_verdicts[sym] = verdict.to_dict()
+        except Exception as e:
+            logger.warning(f"多智能體激辯引擎執行略過: {e}")
+
         # Step 7: 組合渲染上下文
         context = {
             "page_title": f"【{market_mode_text}】{date_str}",
@@ -163,7 +210,10 @@ class FinancialDashboardPipeline:
             "alerts": alerts,
             "ai_analysis": ai_analysis,
             "verified_news": verified_news,
-            "data_validation_report": data_validation_report
+            "data_validation_report": data_validation_report,
+            "radar_comparison": radar_comparison,
+            "portfolio_summary": portfolio_summary,
+            "deliberation_verdicts": deliberation_verdicts
         }
 
         # Step 7: 生成 Markdown 摘要與 HTML 郵件
