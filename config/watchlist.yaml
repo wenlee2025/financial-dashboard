@@ -16,8 +16,8 @@ indices:
   - symbol: ^TWII
     name: 台灣加權指數 (TAIEX)
     category: 台股大盤
-  - symbol: ^TWOII
-    name: 台灣櫃買指數 (TPEx)
+  - symbol: 006201.TWO
+    name: 台灣櫃買富櫃50 (TPEx 50)
     category: 中小型股指標
 us_stocks:
 - symbol: NVDA

@@ -1,7 +1,7 @@
 # Financial Dashboard (財經儀表板) Agent Guide
 
 ## Quick Commands
-- **Run tests**: `pytest` (suite of 49+ unit tests, ~6s).
+- **Run tests**: `pytest` (suite of 58+ unit tests, ~5s).
 - **Run pipeline (local test)**: `python main.py --mode full --no-push`.
 - **Modes**: `--mode full` (TW+US), `--mode tw_post` (15:30 TW), `--mode us_morning` (06:30 US).
 
@@ -12,6 +12,10 @@
 - **Pipeline Coordinator**: [src/pipeline.py](file:///d:/WenKuo/專案/財經儀表板/src/pipeline.py) orchestrating market ingestion, analytics, and HTML/JSON generation.
 - **Market Ingestion**: [src/data_sources/tw_market.py](file:///d:/WenKuo/專案/財經儀表板/src/data_sources/tw_market.py) (TWSE/TPEx parallel fetch), [src/data_sources/us_market.py](file:///d:/WenKuo/專案/財經儀表板/src/data_sources/us_market.py), [src/data_sources/scanner.py](file:///d:/WenKuo/專案/財經儀表板/src/data_sources/scanner.py).
 - **Analytics & Decision Engine**: [src/analytics/market_intelligence.py](file:///d:/WenKuo/專案/財經儀表板/src/analytics/market_intelligence.py) (AI/rules dual engine), [src/analytics/equity_evaluator.py](file:///d:/WenKuo/專案/財經儀表板/src/analytics/equity_evaluator.py).
+- **Radar Metrics Engine**: [src/analytics/radar_metrics.py](file:///d:/WenKuo/專案/財經儀表板/src/analytics/radar_metrics.py) (6D multi-stock radar metrics, dimension normalization & Zero-NaN data models).
+- **Portfolio Risk Governor**: [src/analytics/portfolio_governor.py](file:///d:/WenKuo/專案/財經儀表板/src/analytics/portfolio_governor.py) (portfolio governor state machine, Berkshire 4-master thesis drift audit, allocation guardrails).
+- **Deliberation Engine**: [src/analytics/deliberation_engine.py](file:///d:/WenKuo/專案/財經儀表板/src/analytics/deliberation_engine.py) (multi-agent structured debate between fundamental/technical/macro & risk committee veto adjudication).
+- **Backtest Simulator**: [src/analytics/backtest_engine.py](file:///d:/WenKuo/專案/財經儀表板/src/analytics/backtest_engine.py) (regime-adaptive walk-forward backtest simulator & MDD/Sharpe/win-rate evaluator).
 - **HTML & JSON Generator**: [src/generators/html_dashboard.py](file:///d:/WenKuo/專案/財經儀表板/src/generators/html_dashboard.py) generates `docs/index.html` and `docs/data/*.json`.
 
 ## Operational Constraints

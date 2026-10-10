@@ -206,8 +206,10 @@ class MacroSentimentFetcher:
         for item in tw_indices:
             sym = item.get("symbol", "")
             name = item.get("name", sym)
+            # 台灣櫃買指數 ^TWOII 於 Yahoo Finance 經常被報 delisted，自動 fallback 至 富櫃50 (006201.TWO)
+            query_sym = "006201.TWO" if sym in ("^TWOII", "^TWO") else sym
             try:
-                t = yf.Ticker(sym)
+                t = yf.Ticker(query_sym)
                 hist = t.history(period="5d")
                 if not hist.empty:
                     c = float(hist["Close"].iloc[-1])
@@ -222,6 +224,6 @@ class MacroSentimentFetcher:
                         "pct_change": round(pct, 2)
                     })
             except Exception as e:
-                logger.warning(f"獲取指數 {sym} 失敗: {e}")
+                logger.warning(f"獲取指數 {sym} (查詢代碼: {query_sym}) 失敗: {e}")
 
         return data

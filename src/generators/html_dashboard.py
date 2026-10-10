@@ -43,13 +43,13 @@ class HTMLDashboardGenerator:
 
         # 預先序列化雷達與激辯 JSON 供前端模板安全消費
         safe_ctx = self._make_json_safe(context)
-        context["radar_comparison_json"] = json.dumps(safe_ctx.get("radar_comparison", {}), ensure_ascii=False)
-        context["deliberation_verdicts_json"] = json.dumps(safe_ctx.get("deliberation_verdicts", {}), ensure_ascii=False)
-        context["portfolio_summary_json"] = json.dumps(safe_ctx.get("portfolio_summary", {}), ensure_ascii=False)
+        safe_ctx["radar_comparison_json"] = json.dumps(safe_ctx.get("radar_comparison", {}), ensure_ascii=False, allow_nan=False)
+        safe_ctx["deliberation_verdicts_json"] = json.dumps(safe_ctx.get("deliberation_verdicts", {}), ensure_ascii=False, allow_nan=False)
+        safe_ctx["portfolio_summary_json"] = json.dumps(safe_ctx.get("portfolio_summary", {}), ensure_ascii=False, allow_nan=False)
 
-        # 2. 渲染模板
+        # 2. 渲染模板 (傳入已嚴格清洗之 safe_ctx，保證零 NaN)
         template = self.env.get_template("dashboard_template.html")
-        html_content = template.render(**context)
+        html_content = template.render(**safe_ctx)
 
         # 3. 寫入最新 docs/index.html
         latest_file = self.output_dir / "index.html"
@@ -61,12 +61,10 @@ class HTMLDashboardGenerator:
         with open(history_file, "w", encoding="utf-8") as f:
             f.write(html_content)
 
-        # 5. 寫入歷史 JSON 結構化數據
+        # 5. 寫入歷史 JSON 結構化數據 (強制 allow_nan=False 保證標準合規)
         data_file = self.data_dir / f"{date_str}_{market_mode}.json"
-        # 過濾不可序列化物件
-        safe_context = self._make_json_safe(context)
         with open(data_file, "w", encoding="utf-8") as f:
-            json.dump(safe_context, f, ensure_ascii=False, indent=2)
+            json.dump(safe_ctx, f, ensure_ascii=False, indent=2, allow_nan=False)
 
         logger.info(f"成功生成最新儀表板: {latest_file} 及歷史存檔: {history_file}")
         return latest_file
@@ -106,8 +104,20 @@ class HTMLDashboardGenerator:
         return history_entries
 
     def _make_json_safe(self, obj: Any) -> Any:
-        """確保所有物件均可 JSON 序列化"""
-        if isinstance(obj, (str, int, float, bool)) or obj is None:
+        """確保所有物件均符合 Zero-NaN 規範與標準 JSON 序列化規範"""
+        if isinstance(obj, float):
+            import math
+            if math.isnan(obj) or math.isinf(obj):
+                return None
+            return obj
+        elif isinstance(obj, str):
+            lower_s = obj.lower().strip()
+            if lower_s in ("$nan", "nan%", "+nan%", "-nan%", "nan"):
+                return "-"
+            if "$nan" in lower_s or "+nan%" in lower_s or "-nan%" in lower_s or "nan%" in lower_s:
+                return "-"
+            return obj
+        elif isinstance(obj, (int, bool)) or obj is None:
             return obj
         elif isinstance(obj, dict):
             return {k: self._make_json_safe(v) for k, v in obj.items() if not k.startswith("_")}
